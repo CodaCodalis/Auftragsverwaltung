@@ -1,10 +1,22 @@
-import javax.swing.*;
-import javax.swing.event.DocumentEvent;
-import javax.swing.event.DocumentListener;
+package de.oszimt.lf10aContractMgmt;
+
+import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
-import java.awt.event.ActionEvent;
+
+import javax.swing.DefaultListModel;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JList;
+import javax.swing.JOptionPane;
+import javax.swing.JScrollPane;
+import javax.swing.JTextField;
+import javax.swing.ListModel;
+import javax.swing.ListSelectionModel;
+import javax.swing.SwingUtilities;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 
 // Zurzeit leider nur AbsoluteLayout, wird noch die Tage geändert!!!
 // funktional, aber nicht schön
@@ -66,26 +78,31 @@ public class EmployeeOverview extends JFrame {
 		scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
 
 		txtSearchField.addFocusListener(new FocusListener() {
+			@Override
 			public void focusGained(FocusEvent e) {
 				if (txtSearchField.getText().equals("Search")) {
 					txtSearchField.setText("");
 				}
 			}
 
+			@Override
 			public void focusLost(FocusEvent e) {
 				txtSearchField.setText("Search");
 			}
 		});
 
 		txtSearchField.getDocument().addDocumentListener(new DocumentListener() {
+			@Override
 			public void changedUpdate(DocumentEvent e) {
 				filterList();
 			}
 
+			@Override
 			public void removeUpdate(DocumentEvent e) {
 				filterList();
 			}
 
+			@Override
 			public void insertUpdate(DocumentEvent e) {
 				filterList();
 			}
@@ -105,6 +122,7 @@ public class EmployeeOverview extends JFrame {
 		});
 
 		overviewBtn.addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				new Overview().setVisible(true);
 				dispose();
@@ -112,24 +130,28 @@ public class EmployeeOverview extends JFrame {
 		});
 
 		newEmployeeBtn.addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				// go to newEmployeeFrame
 			}
 		});
 
 		editEmployeeBtn.addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				// go to editEmployeeFrame
 			}
 		});
 
 		deleteEmployeeBtn.addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				deleteEmployee();
 			}
 		});
 
 		newContractBtn.addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent e) {
 			}
 			// go to newContractFrame
