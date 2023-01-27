@@ -144,12 +144,12 @@ public class OrderOverview extends JFrame {
         saveButton = new JButton("Save");
         c.fill = GridBagConstraints.HORIZONTAL;
         c.gridx = 0;
-        c.gridy = 10;
+        c.gridy = 15;
         contentPane.add(saveButton, c);
 
         cancelButton = new JButton("Cancel");
         c.gridx = 1;
-        c.gridy = 10;
+        c.gridy = 15;
         contentPane.add(cancelButton, c);
     }
 
