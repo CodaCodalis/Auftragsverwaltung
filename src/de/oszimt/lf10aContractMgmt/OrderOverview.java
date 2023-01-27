@@ -157,7 +157,7 @@ public class OrderOverview extends JFrame {
         EventQueue.invokeLater(new Runnable() {
             public void run() {
                 try {
-                    DataInputModule frame = new DataInputModule();
+                    OrderOverview frame = new OrderOverview();
                     frame.setVisible(true);
                 } catch (Exception e) {
                     e.printStackTrace();
