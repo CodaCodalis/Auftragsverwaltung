@@ -18,38 +18,36 @@ public class NeuerMitarbeiterFrame extends JFrame {
 
 	private static final long serialVersionUID = 1L;
 
-	private JTextField txtEmployeeNumber;
-	private JTextField txtFirstName;
-	private JTextField txtLastName;
-	private JTextField txtAddress;
-	private JTextField txtPhoneNumber;
-	private JTextField txtEmail;
-	private JDateChooser txtBirthday;
-	private JRadioButton rbMale;
-	private JRadioButton rbFemale;
-	private JButton btnSave;
-	private JButton btnCancel;
+	private JTextField mitarbeiternummerTextField;
+	private JTextField vornameTextField;
+	private JTextField nachnameTextField;
+	private JTextField adresseTextField;
+	private JTextField telefonnummerTextField;
+	private JTextField emailTextField;
+	private JDateChooser geburtstagKalender;
+	private JRadioButton maennlichBtn;
+	private JRadioButton weiblichBtn;
+	private JButton saveBtn;
+	private JButton cancelBtn;
 
 	public NeuerMitarbeiterFrame() {
-		setTitle("Employee Form");
+		setTitle("Neuer Mitarbeiter");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setSize(1000, 500);
 		setVisible(true);
 
 		JPanel panel = new JPanel();
-		panel.setSize(1000, 500);
 		panel.setLayout(new GridBagLayout());
 		GridBagConstraints gbc = new GridBagConstraints();
 		gbc.insets = new Insets(5, 5, 5, 5);
 
 		gbc.gridx = 0;
 		gbc.gridy = 0;
-		panel.add(new JLabel("Employee Number:"), gbc);
+		panel.add(new JLabel("Mitarbeiternummer:"), gbc);
 
 		gbc.gridx = 1;
 		gbc.gridy = 0;
-		txtEmployeeNumber = new JTextField(20);
-		panel.add(txtEmployeeNumber, gbc);
+		mitarbeiternummerTextField = new JTextField(20);
+		panel.add(mitarbeiternummerTextField, gbc);
 
 		gbc.gridx = 0;
 		gbc.gridy = 1;
@@ -57,8 +55,8 @@ public class NeuerMitarbeiterFrame extends JFrame {
 
 		gbc.gridx = 1;
 		gbc.gridy = 1;
-		txtFirstName = new JTextField(20);
-		panel.add(txtFirstName, gbc);
+		vornameTextField = new JTextField(20);
+		panel.add(vornameTextField, gbc);
 
 		gbc.gridx = 0;
 		gbc.gridy = 2;
@@ -66,8 +64,8 @@ public class NeuerMitarbeiterFrame extends JFrame {
 
 		gbc.gridx = 1;
 		gbc.gridy = 2;
-		txtLastName = new JTextField(20);
-		panel.add(txtLastName, gbc);
+		nachnameTextField = new JTextField(20);
+		panel.add(nachnameTextField, gbc);
 
 		gbc.gridx = 0;
 		gbc.gridy = 3;
@@ -75,8 +73,8 @@ public class NeuerMitarbeiterFrame extends JFrame {
 
 		gbc.gridx = 1;
 		gbc.gridy = 3;
-		txtAddress = new JTextField(20);
-		panel.add(txtAddress, gbc);
+		adresseTextField = new JTextField(20);
+		panel.add(adresseTextField, gbc);
 
 		gbc.gridx = 0;
 		gbc.gridy = 4;
@@ -84,8 +82,8 @@ public class NeuerMitarbeiterFrame extends JFrame {
 
 		gbc.gridx = 1;
 		gbc.gridy = 4;
-		txtPhoneNumber = new JTextField(20);
-		panel.add(txtPhoneNumber, gbc);
+		telefonnummerTextField = new JTextField(20);
+		panel.add(telefonnummerTextField, gbc);
 
 		gbc.gridx = 0;
 		gbc.gridy = 5;
@@ -93,8 +91,8 @@ public class NeuerMitarbeiterFrame extends JFrame {
 
 		gbc.gridx = 1;
 		gbc.gridy = 5;
-		txtEmail = new JTextField(20);
-		panel.add(txtEmail, gbc);
+		emailTextField = new JTextField(20);
+		panel.add(emailTextField, gbc);
 
 		gbc.gridx = 0;
 		gbc.gridy = 6;
@@ -102,9 +100,9 @@ public class NeuerMitarbeiterFrame extends JFrame {
 
 		gbc.gridx = 1;
 		gbc.gridy = 6;
-		txtBirthday = new JDateChooser();
-		txtBirthday.setDateFormatString("yyyy-MM-dd");
-		panel.add(txtBirthday, gbc);
+		geburtstagKalender = new JDateChooser();
+		geburtstagKalender.setDateFormatString("yyyy-MM-dd");
+		panel.add(geburtstagKalender, gbc);
 
 		gbc.gridx = 2;
 		gbc.gridy = 0;
@@ -112,33 +110,30 @@ public class NeuerMitarbeiterFrame extends JFrame {
 
 		gbc.gridx = 2;
 		gbc.gridy = 1;
-		rbMale = new JRadioButton("Male");
-		panel.add(rbMale, gbc);
+		maennlichBtn = new JRadioButton("Male");
+		panel.add(maennlichBtn, gbc);
 
 		gbc.gridx = 2;
 		gbc.gridy = 2;
-		rbFemale = new JRadioButton("Female");
-		panel.add(rbFemale, gbc);
+		weiblichBtn = new JRadioButton("Female");
+		panel.add(weiblichBtn, gbc);
 
 		ButtonGroup group = new ButtonGroup();
-		group.add(rbMale);
-		group.add(rbFemale);
+		group.add(maennlichBtn);
+		group.add(weiblichBtn);
 
 		gbc.gridx = 0;
 		gbc.gridy = 7;
-		btnSave = new JButton("Save");
-		panel.add(btnSave, gbc);
+		saveBtn = new JButton("Save");
+		panel.add(saveBtn, gbc);
 
 		gbc.gridx = 1;
 		gbc.gridy = 7;
-		btnCancel = new JButton("Cancel");
-		panel.add(btnCancel, gbc);
+		cancelBtn = new JButton("Cancel");
+		panel.add(cancelBtn, gbc);
 
 		add(panel);
 		pack();
 	}
 
-	public static void main(String[] args) {
-		final NeuerMitarbeiterFrame form = new NeuerMitarbeiterFrame();
-	}
 }
