@@ -9,16 +9,21 @@ public class Customer {
 	private LocalDate birthday;
 	private String email;
 	private Address address;
+	private static int nextID = 1009900;  // this is only for internal usage. 
 	
-	public Customer(int customerID, String firstname, String lastname, LocalDate birthday, String email,
+	public Customer(String firstname, String lastname, LocalDate birthday, String email,
 			Address address) {
 		super();
-		this.customerID = customerID;
+		this.customerID = generateNewID();
 		this.firstname = firstname;
 		this.lastname = lastname;
 		this.birthday = birthday;
 		this.email = email;
 		this.address = address;
+	}
+	
+	private int generateNewID() {
+		return ++nextID;
 	}
 
 	public int getCustomerID() {
@@ -69,8 +74,20 @@ public class Customer {
 		this.address = address;
 	}
 
-	
-	
-	
+	@Override
+	public String toString() {
+		return "Customer [customerID=" + customerID + ", firstname=" + firstname + ", lastname=" + lastname
+				+ ", birthday=" + birthday + ", email=" + email + ", address=" + address + "]";
+	}
 
+	@Override
+	public boolean equals(Object o) {
+		if ( o instanceof Customer) {
+			Customer tempCustomer = (Customer) o;
+			if (this.customerID == tempCustomer.getCustomerID())
+				return true;
+		}
+		return false;
+	}
+	
 }

@@ -7,17 +7,22 @@ public class Employee {
 	private Address address;
 	private String email;
 	private String telephone;
+	private static int nextID= 10000;   // this is only for internal usage.
 	
-	public Employee(int employeeID, String firstname, String lastname, 
+	public Employee(String firstname, String lastname, 
 			Address address, String email, String telephone) {
-		super();
-		this.employeeID = employeeID;
+		this.employeeID = generateNewID();
 		this.firstname = firstname;
 		this.lastname = lastname;
 		this.address = address;
 		this.email = email;
 		this.telephone = telephone;
 	}
+	
+	private int generateNewID() {
+		return ++nextID;
+	}
+	
 
 	public int getEmployeeID() {
 		return employeeID;
@@ -66,5 +71,23 @@ public class Employee {
 	public void setTelephone(String telephone) {
 		this.telephone = telephone;
 	}
+
+	@Override
+	public String toString() {
+		return "Employee [employeeID=" + employeeID + ", firstname=" + firstname + ", lastname=" + lastname
+				+ ", address=" + address + ", email=" + email + ", telephone=" + telephone + "]";
+	}
+	
+	@Override
+	public boolean equals(Object o) {
+		if ( o instanceof Employee) {
+			Employee tempEmployee = (Employee) o;
+			if (this.employeeID == tempEmployee.getEmployeeID())
+				return true;
+		}
+		return false;
+	}
+	
+	
 
 }
