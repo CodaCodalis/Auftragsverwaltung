@@ -33,10 +33,11 @@ public class NeuerMitarbeiterFrame extends JFrame {
 	public NeuerMitarbeiterFrame() {
 		setTitle("Employee Form");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setSize(2000, 1000);
+		setSize(1000, 500);
 		setVisible(true);
 
 		JPanel panel = new JPanel();
+		panel.setSize(1000, 500);
 		panel.setLayout(new GridBagLayout());
 		GridBagConstraints gbc = new GridBagConstraints();
 		gbc.insets = new Insets(5, 5, 5, 5);
