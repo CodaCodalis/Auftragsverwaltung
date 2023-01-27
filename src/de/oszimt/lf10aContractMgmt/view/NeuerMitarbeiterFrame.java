@@ -8,6 +8,7 @@ import javax.swing.ButtonGroup;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JTextField;
@@ -51,7 +52,7 @@ public class NeuerMitarbeiterFrame extends JFrame {
 
 		gbc.gridx = 0;
 		gbc.gridy = 1;
-		panel.add(new JLabel("First Name:"), gbc);
+		panel.add(new JLabel("Vorname:"), gbc);
 
 		gbc.gridx = 1;
 		gbc.gridy = 1;
@@ -60,7 +61,7 @@ public class NeuerMitarbeiterFrame extends JFrame {
 
 		gbc.gridx = 0;
 		gbc.gridy = 2;
-		panel.add(new JLabel("Last Name:"), gbc);
+		panel.add(new JLabel("Nachname:"), gbc);
 
 		gbc.gridx = 1;
 		gbc.gridy = 2;
@@ -69,7 +70,7 @@ public class NeuerMitarbeiterFrame extends JFrame {
 
 		gbc.gridx = 0;
 		gbc.gridy = 3;
-		panel.add(new JLabel("Address:"), gbc);
+		panel.add(new JLabel("Addresse:"), gbc);
 
 		gbc.gridx = 1;
 		gbc.gridy = 3;
@@ -78,7 +79,7 @@ public class NeuerMitarbeiterFrame extends JFrame {
 
 		gbc.gridx = 0;
 		gbc.gridy = 4;
-		panel.add(new JLabel("Phone Number:"), gbc);
+		panel.add(new JLabel("Telefonnummerr:"), gbc);
 
 		gbc.gridx = 1;
 		gbc.gridy = 4;
@@ -96,26 +97,27 @@ public class NeuerMitarbeiterFrame extends JFrame {
 
 		gbc.gridx = 0;
 		gbc.gridy = 6;
-		panel.add(new JLabel("Birthday:"), gbc);
+		panel.add(new JLabel("Geburtsdatum:"), gbc);
 
 		gbc.gridx = 1;
 		gbc.gridy = 6;
 		geburtstagKalender = new JDateChooser();
-		geburtstagKalender.setDateFormatString("yyyy-MM-dd");
+//		geburtstagKalender.setDateFormatString("yyyy-MM-dd");
+		geburtstagKalender.setDateFormatString("dd-MM-yyyy");
 		panel.add(geburtstagKalender, gbc);
 
 		gbc.gridx = 2;
 		gbc.gridy = 0;
-		panel.add(new JLabel("Gender:"), gbc);
+		panel.add(new JLabel("Geschlecht:"), gbc);
 
 		gbc.gridx = 2;
 		gbc.gridy = 1;
-		maennlichBtn = new JRadioButton("Male");
+		maennlichBtn = new JRadioButton("Maennlich");
 		panel.add(maennlichBtn, gbc);
 
 		gbc.gridx = 2;
 		gbc.gridy = 2;
-		weiblichBtn = new JRadioButton("Female");
+		weiblichBtn = new JRadioButton("Weiblich");
 		panel.add(weiblichBtn, gbc);
 
 		ButtonGroup group = new ButtonGroup();
@@ -127,13 +129,72 @@ public class NeuerMitarbeiterFrame extends JFrame {
 		saveBtn = new JButton("Save");
 		panel.add(saveBtn, gbc);
 
+		saveBtn.addActionListener(whenSaveBtnClicked -> {
+			if (userEingabenSindValide()) {
+				// Adde den neuen Mitarbeiter in Datenbank oder irgenwo anders
+				JOptionPane.showMessageDialog(null, "Die Daten wurden erfolgreich hinzugefügt");
+			}
+		});
+
 		gbc.gridx = 1;
 		gbc.gridy = 7;
 		cancelBtn = new JButton("Cancel");
 		panel.add(cancelBtn, gbc);
 
+		cancelBtn.addActionListener(whenCancelBtnClicked -> {
+			// Springe zurück auf die andere View
+			JOptionPane.showMessageDialog(null,
+					"Vorgang abgebrochen, [NOCH NICHT IMPLEMENTIERT] sie werden zurück weitergeleitet");
+		});
+
 		add(panel);
 		pack();
+	}
+
+	private boolean userEingabenSindValide() {
+
+		if (mitarbeiternummerTextField.getText().isBlank()) {
+			JOptionPane.showMessageDialog(null, "Mitarbeiternummer ist nicht angegeben");
+			return false;
+		}
+
+		if (vornameTextField.getText().isBlank()) {
+			JOptionPane.showMessageDialog(null, "Vorname ist nicht angegeben");
+			return false;
+		}
+
+		if (nachnameTextField.getText().isBlank()) {
+			JOptionPane.showMessageDialog(null, "Nachname ist nicht angegeben");
+			return false;
+		}
+
+		if (adresseTextField.getText().isBlank()) {
+			JOptionPane.showMessageDialog(null, "Adresse ist nicht angegeben");
+			return false;
+		}
+
+		if (telefonnummerTextField.getText().isBlank()) {
+			JOptionPane.showMessageDialog(null, "Telefonnummer ist nicht angegeben");
+			return false;
+		}
+
+		if (emailTextField.getText().isBlank()) {
+			JOptionPane.showMessageDialog(null, "Email ist nicht angegeben");
+			return false;
+		}
+
+		if (geburtstagKalender.getDate() == null) {
+			JOptionPane.showMessageDialog(null, "Geburtsdatum  ist nicht angegeben");
+			return false;
+		}
+
+		if (!maennlichBtn.isSelected() && !weiblichBtn.isSelected()) {
+			JOptionPane.showMessageDialog(null, "Geschlecht  ist nicht angegeben");
+			return false;
+		}
+
+		return true;
+
 	}
 
 }
