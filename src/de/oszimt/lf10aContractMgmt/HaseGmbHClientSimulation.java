@@ -10,6 +10,7 @@ import de.oszimt.lf10aContractMgmt.model.Address;
 import de.oszimt.lf10aContractMgmt.model.Contract;
 import de.oszimt.lf10aContractMgmt.model.Customer;
 import de.oszimt.lf10aContractMgmt.model.Employee;
+import de.oszimt.lf10aContractMgmt.view.Auftragsview;
 import de.oszimt.lf10aContractMgmt.view.NeuerMitarbeiterFrame;
 
 public class HaseGmbHClientSimulation {
@@ -18,6 +19,7 @@ public class HaseGmbHClientSimulation {
 
 	public static void main(String[] args) {
 		final NeuerMitarbeiterFrame neuerMitarbeiterFrame = new NeuerMitarbeiterFrame();
+		final Auftragsview auftragsview = new Auftragsview();
 
 		new HaseGmbHClientSimulation();
 	}
@@ -160,4 +162,9 @@ public class HaseGmbHClientSimulation {
 				"fertiggestsellt", "Lorem ipsum dolor sit amet, consectetuer adipiscing elit.", arList02);
 		haseMgmtDriver.addNewContract(aContract);
 	}
+
+	public HaseGmbHManagement getHaseMgmtDriver() {
+		return haseMgmtDriver;
+	}
+
 }
