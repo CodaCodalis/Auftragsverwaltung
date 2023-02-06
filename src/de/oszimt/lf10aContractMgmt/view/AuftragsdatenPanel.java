@@ -68,6 +68,16 @@ public class AuftragsdatenPanel extends JPanel {
 		add(vertragsArtLabel);
 		add(vertragsartComboBox);
 
+		mitarbeiterComboBox.addActionListener(e -> {
+			if (mitarbeiterComboBox.getSelectedItem()
+					.equals(generateVertragsListe().get(0).getProjectOwner().getLastname())) {
+				vertragsartComboBox
+						.setModel(new DefaultComboBoxModel<String>(generateVertragsart().toArray(new String[0])));
+			} else {
+				vertragsartComboBox.setSelectedItem(new String(" - "));
+			}
+		});
+
 	}
 
 	private GridBagLayout createGridBagLayout() {
@@ -91,6 +101,11 @@ public class AuftragsdatenPanel extends JPanel {
 		vertragsartComboBox = new JComboBox<String>();
 		vertragsartComboBox.setPreferredSize(new Dimension(150, 25));
 		vertragsartComboBox.setModel(new DefaultComboBoxModel<String>(generateVertragsart().toArray(new String[0])));
+
+//		vertragsArtLabel = new JLabel("Vertragsart: ");
+//		vertragsartComboBox = new JComboBox<String>();
+//		vertragsartComboBox.setPreferredSize(new Dimension(150, 25));
+//		vertragsartComboBox.setModel(new DefaultComboBoxModel<String>(generateVertragsart().toArray(new String[0])));
 
 		gbc = makegbc(0, 0);
 		gbl.setConstraints(auftragsnummerLabel, gbc);
@@ -135,15 +150,11 @@ public class AuftragsdatenPanel extends JPanel {
 
 	private JComboBox<String> fillCustomerBox() {
 
-		HaseGmbHClientSimulation haseGmbHClientSimulation = new HaseGmbHClientSimulation();
-		HaseGmbHManagement haseGmbHManagement = new HaseGmbHManagement();
-		haseGmbHManagement = haseGmbHClientSimulation.getHaseMgmtDriver();
-
 		kundenComboBox = new JComboBox<Customer>();
 		kundenComboBox.setPreferredSize(new Dimension(150, 25));
 
 		kundenListe = new ArrayList<>();
-		kundenListe = haseGmbHManagement.getAllCustomers();
+		kundenListe = generateCustomerListe();
 
 		comboBoxKundenListe = new ArrayList<>();
 
@@ -160,16 +171,10 @@ public class AuftragsdatenPanel extends JPanel {
 
 	private JComboBox<String> fillEmployeeBox() {
 
-		HaseGmbHClientSimulation haseGmbHClientSimulation = new HaseGmbHClientSimulation();
-		HaseGmbHManagement haseGmbHManagement = new HaseGmbHManagement();
-		haseGmbHManagement = haseGmbHClientSimulation.getHaseMgmtDriver();
-
 		mitarbeiterComboBox = new JComboBox<Employee>();
 		mitarbeiterComboBox.setPreferredSize(new Dimension(150, 25));
 
-		mitarbeiterListe = new ArrayList<>();
-		mitarbeiterListe = haseGmbHManagement.getAllEmployees();
-
+		mitarbeiterListe = generateEmployeesListe();
 		comboBoxMitarbeiterListe = new ArrayList<>();
 
 		for (Employee employee : mitarbeiterListe) {
@@ -180,6 +185,32 @@ public class AuftragsdatenPanel extends JPanel {
 		mitarbeiterComboBox.setModel(new DefaultComboBoxModel<>(comboBoxMitarbeiterListe.toArray(new String[0])));
 
 		return mitarbeiterComboBox;
+
+	}
+
+	private ArrayList<Employee> generateEmployeesListe() {
+
+		HaseGmbHClientSimulation haseGmbHClientSimulation = new HaseGmbHClientSimulation();
+		HaseGmbHManagement haseGmbHManagement = new HaseGmbHManagement();
+		haseGmbHManagement = haseGmbHClientSimulation.getHaseMgmtDriver();
+
+		mitarbeiterListe = new ArrayList<>();
+		mitarbeiterListe = haseGmbHManagement.getAllEmployees();
+
+		return mitarbeiterListe;
+
+	}
+
+	private ArrayList<Customer> generateCustomerListe() {
+
+		HaseGmbHClientSimulation haseGmbHClientSimulation = new HaseGmbHClientSimulation();
+		HaseGmbHManagement haseGmbHManagement = new HaseGmbHManagement();
+		haseGmbHManagement = haseGmbHClientSimulation.getHaseMgmtDriver();
+
+		kundenListe = new ArrayList<>();
+		kundenListe = haseGmbHManagement.getAllCustomers();
+
+		return kundenListe;
 
 	}
 
@@ -198,16 +229,32 @@ public class AuftragsdatenPanel extends JPanel {
 
 	private ArrayList<String> generateVertragsart() {
 
-		ArrayList<Contract> list = generateVertragsListe();
+		ArrayList<Contract> contractlist = generateVertragsListe();
+		ArrayList<Employee> employeesList = generateEmployeesListe();
 		ArrayList<String> vertragsArten = new ArrayList<>();
 
-		for (Contract vertrag : list) {
-			String vertragsart = vertrag.getContractType();
-			vertragsArten.add(vertragsart);
+		for (Contract vertrag : contractlist) {
+			for (Employee employee : employeesList) {
+				for (Customer customer : kundenListe) {
+
+					if (istMaUndKundeEinVertragZugewiesen(employee, customer, vertrag)) {
+						String vertragsart = vertrag.getContractType();
+						vertragsArten.add(vertragsart);
+					}
+				}
+			}
 		}
 
 		return vertragsArten;
 
+	}
+
+	private boolean istMaUndKundeEinVertragZugewiesen(Employee employee, Customer customer, Contract contract) {
+		if (contract.getProjectOwner().getLastname().equals(employee.getLastname())
+				&& contract.getCustomer().getLastname().equals(customer.getLastname())) {
+			return true;
+		}
+		return false;
 	}
 
 }
