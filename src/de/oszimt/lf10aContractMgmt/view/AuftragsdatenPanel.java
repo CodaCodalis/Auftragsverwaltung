@@ -12,6 +12,8 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
+import com.toedter.calendar.JDateChooser;
+
 import de.oszimt.lf10aContractMgmt.HaseGmbHClientSimulation;
 import de.oszimt.lf10aContractMgmt.impl.HaseGmbHManagement;
 import de.oszimt.lf10aContractMgmt.model.Contract;
@@ -45,8 +47,16 @@ public class AuftragsdatenPanel extends JPanel {
 
 	private JLabel vertragsArtLabel;
 	private ArrayList<Contract> vertragsListe;
+	private JTextField vertragsartFeld;
 
-	private JComboBox<String> vertragsartComboBox;
+	private JLabel bearbeitungsstandLabel;
+	private JTextField bearbeitungsstandFeld;
+
+	private JLabel startdatumLabel;
+	private JDateChooser startdatumKalendar;
+
+	private JLabel enddatumLabel;
+	private JDateChooser enddatumKalendar;
 
 	public AuftragsdatenPanel() {
 
@@ -66,16 +76,34 @@ public class AuftragsdatenPanel extends JPanel {
 		add(mitarbeiterComboBox);
 
 		add(vertragsArtLabel);
-		add(vertragsartComboBox);
+		add(vertragsartFeld);
+
+		add(bearbeitungsstandLabel);
+		add(bearbeitungsstandFeld);
+
+		add(startdatumLabel);
+		add(startdatumKalendar);
+
+		add(enddatumLabel);
+		add(enddatumKalendar);
 
 		mitarbeiterComboBox.addActionListener(e -> {
-			if (mitarbeiterComboBox.getSelectedItem()
-					.equals(generateVertragsListe().get(0).getProjectOwner().getLastname())) {
-				vertragsartComboBox
-						.setModel(new DefaultComboBoxModel<String>(generateVertragsart().toArray(new String[0])));
+
+			int indexOfMitarbeiterString = mitarbeiterComboBox.getSelectedItem().toString().indexOf(",");
+			String mitarbeiterName = mitarbeiterComboBox.getSelectedItem().toString().substring(0,
+					indexOfMitarbeiterString);
+
+			int indexOfKundenString = kundenComboBox.getSelectedItem().toString().indexOf(",");
+			String kundenName = kundenComboBox.getSelectedItem().toString().substring(0, indexOfKundenString);
+
+			if (mitarbeiterName.equals(generateVertragsListe().get(0).getProjectOwner().getLastname())
+					&& kundenName.equals(generateVertragsListe().get(0).getCustomer().getLastname())) {
+				vertragsartFeld.setText(generateVertragsart());
+				bearbeitungsstandFeld.setText(generateBearbeitungsstand());
 			} else {
-				vertragsartComboBox.setSelectedItem(new String(" - "));
+				vertragsartFeld.setText("-");
 			}
+
 		});
 
 	}
@@ -98,14 +126,19 @@ public class AuftragsdatenPanel extends JPanel {
 		mitarbeiterComboBox = fillEmployeeBox();
 
 		vertragsArtLabel = new JLabel("Vertragsart: ");
-		vertragsartComboBox = new JComboBox<String>();
-		vertragsartComboBox.setPreferredSize(new Dimension(150, 25));
-		vertragsartComboBox.setModel(new DefaultComboBoxModel<String>(generateVertragsart().toArray(new String[0])));
+		vertragsartFeld = new JTextField(15);
+		vertragsartFeld.setText("-");
 
-//		vertragsArtLabel = new JLabel("Vertragsart: ");
-//		vertragsartComboBox = new JComboBox<String>();
-//		vertragsartComboBox.setPreferredSize(new Dimension(150, 25));
-//		vertragsartComboBox.setModel(new DefaultComboBoxModel<String>(generateVertragsart().toArray(new String[0])));
+		bearbeitungsstandLabel = new JLabel("Bearbeitungsstand: ");
+		bearbeitungsstandFeld = new JTextField(15);
+
+		startdatumLabel = new JLabel("Startdatum: ");
+		startdatumKalendar = new JDateChooser();
+		startdatumKalendar.setPreferredSize(new Dimension(150, 25));
+
+		enddatumLabel = new JLabel("Enddatum: ");
+		enddatumKalendar = new JDateChooser();
+		enddatumKalendar.setPreferredSize(new Dimension(150, 25));
 
 		gbc = makegbc(0, 0);
 		gbl.setConstraints(auftragsnummerLabel, gbc);
@@ -135,7 +168,25 @@ public class AuftragsdatenPanel extends JPanel {
 		gbl.setConstraints(vertragsArtLabel, gbc);
 
 		gbc = makegbc(1, 4);
-		gbl.setConstraints(vertragsartComboBox, gbc);
+		gbl.setConstraints(vertragsartFeld, gbc);
+
+		gbc = makegbc(0, 5);
+		gbl.setConstraints(bearbeitungsstandLabel, gbc);
+
+		gbc = makegbc(1, 5);
+		gbl.setConstraints(bearbeitungsstandFeld, gbc);
+
+		gbc = makegbc(0, 6);
+		gbl.setConstraints(startdatumLabel, gbc);
+
+		gbc = makegbc(1, 6);
+		gbl.setConstraints(startdatumKalendar, gbc);
+
+		gbc = makegbc(0, 7);
+		gbl.setConstraints(enddatumLabel, gbc);
+
+		gbc = makegbc(1, 7);
+		gbl.setConstraints(enddatumKalendar, gbc);
 
 		return gbl;
 	}
@@ -159,7 +210,7 @@ public class AuftragsdatenPanel extends JPanel {
 		comboBoxKundenListe = new ArrayList<>();
 
 		for (Customer customer : kundenListe) {
-			String kundenString = customer.getLastname() + " , " + customer.getCustomerID();
+			String kundenString = customer.getLastname() + "," + customer.getCustomerID();
 			comboBoxKundenListe.add(kundenString);
 		}
 
@@ -178,7 +229,7 @@ public class AuftragsdatenPanel extends JPanel {
 		comboBoxMitarbeiterListe = new ArrayList<>();
 
 		for (Employee employee : mitarbeiterListe) {
-			String mitarbeiterString = employee.getLastname() + " , " + employee.getEmployeeID();
+			String mitarbeiterString = employee.getLastname() + "," + employee.getEmployeeID();
 			comboBoxMitarbeiterListe.add(mitarbeiterString);
 		}
 
@@ -227,25 +278,21 @@ public class AuftragsdatenPanel extends JPanel {
 
 	}
 
-	private ArrayList<String> generateVertragsart() {
+	private String generateVertragsart() {
 
-		ArrayList<Contract> contractlist = generateVertragsListe();
-		ArrayList<Employee> employeesList = generateEmployeesListe();
-		ArrayList<String> vertragsArten = new ArrayList<>();
-
-		for (Contract vertrag : contractlist) {
-			for (Employee employee : employeesList) {
-				for (Customer customer : kundenListe) {
+		for (Contract vertrag : generateVertragsListe()) {
+			for (Employee employee : generateEmployeesListe()) {
+				for (Customer customer : generateCustomerListe()) {
 
 					if (istMaUndKundeEinVertragZugewiesen(employee, customer, vertrag)) {
 						String vertragsart = vertrag.getContractType();
-						vertragsArten.add(vertragsart);
+						return vertragsart;
 					}
 				}
 			}
 		}
 
-		return vertragsArten;
+		return null;
 
 	}
 
@@ -255,6 +302,24 @@ public class AuftragsdatenPanel extends JPanel {
 			return true;
 		}
 		return false;
+	}
+
+	private String generateBearbeitungsstand() {
+
+		for (Contract vertrag : generateVertragsListe()) {
+			for (Employee employee : generateEmployeesListe()) {
+				for (Customer customer : generateCustomerListe()) {
+
+					if (istMaUndKundeEinVertragZugewiesen(employee, customer, vertrag)) {
+						String bearbeitungsstand = vertrag.getState();
+						return bearbeitungsstand;
+
+					}
+				}
+			}
+		}
+		return null;
+
 	}
 
 }

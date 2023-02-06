@@ -1,6 +1,5 @@
 package de.oszimt.lf10aContractMgmt.view;
 
-import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
@@ -15,17 +14,21 @@ public class Auftragsview extends JFrame {
 	private static final long serialVersionUID = 1L;
 
 	private AuftragsdatenPanel auftragsdatenPanel;
+	private AuftragsButtonPanel auftragsButtonPanel;
+	private BeschreibungsPanel beschreibungsPanel;
 
 	public Auftragsview() {
 		super("Auftrag");
 
 		setVisible(true);
-		setPreferredSize(new Dimension(800, 600));
+//		setPreferredSize(new Dimension(600, 500));
 		// setResizable(false);
 
 		setLayout(createBagLayout());
 
 		add(auftragsdatenPanel);
+		add(auftragsButtonPanel);
+		add(beschreibungsPanel);
 		pack();
 
 	}
@@ -36,6 +39,8 @@ public class Auftragsview extends JFrame {
 		GridBagConstraints gbc = new GridBagConstraints();
 
 		auftragsdatenPanel = new AuftragsdatenPanel();
+		auftragsButtonPanel = new AuftragsButtonPanel();
+		beschreibungsPanel = new BeschreibungsPanel();
 
 		gbc = makegbc(0, 0, 0, 1);
 		gbc.weightx = 0.5;
@@ -45,6 +50,11 @@ public class Auftragsview extends JFrame {
 		gbc.fill = GridBagConstraints.WEST;
 		gbc.anchor = GridBagConstraints.WEST;
 		gbl.setConstraints(auftragsdatenPanel, gbc);
+
+		gbc.gridx = 2;
+		gbc.gridy = 0;
+
+		gbl.setConstraints(beschreibungsPanel, gbc);
 
 		return gbl;
 	}
