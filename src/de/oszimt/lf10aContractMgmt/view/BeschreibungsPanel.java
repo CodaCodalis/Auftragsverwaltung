@@ -29,16 +29,21 @@ public class BeschreibungsPanel extends JPanel {
 		beschreibungLabel = new JLabel("Beschreibung:");
 		beschreibungsTextarea = new JTextArea(15, 25);
 		beschreibungsTextarea.setLineWrap(true);
-		scrollPane = new JScrollPane(beschreibungsTextarea);
+
+		scrollPane = new JScrollPane(beschreibungsTextarea, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
+				JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+//		scrollPane.setBounds(10, 60, 780, 500);
+//		scrollPane.setViewportView(beschreibungsTextarea);
 
 		gespraechsProtokollButton = new JButton("Gesprächsprotokoll");
 
 		setLayout(createGridbagLayout());
 
 		add(beschreibungLabel);
-		add(Box.createHorizontalStrut(10));
-		add(beschreibungsTextarea);
+		add(Box.createHorizontalStrut(20));
 		add(scrollPane);
+		add(beschreibungsTextarea);
+		add(Box.createHorizontalStrut(25));
 		add(gespraechsProtokollButton);
 
 	}
@@ -57,11 +62,15 @@ public class BeschreibungsPanel extends JPanel {
 		gbc.gridy = 1;
 		gbl.setConstraints(beschreibungsTextarea, gbc);
 
-		gbc.gridx = 2;
-		gbc.gridy = 0;
+		gbc.gridx = 0;
+		gbc.gridy = 2;
 		gbl.setConstraints(gespraechsProtokollButton, gbc);
 
 		return gbl;
+	}
+
+	public JScrollPane getScrollPane() {
+		return scrollPane;
 	}
 
 }

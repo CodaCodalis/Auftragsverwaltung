@@ -25,9 +25,11 @@ public class Auftragsview extends JFrame {
 		// setResizable(false);
 
 		setLayout(createBagLayout());
+//		setResizable(false);
 
 		add(auftragsdatenPanel);
 		add(auftragsButtonPanel);
+		add(beschreibungsPanel.getScrollPane());
 		add(beschreibungsPanel);
 		pack();
 

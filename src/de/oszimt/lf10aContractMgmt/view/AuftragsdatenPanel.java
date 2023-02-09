@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
@@ -88,22 +89,45 @@ public class AuftragsdatenPanel extends JPanel {
 		add(enddatumKalendar);
 
 		mitarbeiterComboBox.addActionListener(e -> {
+			if (userVertragsEingabenSindValide()) {
 
-			int indexOfMitarbeiterString = mitarbeiterComboBox.getSelectedItem().toString().indexOf(",");
-			String mitarbeiterName = mitarbeiterComboBox.getSelectedItem().toString().substring(0,
-					indexOfMitarbeiterString);
+				int indexOfMitarbeiterString = mitarbeiterComboBox.getSelectedItem().toString().indexOf(",");
+				String mitarbeiterName = mitarbeiterComboBox.getSelectedItem().toString().substring(0,
+						indexOfMitarbeiterString);
 
-			int indexOfKundenString = kundenComboBox.getSelectedItem().toString().indexOf(",");
-			String kundenName = kundenComboBox.getSelectedItem().toString().substring(0, indexOfKundenString);
+				int indexOfKundenString = kundenComboBox.getSelectedItem().toString().indexOf(",");
+				String kundenName = kundenComboBox.getSelectedItem().toString().substring(0, indexOfKundenString);
 
-			if (mitarbeiterName.equals(generateVertragsListe().get(0).getProjectOwner().getLastname())
-					&& kundenName.equals(generateVertragsListe().get(0).getCustomer().getLastname())) {
-				vertragsartFeld.setText(generateVertragsart());
-				bearbeitungsstandFeld.setText(generateBearbeitungsstand());
-			} else {
-				vertragsartFeld.setText("-");
+				if (mitarbeiterName.equals(generateVertragsListe().get(0).getProjectOwner().getLastname())
+						&& kundenName.equals(generateVertragsListe().get(0).getCustomer().getLastname())) {
+					vertragsartFeld.setText(generateVertragsart());
+					bearbeitungsstandFeld.setText(generateBearbeitungsstand());
+				} else {
+					vertragsartFeld.setText("");
+					bearbeitungsstandFeld.setText("");
+				}
 			}
+		});
 
+		kundenComboBox.addActionListener(e -> {
+			if (userVertragsEingabenSindValide()) {
+
+				int indexOfMitarbeiterString = mitarbeiterComboBox.getSelectedItem().toString().indexOf(",");
+				String mitarbeiterName = mitarbeiterComboBox.getSelectedItem().toString().substring(0,
+						indexOfMitarbeiterString);
+
+				int indexOfKundenString = kundenComboBox.getSelectedItem().toString().indexOf(",");
+				String kundenName = kundenComboBox.getSelectedItem().toString().substring(0, indexOfKundenString);
+
+				if (mitarbeiterName.equals(generateVertragsListe().get(0).getProjectOwner().getLastname())
+						&& kundenName.equals(generateVertragsListe().get(0).getCustomer().getLastname())) {
+					vertragsartFeld.setText(generateVertragsart());
+					bearbeitungsstandFeld.setText(generateBearbeitungsstand());
+				} else {
+					vertragsartFeld.setText("");
+					bearbeitungsstandFeld.setText("");
+				}
+			}
 		});
 
 	}
@@ -127,7 +151,6 @@ public class AuftragsdatenPanel extends JPanel {
 
 		vertragsArtLabel = new JLabel("Vertragsart: ");
 		vertragsartFeld = new JTextField(15);
-		vertragsartFeld.setText("-");
 
 		bearbeitungsstandLabel = new JLabel("Bearbeitungsstand: ");
 		bearbeitungsstandFeld = new JTextField(15);
@@ -208,6 +231,7 @@ public class AuftragsdatenPanel extends JPanel {
 		kundenListe = generateCustomerListe();
 
 		comboBoxKundenListe = new ArrayList<>();
+		comboBoxKundenListe.add(" ");
 
 		for (Customer customer : kundenListe) {
 			String kundenString = customer.getLastname() + "," + customer.getCustomerID();
@@ -227,6 +251,7 @@ public class AuftragsdatenPanel extends JPanel {
 
 		mitarbeiterListe = generateEmployeesListe();
 		comboBoxMitarbeiterListe = new ArrayList<>();
+		comboBoxMitarbeiterListe.add(" ");
 
 		for (Employee employee : mitarbeiterListe) {
 			String mitarbeiterString = employee.getLastname() + "," + employee.getEmployeeID();
@@ -320,6 +345,33 @@ public class AuftragsdatenPanel extends JPanel {
 		}
 		return null;
 
+	}
+
+	private boolean userVertragsEingabenSindValide() {
+
+		if (mitarbeiterComboBox.getSelectedItem().equals(" ")) {
+			JOptionPane.showMessageDialog(null, "Mitarbeiter ist nicht angegeben");
+			return false;
+		}
+
+		if (kundenComboBox.getSelectedItem().equals(" ")) {
+			JOptionPane.showMessageDialog(null, "Kunde ist nicht angegeben");
+			return false;
+		}
+
+		for (Contract vertrag : generateVertragsListe()) {
+			for (Employee employee : generateEmployeesListe()) {
+				for (Customer customer : generateCustomerListe()) {
+
+					if (istMaUndKundeEinVertragZugewiesen(employee, customer, vertrag)) {
+						return true;
+
+					}
+
+				}
+			}
+		}
+		return false;
 	}
 
 }
