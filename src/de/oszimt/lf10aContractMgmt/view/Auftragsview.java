@@ -21,7 +21,7 @@ public class Auftragsview extends JFrame {
 		super("Auftrag");
 
 		setVisible(true);
-//		setPreferredSize(new Dimension(600, 500));
+		// setPreferredSize(new Dimension(800, 500));
 		// setResizable(false);
 
 		setLayout(createBagLayout());
