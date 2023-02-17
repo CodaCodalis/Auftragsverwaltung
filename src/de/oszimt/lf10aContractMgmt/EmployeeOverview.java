@@ -153,8 +153,11 @@ public class EmployeeOverview extends JFrame {
 		newContractBtn.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				OrderOverview orderOverview = new OrderOverview();
+				orderOverview.setVisible(true);
+				dispose();
 			}
-			// go to newContractFrame
+
 		});
 
 	}
