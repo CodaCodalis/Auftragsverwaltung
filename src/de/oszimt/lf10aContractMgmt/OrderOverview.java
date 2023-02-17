@@ -13,7 +13,8 @@ public class OrderOverview extends JFrame {
     public OrderOverview() {
         setTitle("Auftragsübersicht");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setBounds(100, 100, 800, 500);
+        setSize(800,500);
+        //setBounds(100, 100, 800, 500);
         setLocationRelativeTo(null);
         JPanel contentPane = new JPanel();
         contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));

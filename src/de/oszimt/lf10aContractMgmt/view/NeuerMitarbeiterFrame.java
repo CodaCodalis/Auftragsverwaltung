@@ -14,6 +14,7 @@ import javax.swing.JRadioButton;
 import javax.swing.JTextField;
 
 import com.toedter.calendar.JDateChooser;
+import de.oszimt.lf10aContractMgmt.EmployeeOverview;
 
 public class NeuerMitarbeiterFrame extends JFrame {
 
@@ -34,6 +35,7 @@ public class NeuerMitarbeiterFrame extends JFrame {
 	public NeuerMitarbeiterFrame() {
 		setTitle("Neuer Mitarbeiter");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setLocationRelativeTo(null);
 		setVisible(true);
 
 		JPanel panel = new JPanel();
@@ -143,8 +145,10 @@ public class NeuerMitarbeiterFrame extends JFrame {
 
 		cancelBtn.addActionListener(whenCancelBtnClicked -> {
 			// Springe zurück auf die andere View
-			JOptionPane.showMessageDialog(null,
-					"Vorgang abgebrochen, [NOCH NICHT IMPLEMENTIERT] sie werden zurück weitergeleitet");
+			//JOptionPane.showMessageDialog(null,"Vorgang abgebrochen, [NOCH NICHT IMPLEMENTIERT] sie werden zurück weitergeleitet");
+			EmployeeOverview employeeOverview = new EmployeeOverview();
+			employeeOverview.setVisible(true);
+			dispose();
 		});
 
 		add(panel);
