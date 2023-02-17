@@ -7,7 +7,6 @@ import javax.swing.border.EmptyBorder;
 import com.toedter.calendar.JDateChooser;
 
 public class OrderOverview extends JFrame {
-    private JPanel contentPane;
     private JTextField orderNumberField;
     private JDateChooser dateField;
     private JComboBox<String> customerComboBox;
@@ -22,17 +21,17 @@ public class OrderOverview extends JFrame {
     private JButton conversationButton;
 
     public OrderOverview() {
-        setTitle("Data Input Module");
+        setTitle("Auftragsübersicht");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setBounds(100, 100, 450, 600);
-        contentPane = new JPanel();
+        JPanel contentPane = new JPanel();
         contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
         setContentPane(contentPane);
         contentPane.setLayout(new GridBagLayout());
         GridBagConstraints c = new GridBagConstraints();
 
         // Order Number
-        JLabel orderNumberLabel = new JLabel("Order Number:");
+        JLabel orderNumberLabel = new JLabel("Auftragsnummer:");
         c.fill = GridBagConstraints.HORIZONTAL;
         c.gridx = 0;
         c.gridy = 0;
@@ -44,7 +43,7 @@ public class OrderOverview extends JFrame {
         contentPane.add(orderNumberField, c);
 
         // Creation Date
-        JLabel dateLabel = new JLabel("Creation Date:");
+        JLabel dateLabel = new JLabel("Erstelldatum:");
         c.gridx = 0;
         c.gridy = 1;
         contentPane.add(dateLabel, c);
@@ -56,7 +55,7 @@ public class OrderOverview extends JFrame {
         contentPane.add(dateField, c);
 
         // Customer
-        JLabel customerLabel = new JLabel("Customer:");
+        JLabel customerLabel = new JLabel("Kunde:");
         c.gridx = 0;
         c.gridy = 2;
         contentPane.add(customerLabel, c);
@@ -67,7 +66,7 @@ public class OrderOverview extends JFrame {
         contentPane.add(customerComboBox, c);
 
         // Employee
-        JLabel employeeLabel = new JLabel("Employee:");
+        JLabel employeeLabel = new JLabel("Mitarbeiter:");
         c.gridx = 0;
         c.gridy = 3;
         contentPane.add(employeeLabel, c);
@@ -78,7 +77,7 @@ public class OrderOverview extends JFrame {
         contentPane.add(employeeComboBox, c);
 
         // Contract Type
-        JLabel contractTypeLabel = new JLabel("Contract Type:");
+        JLabel contractTypeLabel = new JLabel("Vertragsart:");
         c.gridx = 0;
         c.gridy = 4;
         contentPane.add(contractTypeLabel, c);
@@ -89,7 +88,7 @@ public class OrderOverview extends JFrame {
         contentPane.add(contractTypeField, c);
 
         // Progress
-        JLabel progressLabel = new JLabel("Progress:");
+        JLabel progressLabel = new JLabel("Bearbeitungsstand:");
         c.gridx = 0;
         c.gridy = 5;
         contentPane.add(progressLabel, c);
@@ -100,7 +99,7 @@ public class OrderOverview extends JFrame {
         contentPane.add(progressComboBox, c);
 
         // Start Date
-        JLabel startDateLabel = new JLabel("Start Date:");
+        JLabel startDateLabel = new JLabel("Startdatum:");
         c.gridx = 0;
         c.gridy = 6;
         contentPane.add(startDateLabel, c);
@@ -112,7 +111,7 @@ public class OrderOverview extends JFrame {
         contentPane.add(startDateField, c);
 
         // End Date
-        JLabel endDateLabel = new JLabel("End Date:");
+        JLabel endDateLabel = new JLabel("Enddatum:");
         c.gridx = 0;
         c.gridy = 7;
         contentPane.add(endDateLabel, c);
@@ -124,7 +123,7 @@ public class OrderOverview extends JFrame {
         contentPane.add(endDateField, c);
 
         // Description
-        JLabel descriptionLabel = new JLabel("Description:");
+        JLabel descriptionLabel = new JLabel("Beschreibung");
         c.gridx = 0;
         c.gridy = 8;
         contentPane.add(descriptionLabel, c);
@@ -135,7 +134,7 @@ public class OrderOverview extends JFrame {
         contentPane.add(new JScrollPane(descriptionField), c);
 
         // Conversation Button
-        conversationButton = new JButton("Conversation");
+        conversationButton = new JButton("Gesprächsprotokoll");
         c.gridx = 1;
         c.gridy = 9;
         contentPane.add(conversationButton, c);
