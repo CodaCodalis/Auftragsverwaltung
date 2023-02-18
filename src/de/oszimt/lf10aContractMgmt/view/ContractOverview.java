@@ -1,4 +1,4 @@
-package de.oszimt.lf10aContractMgmt;
+package de.oszimt.lf10aContractMgmt.view;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -8,9 +8,9 @@ import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import com.toedter.calendar.JDateChooser;
 
-public class OrderOverview extends JFrame {
+public class ContractOverview extends JFrame {
 
-    public OrderOverview() {
+    public ContractOverview() {
         setTitle("Auftragsübersicht");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(800,500);
@@ -157,12 +157,12 @@ public class OrderOverview extends JFrame {
             }
         });
     }
-
+/*
     public static void main(String[] args) {
         EventQueue.invokeLater(new Runnable() {
             public void run() {
                 try {
-                    OrderOverview frame = new OrderOverview();
+                    ContractOverview frame = new ContractOverview();
                     frame.setVisible(true);
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -170,4 +170,6 @@ public class OrderOverview extends JFrame {
             }
         });
     }
+*/
+
 }

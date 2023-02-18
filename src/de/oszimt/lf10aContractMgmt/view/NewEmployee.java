@@ -14,9 +14,8 @@ import javax.swing.JRadioButton;
 import javax.swing.JTextField;
 
 import com.toedter.calendar.JDateChooser;
-import de.oszimt.lf10aContractMgmt.EmployeeOverview;
 
-public class NeuerMitarbeiterFrame extends JFrame {
+public class NewEmployee extends JFrame {
 
 	private static final long serialVersionUID = 1L;
 
@@ -32,7 +31,7 @@ public class NeuerMitarbeiterFrame extends JFrame {
 	private JButton saveBtn;
 	private JButton cancelBtn;
 
-	public NeuerMitarbeiterFrame() {
+	public NewEmployee() {
 		setTitle("Neuer Mitarbeiter");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setLocationRelativeTo(null);
