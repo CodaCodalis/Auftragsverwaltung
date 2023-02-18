@@ -11,7 +11,9 @@ import de.oszimt.lf10aContractMgmt.impl.HaseGmbHManagement;
 
 public class ContractOverview extends JFrame {
 
+    HaseGmbHManagement driver;
     public ContractOverview(HaseGmbHManagement driver) {
+        this.driver = driver;
         setTitle("Auftragsübersicht");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(800,500);

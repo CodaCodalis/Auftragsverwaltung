@@ -1,11 +1,15 @@
 package de.oszimt.lf10aContractMgmt.view;
 
 import de.oszimt.lf10aContractMgmt.impl.HaseGmbHManagement;
+import de.oszimt.lf10aContractMgmt.model.Customer;
+import de.oszimt.lf10aContractMgmt.model.Employee;
+import de.oszimt.lf10aContractMgmt.model.IntEmployeeMgmt;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
+import java.util.ArrayList;
 
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
@@ -23,14 +27,16 @@ import javax.swing.event.DocumentListener;
 // funktional, aber nicht schön
 
 @SuppressWarnings("serial")
-public class EmployeeOverview extends JFrame {
+public class EmployeeOverview extends JFrame implements IntEmployeeMgmt {
 	private JTextField txtSearchField;
 	private JButton newEmployeeBtn, editEmployeeBtn, deleteEmployeeBtn, newContractBtn, overviewBtn;
 	private DefaultListModel<String> employeeList;
 	private JList<String> list;
+	HaseGmbHManagement driver;
 
 	@SuppressWarnings("rawtypes")
 	public EmployeeOverview(HaseGmbHManagement driver) {
+		this.driver = driver;
 		setSize(800, 500);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setLocationRelativeTo(null);
@@ -63,20 +69,7 @@ public class EmployeeOverview extends JFrame {
 		getContentPane().add(txtSearchField);
 		txtSearchField.setColumns(10);
 
-		employeeList = new DefaultListModel<>();
-		list = new JList<>(employeeList);
-		list.setBounds(604, 43, 170, 407);
-		getContentPane().add(list);
-		list.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
-		// Testschleife
-		for (int i = 1; i <= 50; i++) {
-			employeeList.addElement("Mitarbeiter" + i);
-		}
-
-		JScrollPane scrollPane = new JScrollPane(list);
-		scrollPane.setBounds(604, 43, 170, 407);
-		getContentPane().add(scrollPane);
-		scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
+		createScrollPane();
 
 		txtSearchField.addFocusListener(new FocusListener() {
 			@Override
@@ -141,7 +134,6 @@ public class EmployeeOverview extends JFrame {
 		editEmployeeBtn.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// go to editEmployeeFrame
 			}
 		});
 
@@ -162,6 +154,26 @@ public class EmployeeOverview extends JFrame {
 
 		});
 
+	}
+
+	private void createScrollPane() {
+		employeeList = new DefaultListModel<>();
+		list = new JList<>(employeeList);
+		list.setBounds(604, 43, 170, 407);
+		getContentPane().add(list);
+		list.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
+		ArrayList<Employee> arrayList = getAllEmployees();
+		for (Employee e : arrayList) {
+			int employeeID = e.getEmployeeID();
+			String firstName = e.getFirstname();
+			String lastName = e.getLastname();
+			employeeList.addElement(employeeID + ": " + firstName + " " + lastName);
+		}
+
+		JScrollPane scrollPane = new JScrollPane(list);
+		scrollPane.setBounds(604, 43, 170, 407);
+		getContentPane().add(scrollPane);
+		scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
 	}
 
 	public void deleteEmployee() {
@@ -190,6 +202,37 @@ public class EmployeeOverview extends JFrame {
 			JOptionPane.showMessageDialog(null, "Bitte wählen Sie ein Mitarbeiter aus, um Ihn zu löschen.", "Fehler",
 					JOptionPane.ERROR_MESSAGE);
 		}
+	}
+
+	@Override
+	public boolean addNewEmployee(Employee newEmployee) {
+		return false;
+	}
+
+	@Override
+	public Employee getEmployee(int employeeID) {
+		ArrayList<Employee> employees = getAllEmployees();
+		for (Employee e : employees) {
+			if (e.getEmployeeID() == employeeID) {
+				return e;
+			}
+		}
+		return null;
+	}
+
+	@Override
+	public ArrayList<Employee> getAllEmployees() {
+		return driver.getAllEmployees();
+	}
+
+	@Override
+	public boolean updateEmployee(Employee anEmployee) {
+		return false;
+	}
+
+	@Override
+	public boolean deleteEmployee(int employeeID) {
+		return false;
 	}
 
 	/*
