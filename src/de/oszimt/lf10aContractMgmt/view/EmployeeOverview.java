@@ -1,7 +1,6 @@
 package de.oszimt.lf10aContractMgmt.view;
 
 import de.oszimt.lf10aContractMgmt.impl.HaseGmbHManagement;
-import de.oszimt.lf10aContractMgmt.model.Customer;
 import de.oszimt.lf10aContractMgmt.model.Employee;
 import de.oszimt.lf10aContractMgmt.model.IntEmployeeMgmt;
 
@@ -29,7 +28,7 @@ import javax.swing.event.DocumentListener;
 @SuppressWarnings("serial")
 public class EmployeeOverview extends JFrame implements IntEmployeeMgmt {
 	private JTextField txtSearchField;
-	private JButton newEmployeeBtn, editEmployeeBtn, deleteEmployeeBtn, newContractBtn, overviewBtn;
+	private JButton newEmployeeBtn, editEmployeeBtn, deleteEmployeeBtn, newContractBtn, overviewContractBtn, overviewBtn;
 	private DefaultListModel<String> employeeList;
 	private JList<String> list;
 	HaseGmbHManagement driver;
@@ -58,6 +57,10 @@ public class EmployeeOverview extends JFrame implements IntEmployeeMgmt {
 		newContractBtn = new JButton("neuer Auftrag");
 		newContractBtn.setBounds(43, 221, 200, 23);
 		getContentPane().add(newContractBtn);
+
+		overviewContractBtn = new JButton("Auftragsübersicht");
+		overviewContractBtn.setBounds(43, 245, 200, 23);
+		getContentPane().add(overviewContractBtn);
 
 		overviewBtn = new JButton("Hauptmenü");
 		overviewBtn.setBounds(10, 427, 128, 23);
@@ -147,8 +150,17 @@ public class EmployeeOverview extends JFrame implements IntEmployeeMgmt {
 		newContractBtn.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				ContractOverview contractOverview = new ContractOverview(driver);
-				contractOverview.setVisible(true);
+				NewContract newContract = new NewContract(driver);
+				newContract.setVisible(true);
+				dispose();
+			}
+
+		});
+
+		overviewContractBtn.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				new ContractOverview(driver).setVisible(true);
 				dispose();
 			}
 

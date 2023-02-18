@@ -1,178 +1,146 @@
 package de.oszimt.lf10aContractMgmt.view;
 
-import java.awt.*;
+import de.oszimt.lf10aContractMgmt.impl.HaseGmbHManagement;
+import de.oszimt.lf10aContractMgmt.model.*;
+
+import javax.swing.*;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.Date;
-import javax.swing.*;
-import javax.swing.border.EmptyBorder;
-import com.toedter.calendar.JDateChooser;
-import de.oszimt.lf10aContractMgmt.impl.HaseGmbHManagement;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
+import java.util.ArrayList;
 
-public class ContractOverview extends JFrame {
+@SuppressWarnings("serial")
+public class ContractOverview extends JFrame implements IntContractMgmt {
+	private JTextField txtSearchField;
+	private JButton newCustomerBtn, editCustomerBtn, deleteCustomerBtn, overviewBtn;
+	private DefaultListModel<String> contractList;
+	private JList<String> list;
+	private JScrollPane scrollPane;
+	private HaseGmbHManagement driver;
 
-    HaseGmbHManagement driver;
-    public ContractOverview(HaseGmbHManagement driver) {
-        this.driver = driver;
-        setTitle("Auftragsübersicht");
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setSize(800,500);
-        //setBounds(100, 100, 800, 500);
-        setLocationRelativeTo(null);
-        JPanel contentPane = new JPanel();
-        contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-        setContentPane(contentPane);
-        contentPane.setLayout(new GridBagLayout());
-        GridBagConstraints c = new GridBagConstraints();
+	@SuppressWarnings("rawtypes")
+	public ContractOverview(HaseGmbHManagement driver) {
+		this.driver = driver;
+		setSize(800, 500);
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setLocationRelativeTo(null);
+		setTitle("Auftragsübersicht");
+		getContentPane().setLayout(null);
 
-        // Order Number
-        JLabel orderNumberLabel = new JLabel("Auftragsnummer:");
-        c.fill = GridBagConstraints.HORIZONTAL;
-        c.gridx = 0;
-        c.gridy = 0;
-        contentPane.add(orderNumberLabel, c);
+		overviewBtn = new JButton("zurück");
+		overviewBtn.setBounds(10, 427, 128, 23);
+		getContentPane().add(overviewBtn);
 
-        JTextField orderNumberField = new JTextField();
-        c.gridx = 1;
-        c.gridy = 0;
-        contentPane.add(orderNumberField, c);
+		txtSearchField = new JTextField();
+		txtSearchField.setText("Search");
+		txtSearchField.setBounds(543, 11, 231, 20);
+		getContentPane().add(txtSearchField);
+		txtSearchField.setColumns(10);
 
-        // Creation Date
-        JLabel dateLabel = new JLabel("Erstelldatum:");
-        c.gridx = 0;
-        c.gridy = 1;
-        contentPane.add(dateLabel, c);
+		createScrollPane();
 
-        JDateChooser dateField = new JDateChooser();
-        dateField.setDate(new Date());
-        c.gridx = 1;
-        c.gridy = 1;
-        contentPane.add(dateField, c);
+		txtSearchField.addFocusListener(new FocusListener() {
+			@Override
+			public void focusGained(FocusEvent e) {
+				if (txtSearchField.getText().equals("Search")) {
+					txtSearchField.setText("");
+				}
+			}
 
-        // Customer
-        JLabel customerLabel = new JLabel("Kunde:");
-        c.gridx = 0;
-        c.gridy = 2;
-        contentPane.add(customerLabel, c);
+			@Override
+			public void focusLost(FocusEvent e) {
+				txtSearchField.setText("Search");
+			}
+		});
 
-        JComboBox<String> customerComboBox = new JComboBox<>(new String[]{"Kunde 1", "Kunde 2", "Kunde 3"});
-        c.gridx = 1;
-        c.gridy = 2;
-        contentPane.add(customerComboBox, c);
+		txtSearchField.getDocument().addDocumentListener(new DocumentListener() {
+			@Override
+			public void changedUpdate(DocumentEvent e) {
+				filterList();
+			}
 
-        // Employee
-        JLabel employeeLabel = new JLabel("Mitarbeiter:");
-        c.gridx = 0;
-        c.gridy = 3;
-        contentPane.add(employeeLabel, c);
+			@Override
+			public void removeUpdate(DocumentEvent e) {
+				filterList();
+			}
 
-        JComboBox<String> employeeComboBox = new JComboBox<>(new String[]{"Mitarb1", "Mitarb2", "Mitarb3"});
-        c.gridx = 1;
-        c.gridy = 3;
-        contentPane.add(employeeComboBox, c);
+			@Override
+			public void insertUpdate(DocumentEvent e) {
+				filterList();
+			}
 
-        // Contract Type
-        JLabel contractTypeLabel = new JLabel("Vertragsart:");
-        c.gridx = 0;
-        c.gridy = 4;
-        contentPane.add(contractTypeLabel, c);
+			public void filterList() {
+				String filter = txtSearchField.getText();
+				ListModel<String> model = list.getModel();
+				for (int i = 0; i < model.getSize(); i++) {
+					String element = model.getElementAt(i);
+					if (element.contains(filter)) {
+						list.setSelectedIndex(i);
+						list.scrollRectToVisible(list.getCellBounds(i, i));
+						break;
+					}
+				}
+			}
+		});
 
-        JTextField contractTypeField = new JTextField();
-        c.gridx = 1;
-        c.gridy = 4;
-        contentPane.add(contractTypeField, c);
+		overviewBtn.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				new EmployeeOverview(driver).setVisible(true);
+				dispose();
+			}
+		});
 
-        // Progress
-        JLabel progressLabel = new JLabel("Bearbeitungsstand:");
-        c.gridx = 0;
-        c.gridy = 5;
-        contentPane.add(progressLabel, c);
+	}
 
-        JComboBox<String> progressComboBox = new JComboBox<>(new String[]{"Nicht angefangen", "Laufend", "Fertig"});
-        c.gridx = 1;
-        c.gridy = 5;
-        contentPane.add(progressComboBox, c);
+	private void createScrollPane() {
+		contractList = new DefaultListModel<>();
+		list = new JList<>(contractList);
+		list.setBounds(604, 43, 170, 407);
+		getContentPane().add(list);
+		list.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
+		ArrayList<Contract> arrayList = getAllContracts();
+		for (Contract c : arrayList) {
+			int contractID = c.getContractID();
+			contractList.addElement(String.valueOf(contractID));
+		}
+		scrollPane = new JScrollPane(list);
+		scrollPane.setBounds(543, 43, 231, 407);
+		getContentPane().add(scrollPane);
+		scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
+	}
 
-        // Start Date
-        JLabel startDateLabel = new JLabel("Startdatum:");
-        c.gridx = 0;
-        c.gridy = 6;
-        contentPane.add(startDateLabel, c);
 
-        JDateChooser startDateField = new JDateChooser();
-        startDateField.setDate(new Date());
-        c.gridx = 1;
-        c.gridy = 6;
-        contentPane.add(startDateField, c);
+	@Override
+	public boolean addNewContract(Contract newContract) {
+		return false;
+	}
 
-        // End Date
-        JLabel endDateLabel = new JLabel("Enddatum:");
-        c.gridx = 0;
-        c.gridy = 7;
-        contentPane.add(endDateLabel, c);
+	@Override
+	public Contract getContract(int contractID) {
+		return null;
+	}
 
-        JDateChooser endDateField = new JDateChooser();
-        endDateField.setDate(new Date());
-        c.gridx = 1;
-        c.gridy = 7;
-        contentPane.add(endDateField, c);
+	@Override
+	public ArrayList<Contract> getAllContracts() {
+		return driver.getAllContracts();
+	}
 
-        // Description
-        JLabel descriptionLabel = new JLabel("Beschreibung");
-        c.gridx = 2;
-        c.gridy = 0;
-        contentPane.add(descriptionLabel, c);
+	@Override
+	public boolean updateCustomer(Contract aContract) {
+		return false;
+	}
 
-        JTextArea descriptionField = new JTextArea(5, 20);
-        c.gridx = 2;
-        c.gridy = 1;
-        c.gridheight = 5;
-        c.fill = GridBagConstraints.BOTH;
-        c.anchor = GridBagConstraints.NORTHWEST;
-        contentPane.add(new JScrollPane(descriptionField), c);
+	@Override
+	public boolean addNewWorkingRecord(int contractID, ActivityRecord aRecord) {
+		return false;
+	}
 
-        // Conversation Button
-        JButton conversationButton = new JButton("Gesprächsprotokoll");
-        c.gridx = 2;
-        c.gridy = 6;
-        contentPane.add(conversationButton, c);
-
-        // Save and Cancel buttons
-        JButton saveButton = new JButton("Save");
-        c.fill = GridBagConstraints.HORIZONTAL;
-        c.gridx = 0;
-        c.gridy = 15;
-        c.insets = new Insets(10, 10, 0, 0);
-        contentPane.add(saveButton, c);
-
-        JButton cancelButton = new JButton("Cancel");
-        c.gridx = 2;
-        c.gridy = 15;
-        c.insets = new Insets(10, 0, 0, 10);
-        contentPane.add(cancelButton, c);
-
-        cancelButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                EmployeeOverview employeeOverview = new EmployeeOverview(driver);
-                employeeOverview.setVisible(true);
-                dispose();
-            }
-        });
-    }
-/*
-    public static void main(String[] args) {
-        EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                try {
-                    ContractOverview frame = new ContractOverview();
-                    frame.setVisible(true);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-        });
-    }
-*/
-
+	@Override
+	public boolean deleteContract(int contractID) {
+		return false;
+	}
 }
