@@ -37,7 +37,7 @@ public class Overview extends JFrame {
 		setResizable(false);
 
 		setTitle("Overview Auftragsverwaltung");
-		setSize(350, 150);
+		setSize(800, 500);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setLocationRelativeTo(null);
 		

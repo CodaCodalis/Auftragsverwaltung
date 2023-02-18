@@ -1,4 +1,6 @@
 package de.oszimt.lf10aContractMgmt.view;
+import de.oszimt.lf10aContractMgmt.impl.HaseGmbHManagement;
+
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;

@@ -1,5 +1,10 @@
 package de.oszimt.lf10aContractMgmt.view;
 
+import de.oszimt.lf10aContractMgmt.HaseGmbHClientSimulation;
+import de.oszimt.lf10aContractMgmt.impl.HaseGmbHManagement;
+import de.oszimt.lf10aContractMgmt.model.Customer;
+import de.oszimt.lf10aContractMgmt.model.IntCustomerMgmt;
+
 import javax.swing.*;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
@@ -7,9 +12,10 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
+import java.util.ArrayList;
 
 @SuppressWarnings("serial")
-public class CustomerOverview extends JFrame {
+public class CustomerOverview extends JFrame implements IntCustomerMgmt {
 	private JTextField txtSearchField;
 	private JButton newCustomerBtn, editCustomerBtn, deleteCustomerBtn, overviewBtn;
 	private DefaultListModel<String> customerList;
@@ -50,13 +56,16 @@ public class CustomerOverview extends JFrame {
 		list.setBounds(604, 43, 170, 407);
 		getContentPane().add(list);
 		list.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
-		// Testschleife
-		for (int i = 1; i <= 10; i++) {
-			customerList.addElement("Kunde" + i);
+		ArrayList<Customer> arrayList = getAllCustomers();
+		for (Customer c : arrayList) {
+			int customerID = c.getCustomerID();
+			String firstName = c.getFirstname();
+			String lastName = c.getLastname();
+			customerList.addElement(customerID + ": " + firstName + " " + lastName);
 		}
 
 		JScrollPane scrollPane = new JScrollPane(list);
-		scrollPane.setBounds(604, 43, 170, 407);
+		scrollPane.setBounds(543, 43, 231, 407);
 		getContentPane().add(scrollPane);
 		scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
 
@@ -162,6 +171,33 @@ public class CustomerOverview extends JFrame {
 			JOptionPane.showMessageDialog(null, "Bitte wählen Sie ein Kunden aus, um Ihn zu löschen.", "Fehler",
 					JOptionPane.ERROR_MESSAGE);
 		}
+	}
+
+	@Override
+	public boolean addNewCustomer(Customer newCustomer) {
+		return false;
+	}
+
+	@Override
+	public Customer getCustomer(int customerID) {
+		return null;
+	}
+
+	@Override
+	public ArrayList<Customer> getAllCustomers() {
+		HaseGmbHClientSimulation sim = new HaseGmbHClientSimulation();
+		HaseGmbHManagement driver = sim.getHaseMgmtDriver();
+		return driver.getAllCustomers();
+	}
+
+	@Override
+	public boolean updateCustomer(Customer aCustomer) {
+		return false;
+	}
+
+	@Override
+	public boolean deleteCustomer(int customerID) {
+		return false;
 	}
 
 	/*

@@ -1,15 +1,24 @@
 package de.oszimt.lf10aContractMgmt.view;
 
+
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.util.ArrayList;
 import java.util.Date;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import com.toedter.calendar.JDateChooser;
+import de.oszimt.lf10aContractMgmt.HaseGmbHClientSimulation;
+import de.oszimt.lf10aContractMgmt.impl.HaseGmbHManagement;
+import de.oszimt.lf10aContractMgmt.model.Address;
+import de.oszimt.lf10aContractMgmt.model.Customer;
+import de.oszimt.lf10aContractMgmt.model.IntCustomerMgmt;
 import javax.swing.JRadioButton;
 
-public class NewCustomer extends JFrame {
+public class NewCustomer extends JFrame implements IntCustomerMgmt {
 
 	public NewCustomer() {
 		setTitle("Neuer Kunde");
@@ -62,57 +71,105 @@ public class NewCustomer extends JFrame {
 		c.gridy = 2;
 		contentPane.add(customerLastNameField, c);
 
-		// Customer Address
-		JLabel customerAddressLabel = new JLabel("Adresse ");
-		c.fill = GridBagConstraints.HORIZONTAL;
-		c.gridx = 0;
-		c.gridy = 3;
-		contentPane.add(customerAddressLabel, c);
-
-		JTextField customerAddressField = new JTextField();
-		customerAddressField.setPreferredSize(new Dimension(300,20));
-		c.gridx = 1;
-		c.gridy = 3;
-		contentPane.add(customerAddressField, c);
-
 		// Customer TelNumber
 		JLabel customerTelNumberLabel = new JLabel("Telefonnummer ");
 		c.fill = GridBagConstraints.HORIZONTAL;
 		c.gridx = 0;
-		c.gridy = 4;
+		c.gridy = 3;
 		contentPane.add(customerTelNumberLabel, c);
 
 		JTextField customerTelNumberField = new JTextField();
 		customerTelNumberField.setPreferredSize(new Dimension(300,20));
 		c.gridx = 1;
-		c.gridy = 4;
+		c.gridy = 3;
 		contentPane.add(customerTelNumberField, c);
 
 		// Customer Email
 		JLabel customerEmailLabel = new JLabel("Email ");
 		c.fill = GridBagConstraints.HORIZONTAL;
 		c.gridx = 0;
-		c.gridy = 5;
+		c.gridy = 4;
 		contentPane.add(customerEmailLabel, c);
 
 		JTextField customerEmailField = new JTextField();
 		customerEmailField.setPreferredSize(new Dimension(300,20));
 		c.gridx = 1;
-		c.gridy = 5;
+		c.gridy = 4;
 		contentPane.add(customerEmailField, c);
 
 		// Customer Birth Date
 		JLabel customerBirthDateLabel = new JLabel("Geburtsdatum ");
 		c.gridx = 0;
-		c.gridy = 6;
+		c.gridy = 5;
 		contentPane.add(customerBirthDateLabel, c);
 
 		JDateChooser customerBirthDateField = new JDateChooser();
 		customerBirthDateField.setPreferredSize(new Dimension(300,20));
 		customerBirthDateField.setDate(new Date());
 		c.gridx = 1;
-		c.gridy = 6;
+		c.gridy = 5;
 		contentPane.add(customerBirthDateField, c);
+
+		// Customer Address
+		JLabel customerStreetLabel = new JLabel("Straße ");
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.gridx = 0;
+		c.gridy = 6;
+		contentPane.add(customerStreetLabel, c);
+
+		JTextField customerStreetField = new JTextField();
+		customerStreetField.setPreferredSize(new Dimension(300,20));
+		c.gridx = 1;
+		c.gridy = 6;
+		contentPane.add(customerStreetField, c);
+
+		JLabel customerHouseLabel = new JLabel("Hausnummer ");
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.gridx = 0;
+		c.gridy = 7;
+		contentPane.add(customerHouseLabel, c);
+
+		JTextField customerHouseField = new JTextField();
+		customerHouseField.setPreferredSize(new Dimension(300,20));
+		c.gridx = 1;
+		c.gridy = 7;
+		contentPane.add(customerHouseField, c);
+
+		JLabel customerPostalLabel = new JLabel("PLZ ");
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.gridx = 0;
+		c.gridy = 8;
+		contentPane.add(customerPostalLabel, c);
+
+		JTextField customerPostalField = new JTextField();
+		customerPostalField.setPreferredSize(new Dimension(300,20));
+		c.gridx = 1;
+		c.gridy = 8;
+		contentPane.add(customerPostalField, c);
+
+		JLabel customerCityLabel = new JLabel("Stadt ");
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.gridx = 0;
+		c.gridy = 9;
+		contentPane.add(customerCityLabel, c);
+
+		JTextField customerCityField = new JTextField();
+		customerCityField.setPreferredSize(new Dimension(300,20));
+		c.gridx = 1;
+		c.gridy = 9;
+		contentPane.add(customerCityField, c);
+
+		JLabel customerCountryLabel = new JLabel("Land ");
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.gridx = 0;
+		c.gridy = 10;
+		contentPane.add(customerCountryLabel, c);
+
+		JTextField customerCountryField = new JTextField();
+		customerCountryField.setPreferredSize(new Dimension(300,20));
+		c.gridx = 1;
+		c.gridy = 10;
+		contentPane.add(customerCountryField, c);
 
 		// Customer Gender
 		JLabel genderLabel = new JLabel("Geschlecht ");
@@ -154,6 +211,26 @@ public class NewCustomer extends JFrame {
 		c.insets = new Insets(10, 0, 0, 10);
 		contentPane.add(cancelButton, c);
 
+		saveButton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				String firstName = customerFirstNameField.getText();
+				String lastName = customerLastNameField.getText();
+				Date birthDay = customerBirthDateField.getDate();
+				LocalDate localBirthDay = birthDay.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+				String eMail = customerEmailField.getText();
+				String telNum = customerTelNumberField.getText();
+				String street = customerStreetField.getText();
+				String house = customerHouseField.getText();
+				String postal = customerPostalField.getText();
+				String city = customerCityField.getText();
+				String country = customerCountryField.getText();
+				Address address = new Address(street, house, postal, city, country);
+				Customer customer = new Customer(firstName, lastName, localBirthDay, eMail, address);
+				addNewCustomer(customer);
+			}
+		});
+
 		cancelButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -162,6 +239,34 @@ public class NewCustomer extends JFrame {
 				dispose();
 			}
 		});
+	}
+
+	@Override
+	public boolean addNewCustomer(Customer newCustomer) {
+		HaseGmbHClientSimulation sim = new HaseGmbHClientSimulation();
+		HaseGmbHManagement driver = sim.getHaseMgmtDriver();
+		driver.addNewCustomer(newCustomer);
+		return true;
+	}
+
+	@Override
+	public Customer getCustomer(int customerID) {
+		return null;
+	}
+
+	@Override
+	public ArrayList<Customer> getAllCustomers() {
+		return null;
+	}
+
+	@Override
+	public boolean updateCustomer(Customer aCustomer) {
+		return false;
+	}
+
+	@Override
+	public boolean deleteCustomer(int customerID) {
+		return false;
 	}
 /*
 	public static void main(String[] args) {
