@@ -1,6 +1,15 @@
 package de.oszimt.lf10aContractMgmt.view;
 
 
+import com.toedter.calendar.JDateChooser;
+import de.oszimt.lf10aContractMgmt.HaseGmbHClientSimulation;
+import de.oszimt.lf10aContractMgmt.impl.HaseGmbHManagement;
+import de.oszimt.lf10aContractMgmt.model.Address;
+import de.oszimt.lf10aContractMgmt.model.Customer;
+import de.oszimt.lf10aContractMgmt.model.IntCustomerMgmt;
+
+import javax.swing.*;
+import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -8,32 +17,23 @@ import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Date;
-import javax.swing.*;
-import javax.swing.border.EmptyBorder;
-import com.toedter.calendar.JDateChooser;
-import de.oszimt.lf10aContractMgmt.HaseGmbHClientSimulation;
-import de.oszimt.lf10aContractMgmt.impl.HaseGmbHManagement;
-import de.oszimt.lf10aContractMgmt.model.Address;
-import de.oszimt.lf10aContractMgmt.model.Customer;
-import de.oszimt.lf10aContractMgmt.model.IntCustomerMgmt;
-import javax.swing.JRadioButton;
 
-public class NewCustomer extends JFrame implements IntCustomerMgmt {
+public class UpdateCustomer extends JFrame implements IntCustomerMgmt {
 
-	private HaseGmbHManagement driver;
-
-	public NewCustomer(HaseGmbHManagement driver) {
+	HaseGmbHManagement driver;
+	public UpdateCustomer(HaseGmbHManagement driver, Customer customer) {
 		this.driver = driver;
-		setTitle("Neuer Kunde");
+		setTitle("Kunde bearbeiten");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setSize(800,500);
-		//setBounds(100, 100, 800, 500);
 		setLocationRelativeTo(null);
 		JPanel contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(new GridBagLayout());
 		GridBagConstraints c = new GridBagConstraints();
+
+		Address address = customer.getAddress();
 
 		// Customer Number
 		JLabel customerNumberLabel = new JLabel("Kundennummer ");
@@ -47,6 +47,7 @@ public class NewCustomer extends JFrame implements IntCustomerMgmt {
 		c.gridx = 1;
 		c.gridy = 0;
 		customerNumberField.setEditable(false);
+		customerNumberField.setText(String.valueOf(customer.getCustomerID()));
 		contentPane.add(customerNumberField, c);
 
 		// Customer First Name
@@ -60,6 +61,7 @@ public class NewCustomer extends JFrame implements IntCustomerMgmt {
 		customerFirstNameField.setPreferredSize(new Dimension(300,20));
 		c.gridx = 1;
 		c.gridy = 1;
+		customerFirstNameField.setText(customer.getFirstname());
 		contentPane.add(customerFirstNameField, c);
 
 		// Customer Last Name
@@ -73,6 +75,7 @@ public class NewCustomer extends JFrame implements IntCustomerMgmt {
 		customerLastNameField.setPreferredSize(new Dimension(300,20));
 		c.gridx = 1;
 		c.gridy = 2;
+		customerLastNameField.setText(customer.getLastname());
 		contentPane.add(customerLastNameField, c);
 
 		// Customer TelNumber
@@ -86,6 +89,7 @@ public class NewCustomer extends JFrame implements IntCustomerMgmt {
 		customerTelNumberField.setPreferredSize(new Dimension(300,20));
 		c.gridx = 1;
 		c.gridy = 3;
+		customerTelNumberField.setText("");
 		contentPane.add(customerTelNumberField, c);
 
 		// Customer Email
@@ -99,6 +103,7 @@ public class NewCustomer extends JFrame implements IntCustomerMgmt {
 		customerEmailField.setPreferredSize(new Dimension(300,20));
 		c.gridx = 1;
 		c.gridy = 4;
+		customerEmailField.setText(customer.getEmail());
 		contentPane.add(customerEmailField, c);
 
 		// Customer Birth Date
@@ -112,6 +117,9 @@ public class NewCustomer extends JFrame implements IntCustomerMgmt {
 		customerBirthDateField.setDate(new Date());
 		c.gridx = 1;
 		c.gridy = 5;
+		LocalDate localBirthDay = customer.getBirthday();
+		Date birthDay = Date.from(localBirthDay.atStartOfDay(ZoneId.systemDefault()).toInstant());
+		customerBirthDateField.setDate(birthDay);
 		contentPane.add(customerBirthDateField, c);
 
 		// Customer Address
@@ -125,6 +133,7 @@ public class NewCustomer extends JFrame implements IntCustomerMgmt {
 		customerStreetField.setPreferredSize(new Dimension(300,20));
 		c.gridx = 1;
 		c.gridy = 6;
+		customerStreetField.setText(address.getStreet());
 		contentPane.add(customerStreetField, c);
 
 		JLabel customerHouseLabel = new JLabel("Hausnummer ");
@@ -137,6 +146,7 @@ public class NewCustomer extends JFrame implements IntCustomerMgmt {
 		customerHouseField.setPreferredSize(new Dimension(300,20));
 		c.gridx = 1;
 		c.gridy = 7;
+		customerHouseField.setText(address.getHouse());
 		contentPane.add(customerHouseField, c);
 
 		JLabel customerPostalLabel = new JLabel("PLZ ");
@@ -149,6 +159,7 @@ public class NewCustomer extends JFrame implements IntCustomerMgmt {
 		customerPostalField.setPreferredSize(new Dimension(300,20));
 		c.gridx = 1;
 		c.gridy = 8;
+		customerPostalField.setText(address.getPostalCode());
 		contentPane.add(customerPostalField, c);
 
 		JLabel customerCityLabel = new JLabel("Stadt ");
@@ -161,6 +172,7 @@ public class NewCustomer extends JFrame implements IntCustomerMgmt {
 		customerCityField.setPreferredSize(new Dimension(300,20));
 		c.gridx = 1;
 		c.gridy = 9;
+		customerCityField.setText(address.getCity());
 		contentPane.add(customerCityField, c);
 
 		JLabel customerCountryLabel = new JLabel("Land ");
@@ -173,6 +185,7 @@ public class NewCustomer extends JFrame implements IntCustomerMgmt {
 		customerCountryField.setPreferredSize(new Dimension(300,20));
 		c.gridx = 1;
 		c.gridy = 10;
+		customerCountryField.setText(address.getCountry());
 		contentPane.add(customerCountryField, c);
 
 		// Customer Gender
@@ -232,13 +245,13 @@ public class NewCustomer extends JFrame implements IntCustomerMgmt {
 				Address address = new Address(street, house, postal, city, country);
 				Customer customer = new Customer(firstName, lastName, localBirthDay, eMail, address);
 
-				String addCustomer = firstName + " " + lastName;
+				String updateCustomer = firstName + " " + lastName;
 				int confirmDialogOnly = JOptionPane.showConfirmDialog(
 						null,
-						"Den Kunden " + addCustomer + " wirklich hinzufügen?",
+						"Den Kunden " + updateCustomer + " wirklich hinzufügen?",
 						"Bestätigung", JOptionPane.YES_NO_OPTION);
 				if (confirmDialogOnly == JOptionPane.YES_OPTION) {
-					addNewCustomer(customer);
+					updateCustomer(customer);
 					new CustomerOverview(driver).setVisible(true);
 					dispose();
 				}
@@ -258,13 +271,20 @@ public class NewCustomer extends JFrame implements IntCustomerMgmt {
 
 	@Override
 	public boolean addNewCustomer(Customer newCustomer) {
-		driver.addNewCustomer(newCustomer);
-		return true;
+		return false;
 	}
 
 	@Override
 	public Customer getCustomer(int customerID) {
-		return null;
+		ArrayList<Customer> customers = getAllCustomers();
+		Customer customer = null;
+		for (Customer c : customers) {
+			if (c.getCustomerID() == customerID) {
+				customer = c;
+				break;
+			}
+		}
+		return customer;
 	}
 
 	@Override
@@ -274,7 +294,8 @@ public class NewCustomer extends JFrame implements IntCustomerMgmt {
 
 	@Override
 	public boolean updateCustomer(Customer aCustomer) {
-		return false;
+		driver.updateCustomer(aCustomer);
+		return true;
 	}
 
 	@Override

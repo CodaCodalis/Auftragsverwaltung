@@ -1,5 +1,7 @@
 package de.oszimt.lf10aContractMgmt.view;
 
+import de.oszimt.lf10aContractMgmt.impl.HaseGmbHManagement;
+
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
@@ -28,7 +30,7 @@ public class EmployeeOverview extends JFrame {
 	private JList<String> list;
 
 	@SuppressWarnings("rawtypes")
-	public EmployeeOverview() {
+	public EmployeeOverview(HaseGmbHManagement driver) {
 		setSize(800, 500);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setLocationRelativeTo(null);
@@ -123,7 +125,7 @@ public class EmployeeOverview extends JFrame {
 		overviewBtn.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				new Overview().setVisible(true);
+				new Overview(driver).setVisible(true);
 				dispose();
 			}
 		});
@@ -131,7 +133,7 @@ public class EmployeeOverview extends JFrame {
 		newEmployeeBtn.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				new NewEmployee().setVisible(true);
+				new NewEmployee(driver).setVisible(true);
 				dispose();
 			}
 		});
@@ -153,7 +155,7 @@ public class EmployeeOverview extends JFrame {
 		newContractBtn.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				ContractOverview contractOverview = new ContractOverview();
+				ContractOverview contractOverview = new ContractOverview(driver);
 				contractOverview.setVisible(true);
 				dispose();
 			}

@@ -7,10 +7,11 @@ import java.util.Date;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import com.toedter.calendar.JDateChooser;
+import de.oszimt.lf10aContractMgmt.impl.HaseGmbHManagement;
 
 public class ContractOverview extends JFrame {
 
-    public ContractOverview() {
+    public ContractOverview(HaseGmbHManagement driver) {
         setTitle("Auftragsübersicht");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(800,500);
@@ -151,7 +152,7 @@ public class ContractOverview extends JFrame {
         cancelButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                EmployeeOverview employeeOverview = new EmployeeOverview();
+                EmployeeOverview employeeOverview = new EmployeeOverview(driver);
                 employeeOverview.setVisible(true);
                 dispose();
             }

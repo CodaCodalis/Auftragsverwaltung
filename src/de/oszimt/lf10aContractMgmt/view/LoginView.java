@@ -16,7 +16,7 @@ public class LoginView extends JFrame {
 	private JPasswordField passwordField;
 	private JButton loginButton;
 
-	public LoginView() {
+	public LoginView(HaseGmbHManagement driver) {
 		setResizable(false);
 		setTitle("Login");
 		setSize(800, 500);
@@ -69,7 +69,7 @@ public class LoginView extends JFrame {
 					JOptionPane.showMessageDialog(null, "Leere Felder. Bitte versuchen Sie es erneut.", "Fehler",
 							JOptionPane.ERROR_MESSAGE);
 				} else if (passwordValue.equals(enteredPw) && usernameValue.equals(enteredName)) {
-					new Overview().setVisible(true);
+					new Overview(driver).setVisible(true);
 					dispose();
 				} else {
 					JOptionPane.showMessageDialog(null, "Falsches Passwort. Bitte versuchen Sie es erneut.", "Fehler",

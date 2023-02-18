@@ -17,8 +17,11 @@ public class HaseGmbHClientSimulation {
 	private HaseGmbHManagement haseMgmtDriver;
 
 	public static void main(String[] args) {
-		final LoginView loginView = new LoginView();
-		new HaseGmbHClientSimulation();
+		HaseGmbHClientSimulation clientSim = new HaseGmbHClientSimulation();
+		HaseGmbHManagement driver = clientSim.haseMgmtDriver;
+		final LoginView loginView = new LoginView(driver);
+
+
 	}
 
 	public HaseGmbHClientSimulation() {

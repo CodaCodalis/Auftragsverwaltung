@@ -1,6 +1,5 @@
 package de.oszimt.lf10aContractMgmt.view;
 
-import de.oszimt.lf10aContractMgmt.HaseGmbHClientSimulation;
 import de.oszimt.lf10aContractMgmt.impl.HaseGmbHManagement;
 import de.oszimt.lf10aContractMgmt.model.Customer;
 import de.oszimt.lf10aContractMgmt.model.IntCustomerMgmt;
@@ -20,9 +19,12 @@ public class CustomerOverview extends JFrame implements IntCustomerMgmt {
 	private JButton newCustomerBtn, editCustomerBtn, deleteCustomerBtn, overviewBtn;
 	private DefaultListModel<String> customerList;
 	private JList<String> list;
+	private JScrollPane scrollPane;
+	private HaseGmbHManagement driver;
 
 	@SuppressWarnings("rawtypes")
-	public CustomerOverview() {
+	public CustomerOverview(HaseGmbHManagement driver) {
+		this.driver = driver;
 		setSize(800, 500);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setLocationRelativeTo(null);
@@ -51,23 +53,7 @@ public class CustomerOverview extends JFrame implements IntCustomerMgmt {
 		getContentPane().add(txtSearchField);
 		txtSearchField.setColumns(10);
 
-		customerList = new DefaultListModel<>();
-		list = new JList<>(customerList);
-		list.setBounds(604, 43, 170, 407);
-		getContentPane().add(list);
-		list.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
-		ArrayList<Customer> arrayList = getAllCustomers();
-		for (Customer c : arrayList) {
-			int customerID = c.getCustomerID();
-			String firstName = c.getFirstname();
-			String lastName = c.getLastname();
-			customerList.addElement(customerID + ": " + firstName + " " + lastName);
-		}
-
-		JScrollPane scrollPane = new JScrollPane(list);
-		scrollPane.setBounds(543, 43, 231, 407);
-		getContentPane().add(scrollPane);
-		scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
+		createScrollPane();
 
 		txtSearchField.addFocusListener(new FocusListener() {
 			@Override
@@ -116,7 +102,7 @@ public class CustomerOverview extends JFrame implements IntCustomerMgmt {
 		overviewBtn.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				new Overview().setVisible(true);
+				new Overview(driver).setVisible(true);
 				dispose();
 			}
 		});
@@ -124,7 +110,7 @@ public class CustomerOverview extends JFrame implements IntCustomerMgmt {
 		newCustomerBtn.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				new NewCustomer().setVisible(true);
+				new NewCustomer(driver).setVisible(true);
 				dispose();
 			}
 		});
@@ -132,45 +118,49 @@ public class CustomerOverview extends JFrame implements IntCustomerMgmt {
 		editCustomerBtn.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// go to editEmployeeFrame
+				String selectedCustomer = list.getSelectedValue();
+				int customerID = Integer.parseInt(selectedCustomer.substring(0,7));
+				Customer customer = getCustomer(customerID);
+				new UpdateCustomer(driver, customer).setVisible(true);
+				dispose();
 			}
 		});
 
 		deleteCustomerBtn.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				deleteCustomer();
+				String selectedCustomer = list.getSelectedValue();
+				int customerID = Integer.parseInt(selectedCustomer.substring(0,7));
+				int confirmDialogOnly = JOptionPane.showConfirmDialog(
+						null,
+						"Den Kunden " + selectedCustomer + " wirklich löschen?",
+						"Bestätigung", JOptionPane.YES_NO_OPTION);
+				if (confirmDialogOnly == JOptionPane.YES_OPTION) {
+					deleteCustomer(customerID);
+				}
+
 			}
 		});
 
 	}
 
-	public void deleteCustomer() {
-		int selectedIndex = list.getSelectedIndex();
-		int[] selectedIndices = list.getSelectedIndices();
-		if (selectedIndex != -1 && (selectedIndices.length == 1)) {
-			String selectedCustomer = list.getSelectedValue();
-			int confirmDialogOnly1 = JOptionPane.showConfirmDialog(null,
-					"Bist du dir sicher, dass du den Kunden " + selectedCustomer + " löschen willst?",
-					"Bestätigung", JOptionPane.YES_NO_OPTION);
-			if (confirmDialogOnly1 == JOptionPane.YES_OPTION) {
-				customerList.removeElementAt(selectedIndex);
-			}
-
-		} else if (selectedIndex != -1 && selectedIndices.length > 1) {
-			int confirmDialogMoreThan1 = JOptionPane.showConfirmDialog(null,
-					"Bist du dir sicher, dass du die Kunden löschen willst?", "Bestätigung",
-					JOptionPane.YES_NO_OPTION);
-			if (confirmDialogMoreThan1 == JOptionPane.YES_OPTION) {
-				for (int i = selectedIndices.length - 1; i >= 0; i--) {
-					customerList.remove(selectedIndices[i]);
-				}
-			}
-
-		} else {
-			JOptionPane.showMessageDialog(null, "Bitte wählen Sie ein Kunden aus, um Ihn zu löschen.", "Fehler",
-					JOptionPane.ERROR_MESSAGE);
+	private void createScrollPane() {
+		customerList = new DefaultListModel<>();
+		list = new JList<>(customerList);
+		list.setBounds(604, 43, 170, 407);
+		getContentPane().add(list);
+		list.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
+		ArrayList<Customer> arrayList = getAllCustomers();
+		for (Customer c : arrayList) {
+			int customerID = c.getCustomerID();
+			String firstName = c.getFirstname();
+			String lastName = c.getLastname();
+			customerList.addElement(customerID + ": " + firstName + " " + lastName);
 		}
+		scrollPane = new JScrollPane(list);
+		scrollPane.setBounds(543, 43, 231, 407);
+		getContentPane().add(scrollPane);
+		scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
 	}
 
 	@Override
@@ -180,13 +170,17 @@ public class CustomerOverview extends JFrame implements IntCustomerMgmt {
 
 	@Override
 	public Customer getCustomer(int customerID) {
+		ArrayList<Customer> customers = getAllCustomers();
+		for (Customer c : customers) {
+			if (c.getCustomerID() == customerID) {
+				return c;
+			}
+		}
 		return null;
 	}
 
 	@Override
 	public ArrayList<Customer> getAllCustomers() {
-		HaseGmbHClientSimulation sim = new HaseGmbHClientSimulation();
-		HaseGmbHManagement driver = sim.getHaseMgmtDriver();
 		return driver.getAllCustomers();
 	}
 
@@ -197,19 +191,10 @@ public class CustomerOverview extends JFrame implements IntCustomerMgmt {
 
 	@Override
 	public boolean deleteCustomer(int customerID) {
-		return false;
+		driver.deleteCustomer(customerID);
+		new CustomerOverview(driver).setVisible(true);
+		dispose();
+		return true;
 	}
-
-	/*
-	public static void main(String[] args) {
-		SwingUtilities.invokeLater(new Runnable() {
-			@Override
-			public void run() {
-				new CustomerOverview().setVisible(true);
-			}
-		});
-	}
-
-	 */
 
 }

@@ -14,6 +14,7 @@ import javax.swing.JRadioButton;
 import javax.swing.JTextField;
 
 import com.toedter.calendar.JDateChooser;
+import de.oszimt.lf10aContractMgmt.impl.HaseGmbHManagement;
 
 public class NewEmployee extends JFrame {
 
@@ -31,7 +32,7 @@ public class NewEmployee extends JFrame {
 	private JButton saveBtn;
 	private JButton cancelBtn;
 
-	public NewEmployee() {
+	public NewEmployee(HaseGmbHManagement driver) {
 		setResizable(false);
 		setTitle("Neuer Mitarbeiter");
 		setSize(800, 500);
@@ -146,7 +147,7 @@ public class NewEmployee extends JFrame {
 		cancelBtn.addActionListener(whenCancelBtnClicked -> {
 			// Springe zurück auf die andere View
 			//JOptionPane.showMessageDialog(null,"Vorgang abgebrochen, [NOCH NICHT IMPLEMENTIERT] sie werden zurück weitergeleitet");
-			EmployeeOverview employeeOverview = new EmployeeOverview();
+			EmployeeOverview employeeOverview = new EmployeeOverview(driver);
 			employeeOverview.setVisible(true);
 			dispose();
 		});

@@ -1,4 +1,6 @@
 package de.oszimt.lf10aContractMgmt.view;
+import de.oszimt.lf10aContractMgmt.impl.HaseGmbHManagement;
+
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -12,7 +14,7 @@ public class Overview extends JFrame {
 	private JLabel welcomeLabel;
 	private JButton employeeBtn, customerBtn;
 
-	public Overview() {
+	public Overview(HaseGmbHManagement driver) {
 		setLayout(new BorderLayout());
 
 		JPanel northPanel = new JPanel();
@@ -46,7 +48,7 @@ public class Overview extends JFrame {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				new EmployeeOverview().setVisible(true);
+				new EmployeeOverview(driver).setVisible(true);
 				dispose();
 			}
 		});
@@ -55,7 +57,7 @@ public class Overview extends JFrame {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				new CustomerOverview().setVisible(true);
+				new CustomerOverview(driver).setVisible(true);
 				dispose();
 			}
 		});
