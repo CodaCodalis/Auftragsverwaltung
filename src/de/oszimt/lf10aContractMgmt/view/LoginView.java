@@ -34,6 +34,7 @@ public class LoginView extends JFrame {
 		usernameField = new JTextField(10);
 		constraints.gridx = 1;
 		constraints.gridy = 0;
+		usernameField.setText("Test");
 		panel.add(usernameField, constraints);
 
 		passwordLabel = new JLabel("Password:");
@@ -42,6 +43,7 @@ public class LoginView extends JFrame {
 		panel.add(passwordLabel, constraints);
 
 		passwordField = new JPasswordField(10);
+		passwordField.setText("Test123");
 		constraints.gridx = 1;
 		constraints.gridy = 1;
 		panel.add(passwordField, constraints);

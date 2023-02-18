@@ -32,10 +32,11 @@ public class NewEmployee extends JFrame {
 	private JButton cancelBtn;
 
 	public NewEmployee() {
+		setResizable(false);
 		setTitle("Neuer Mitarbeiter");
+		setSize(800, 500);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setLocationRelativeTo(null);
-		setVisible(true);
 
 		JPanel panel = new JPanel();
 		panel.setLayout(new GridBagLayout());
@@ -151,7 +152,8 @@ public class NewEmployee extends JFrame {
 		});
 
 		add(panel);
-		pack();
+		//pack();
+		setVisible(true);
 	}
 
 	private boolean userEingabenSindValide() {
