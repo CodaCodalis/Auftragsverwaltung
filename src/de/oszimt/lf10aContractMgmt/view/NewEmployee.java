@@ -147,8 +147,8 @@ public class NewEmployee extends JFrame {
 		cancelBtn.addActionListener(whenCancelBtnClicked -> {
 			// Springe zurück auf die andere View
 			//JOptionPane.showMessageDialog(null,"Vorgang abgebrochen, [NOCH NICHT IMPLEMENTIERT] sie werden zurück weitergeleitet");
-			EmployeeOverview employeeOverview = new EmployeeOverview(driver);
-			employeeOverview.setVisible(true);
+			OverviewEmployee overviewEmployee = new OverviewEmployee(driver);
+			overviewEmployee.setVisible(true);
 			dispose();
 		});
 

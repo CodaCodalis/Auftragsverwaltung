@@ -11,7 +11,6 @@ import java.util.Date;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import com.toedter.calendar.JDateChooser;
-import de.oszimt.lf10aContractMgmt.HaseGmbHClientSimulation;
 import de.oszimt.lf10aContractMgmt.impl.HaseGmbHManagement;
 import de.oszimt.lf10aContractMgmt.model.Address;
 import de.oszimt.lf10aContractMgmt.model.Customer;
@@ -239,7 +238,7 @@ public class NewCustomer extends JFrame implements IntCustomerMgmt {
 						"Bestätigung", JOptionPane.YES_NO_OPTION);
 				if (confirmDialogOnly == JOptionPane.YES_OPTION) {
 					addNewCustomer(customer);
-					new CustomerOverview(driver).setVisible(true);
+					new OverviewCustomer(driver).setVisible(true);
 					dispose();
 				}
 
@@ -249,8 +248,8 @@ public class NewCustomer extends JFrame implements IntCustomerMgmt {
 		cancelButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				CustomerOverview customerOverview = new CustomerOverview(driver);
-				customerOverview.setVisible(true);
+				OverviewCustomer overviewCustomer = new OverviewCustomer(driver);
+				overviewCustomer.setVisible(true);
 				dispose();
 			}
 		});
@@ -273,7 +272,7 @@ public class NewCustomer extends JFrame implements IntCustomerMgmt {
 	}
 
 	@Override
-	public boolean updateCustomer(Customer aCustomer) {
+	public boolean updateCustomer(Customer aCustomer, Customer updateCustomer) {
 		return false;
 	}
 

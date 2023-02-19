@@ -2,7 +2,6 @@ package de.oszimt.lf10aContractMgmt.view;
 
 
 import com.toedter.calendar.JDateChooser;
-import de.oszimt.lf10aContractMgmt.HaseGmbHClientSimulation;
 import de.oszimt.lf10aContractMgmt.impl.HaseGmbHManagement;
 import de.oszimt.lf10aContractMgmt.model.Address;
 import de.oszimt.lf10aContractMgmt.model.Customer;
@@ -20,9 +19,12 @@ import java.util.Date;
 
 public class UpdateCustomer extends JFrame implements IntCustomerMgmt {
 
+	Customer customer;
+	Customer customerUpdate;
 	HaseGmbHManagement driver;
 	public UpdateCustomer(HaseGmbHManagement driver, Customer customer) {
 		this.driver = driver;
+		this.customer = customer;
 		setTitle("Kunde bearbeiten");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setSize(800,500);
@@ -243,27 +245,24 @@ public class UpdateCustomer extends JFrame implements IntCustomerMgmt {
 				String city = customerCityField.getText();
 				String country = customerCountryField.getText();
 				Address address = new Address(street, house, postal, city, country);
-				Customer customer = new Customer(firstName, lastName, localBirthDay, eMail, address);
+				customerUpdate = new Customer(firstName, lastName, localBirthDay, eMail, address);
 
-				String updateCustomer = firstName + " " + lastName;
+				String updatedCustomer = firstName + " " + lastName;
 				int confirmDialogOnly = JOptionPane.showConfirmDialog(
 						null,
-						"Den Kunden " + updateCustomer + " wirklich hinzufügen?",
+						"Den Kunden " + updatedCustomer + " wirklich aktualisieren?",
 						"Bestätigung", JOptionPane.YES_NO_OPTION);
 				if (confirmDialogOnly == JOptionPane.YES_OPTION) {
-					updateCustomer(customer);
-					new CustomerOverview(driver).setVisible(true);
-					dispose();
+					updateCustomer(customer, customerUpdate);
 				}
-
 			}
 		});
 
 		cancelButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				CustomerOverview customerOverview = new CustomerOverview(driver);
-				customerOverview.setVisible(true);
+				OverviewCustomer overviewCustomer = new OverviewCustomer(driver);
+				overviewCustomer.setVisible(true);
 				dispose();
 			}
 		});
@@ -293,8 +292,10 @@ public class UpdateCustomer extends JFrame implements IntCustomerMgmt {
 	}
 
 	@Override
-	public boolean updateCustomer(Customer aCustomer) {
-		driver.updateCustomer(aCustomer);
+	public boolean updateCustomer(Customer aCustomer, Customer updateCustomer) {
+		driver.updateCustomer(aCustomer, updateCustomer);
+		new OverviewCustomer(driver).setVisible(true);
+		dispose();
 		return true;
 	}
 

@@ -154,8 +154,8 @@ public class NewContract extends JFrame {
         cancelButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                EmployeeOverview employeeOverview = new EmployeeOverview(driver);
-                employeeOverview.setVisible(true);
+                OverviewEmployee overviewEmployee = new OverviewEmployee(driver);
+                overviewEmployee.setVisible(true);
                 dispose();
             }
         });

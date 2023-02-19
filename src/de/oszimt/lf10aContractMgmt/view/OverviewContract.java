@@ -13,7 +13,7 @@ import java.awt.event.FocusListener;
 import java.util.ArrayList;
 
 @SuppressWarnings("serial")
-public class ContractOverview extends JFrame implements IntContractMgmt {
+public class OverviewContract extends JFrame implements IntContractMgmt {
 	private JTextField txtSearchField;
 	private JButton newCustomerBtn, editCustomerBtn, deleteCustomerBtn, overviewBtn;
 	private DefaultListModel<String> contractList;
@@ -22,7 +22,7 @@ public class ContractOverview extends JFrame implements IntContractMgmt {
 	private HaseGmbHManagement driver;
 
 	@SuppressWarnings("rawtypes")
-	public ContractOverview(HaseGmbHManagement driver) {
+	public OverviewContract(HaseGmbHManagement driver) {
 		this.driver = driver;
 		setSize(800, 500);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -89,7 +89,7 @@ public class ContractOverview extends JFrame implements IntContractMgmt {
 		overviewBtn.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				new EmployeeOverview(driver).setVisible(true);
+				new OverviewEmployee(driver).setVisible(true);
 				dispose();
 			}
 		});

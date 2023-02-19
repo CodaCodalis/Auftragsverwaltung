@@ -26,7 +26,7 @@ import javax.swing.event.DocumentListener;
 // funktional, aber nicht schön
 
 @SuppressWarnings("serial")
-public class EmployeeOverview extends JFrame implements IntEmployeeMgmt {
+public class OverviewEmployee extends JFrame implements IntEmployeeMgmt {
 	private JTextField txtSearchField;
 	private JButton newEmployeeBtn, editEmployeeBtn, deleteEmployeeBtn, newContractBtn, overviewContractBtn, overviewBtn;
 	private DefaultListModel<String> employeeList;
@@ -34,7 +34,7 @@ public class EmployeeOverview extends JFrame implements IntEmployeeMgmt {
 	HaseGmbHManagement driver;
 
 	@SuppressWarnings("rawtypes")
-	public EmployeeOverview(HaseGmbHManagement driver) {
+	public OverviewEmployee(HaseGmbHManagement driver) {
 		this.driver = driver;
 		setSize(800, 500);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -160,7 +160,7 @@ public class EmployeeOverview extends JFrame implements IntEmployeeMgmt {
 		overviewContractBtn.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				new ContractOverview(driver).setVisible(true);
+				new OverviewContract(driver).setVisible(true);
 				dispose();
 			}
 

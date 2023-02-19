@@ -14,7 +14,7 @@ import java.awt.event.FocusListener;
 import java.util.ArrayList;
 
 @SuppressWarnings("serial")
-public class CustomerOverview extends JFrame implements IntCustomerMgmt {
+public class OverviewCustomer extends JFrame implements IntCustomerMgmt {
 	private JTextField txtSearchField;
 	private JButton newCustomerBtn, editCustomerBtn, deleteCustomerBtn, overviewBtn;
 	private DefaultListModel<String> customerList;
@@ -23,7 +23,7 @@ public class CustomerOverview extends JFrame implements IntCustomerMgmt {
 	private HaseGmbHManagement driver;
 
 	@SuppressWarnings("rawtypes")
-	public CustomerOverview(HaseGmbHManagement driver) {
+	public OverviewCustomer(HaseGmbHManagement driver) {
 		this.driver = driver;
 		setSize(800, 500);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -53,7 +53,16 @@ public class CustomerOverview extends JFrame implements IntCustomerMgmt {
 		getContentPane().add(txtSearchField);
 		txtSearchField.setColumns(10);
 
-		createScrollPane();
+		customerList = new DefaultListModel<>();
+		list = new JList<>(customerList);
+		list.setBounds(604, 43, 170, 407);
+		getContentPane().add(list);
+		list.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
+		updateCustomerList();
+		scrollPane = new JScrollPane(list);
+		scrollPane.setBounds(543, 43, 231, 407);
+		getContentPane().add(scrollPane);
+		scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
 
 		txtSearchField.addFocusListener(new FocusListener() {
 			@Override
@@ -144,23 +153,15 @@ public class CustomerOverview extends JFrame implements IntCustomerMgmt {
 
 	}
 
-	private void createScrollPane() {
-		customerList = new DefaultListModel<>();
-		list = new JList<>(customerList);
-		list.setBounds(604, 43, 170, 407);
-		getContentPane().add(list);
-		list.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
-		ArrayList<Customer> arrayList = getAllCustomers();
-		for (Customer c : arrayList) {
+	private void updateCustomerList() {
+		customerList.removeAllElements();
+		ArrayList<Customer> customers = getAllCustomers();
+		for (Customer c : customers) {
 			int customerID = c.getCustomerID();
 			String firstName = c.getFirstname();
 			String lastName = c.getLastname();
 			customerList.addElement(customerID + ": " + firstName + " " + lastName);
 		}
-		scrollPane = new JScrollPane(list);
-		scrollPane.setBounds(543, 43, 231, 407);
-		getContentPane().add(scrollPane);
-		scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
 	}
 
 	@Override
@@ -185,16 +186,14 @@ public class CustomerOverview extends JFrame implements IntCustomerMgmt {
 	}
 
 	@Override
-	public boolean updateCustomer(Customer aCustomer) {
+	public boolean updateCustomer(Customer aCustomer, Customer updateCustomer) {
 		return false;
 	}
 
 	@Override
 	public boolean deleteCustomer(int customerID) {
 		driver.deleteCustomer(customerID);
-		new CustomerOverview(driver).setVisible(true);
-		dispose();
+		updateCustomerList();
 		return true;
 	}
-
 }

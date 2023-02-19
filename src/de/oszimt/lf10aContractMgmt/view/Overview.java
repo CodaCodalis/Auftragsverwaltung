@@ -48,7 +48,7 @@ public class Overview extends JFrame {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				new EmployeeOverview(driver).setVisible(true);
+				new OverviewEmployee(driver).setVisible(true);
 				dispose();
 			}
 		});
@@ -57,7 +57,7 @@ public class Overview extends JFrame {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				new CustomerOverview(driver).setVisible(true);
+				new OverviewCustomer(driver).setVisible(true);
 				dispose();
 			}
 		});
