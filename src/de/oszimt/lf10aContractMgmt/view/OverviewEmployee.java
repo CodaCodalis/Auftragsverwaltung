@@ -1,9 +1,5 @@
 package de.oszimt.lf10aContractMgmt.view;
 
-import de.oszimt.lf10aContractMgmt.impl.HaseGmbHManagement;
-import de.oszimt.lf10aContractMgmt.model.Employee;
-import de.oszimt.lf10aContractMgmt.model.IntEmployeeMgmt;
-
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
@@ -22,13 +18,18 @@ import javax.swing.ListSelectionModel;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
+import de.oszimt.lf10aContractMgmt.impl.HaseGmbHManagement;
+import de.oszimt.lf10aContractMgmt.model.Employee;
+import de.oszimt.lf10aContractMgmt.model.IntEmployeeMgmt;
+
 // Zurzeit leider nur AbsoluteLayout, wird noch die Tage geändert!!!
 // funktional, aber nicht schön
 
 @SuppressWarnings("serial")
 public class OverviewEmployee extends JFrame implements IntEmployeeMgmt {
 	private JTextField txtSearchField;
-	private JButton newEmployeeBtn, editEmployeeBtn, deleteEmployeeBtn, newContractBtn, overviewContractBtn, overviewBtn;
+	private JButton newEmployeeBtn, editEmployeeBtn, deleteEmployeeBtn, newContractBtn, overviewContractBtn,
+			overviewBtn;
 	private DefaultListModel<String> employeeList;
 	private JList<String> list;
 	HaseGmbHManagement driver;
@@ -217,6 +218,7 @@ public class OverviewEmployee extends JFrame implements IntEmployeeMgmt {
 
 	@Override
 	public boolean addNewEmployee(Employee newEmployee) {
+		driver.addNewEmployee(newEmployee);
 		return false;
 	}
 
@@ -247,16 +249,12 @@ public class OverviewEmployee extends JFrame implements IntEmployeeMgmt {
 	}
 
 	/*
-	public static void main(String[] args) {
-		SwingUtilities.invokeLater(new Runnable() {
-			@Override
-			public void run() {
-				new EmployeeOverview().setVisible(true);
-			}
-		});
-	}
-
+	 * public static void main(String[] args) { SwingUtilities.invokeLater(new
+	 * Runnable() {
+	 * 
+	 * @Override public void run() { new EmployeeOverview().setVisible(true); } });
+	 * }
+	 * 
 	 */
-
 
 }

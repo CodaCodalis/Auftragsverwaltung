@@ -14,7 +14,9 @@ import javax.swing.JRadioButton;
 import javax.swing.JTextField;
 
 import com.toedter.calendar.JDateChooser;
+
 import de.oszimt.lf10aContractMgmt.impl.HaseGmbHManagement;
+import de.oszimt.lf10aContractMgmt.model.Employee;
 
 public class NewEmployee extends JFrame {
 
@@ -29,6 +31,7 @@ public class NewEmployee extends JFrame {
 	private JDateChooser geburtstagKalender;
 	private JRadioButton maennlichBtn;
 	private JRadioButton weiblichBtn;
+	private JRadioButton diverseBtn;
 	private JButton saveBtn;
 	private JButton cancelBtn;
 
@@ -51,6 +54,8 @@ public class NewEmployee extends JFrame {
 		gbc.gridx = 1;
 		gbc.gridy = 0;
 		mitarbeiternummerTextField = new JTextField(20);
+		mitarbeiternummerTextField.setText(getNextFreeEmployeeId(driver) + "");
+		mitarbeiternummerTextField.setEditable(false);
 		panel.add(mitarbeiternummerTextField, gbc);
 
 		gbc.gridx = 0;
@@ -123,9 +128,15 @@ public class NewEmployee extends JFrame {
 		weiblichBtn = new JRadioButton("Weiblich");
 		panel.add(weiblichBtn, gbc);
 
+		gbc.gridx = 2;
+		gbc.gridy = 3;
+		diverseBtn = new JRadioButton("Divers");
+		panel.add(diverseBtn, gbc);
+
 		ButtonGroup group = new ButtonGroup();
 		group.add(maennlichBtn);
 		group.add(weiblichBtn);
+		group.add(diverseBtn);
 
 		gbc.gridx = 0;
 		gbc.gridy = 7;
@@ -134,8 +145,16 @@ public class NewEmployee extends JFrame {
 
 		saveBtn.addActionListener(whenSaveBtnClicked -> {
 			if (userEingabenSindValide()) {
-				// Adde den neuen Mitarbeiter in Datenbank oder irgenwo anders
-				JOptionPane.showMessageDialog(null, "Die Daten wurden erfolgreich hinzugefügt");
+				final Employee newEmployee = new Employee(vornameTextField.getText(), nachnameTextField.getText(), null,
+						emailTextField.getText(), telefonnummerTextField.getText());
+
+				newEmployee.setEmployeeID(Integer.valueOf(mitarbeiternummerTextField.getText()));
+
+				driver.addNewEmployee(newEmployee);
+				OverviewEmployee overviewEmployee = new OverviewEmployee(driver);
+				overviewEmployee.setVisible(true);
+				dispose();
+
 			}
 		});
 
@@ -145,16 +164,24 @@ public class NewEmployee extends JFrame {
 		panel.add(cancelBtn, gbc);
 
 		cancelBtn.addActionListener(whenCancelBtnClicked -> {
-			// Springe zurück auf die andere View
-			//JOptionPane.showMessageDialog(null,"Vorgang abgebrochen, [NOCH NICHT IMPLEMENTIERT] sie werden zurück weitergeleitet");
 			OverviewEmployee overviewEmployee = new OverviewEmployee(driver);
 			overviewEmployee.setVisible(true);
 			dispose();
 		});
 
 		add(panel);
-		//pack();
+		// pack();
 		setVisible(true);
+	}
+
+	private int getNextFreeEmployeeId(HaseGmbHManagement driver) {
+		int nextFreeId = 0;
+		for (Employee e : driver.getAllEmployees()) {
+			if (e.getEmployeeID() > nextFreeId) {
+				nextFreeId = e.getEmployeeID();
+			}
+		}
+		return nextFreeId + 1;
 	}
 
 	private boolean userEingabenSindValide() {
