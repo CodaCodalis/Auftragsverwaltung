@@ -26,6 +26,9 @@ public class AuftragsButtonPanel extends JPanel {
 			System.out.println(auftragsdatenPanel.erstelleNeuenVertrag().toString());
 		});
 		cancelButton = new JButton("Cancel");
+//		 cancelButton.addActionListener(l -> {
+//			new OverviewEmployee(null)
+//		});
 
 		setLayout(new FlowLayout(FlowLayout.LEFT, 100, 20));
 

@@ -1,9 +1,7 @@
-/de/
-/EmployeeOverview$1.class
-/EmployeeOverview$2.class
-/EmployeeOverview$3.class
-/EmployeeOverview$4.class
-/EmployeeOverview$5.class
-/EmployeeOverview$6.class
-/EmployeeOverview$7.class
-/EmployeeOverview$8.class
+.idea/
+*.iml
+target/
+src/out/*
+.settings/
+.classpath
+.project
