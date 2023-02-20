@@ -192,7 +192,7 @@ public class NewCustomer extends JFrame implements IntCustomerMgmt {
 
 		JRadioButton customerGenderDiversBtn = new JRadioButton("Divers");
 		c.gridx = 2;
-		c.gridy = 2;
+		c.gridy = 3;
 		contentPane.add(customerGenderDiversBtn, c);
 
 		ButtonGroup group = new ButtonGroup();
