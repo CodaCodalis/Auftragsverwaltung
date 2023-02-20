@@ -117,7 +117,7 @@ public class HaseGmbHManagement implements IntContractMgmt, IntCustomerMgmt, Int
 
 	@Override
 	public boolean deleteCustomer(int customerID) {
-		for (int i = 0; i < customerList.size(); i++)
+		for (int i = 0; i < employeeList.size(); i++)
 			if (customerList.get(i).getCustomerID() == customerID) {
 				customerList.remove(i);
 				return true;
