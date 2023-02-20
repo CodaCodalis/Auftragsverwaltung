@@ -160,7 +160,7 @@ public class OverviewEmployee extends JFrame implements IntEmployeeMgmt {
 		overviewContractBtn.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				new OverviewContract(driver).setVisible(true);
+				new Auftragsview(driver).setVisible(true);
 				dispose();
 			}
 
