@@ -150,17 +150,18 @@ public class HaseGmbHClientSimulation {
 		// initialisation of contracts
 
 		Contract aContract;
+		Contract nextContract;
 		aContract = new Contract(LocalDate.of(2022, 4, 10),
 				new Address("Theodor-Storm-Straße", "23", "73529", "Berlin", "Deutschland"),
 				haseMgmtDriver.getAllCustomers().get(0), haseMgmtDriver.getAllEmployees().get(0), "Warung",
 				"fertiggestsellt", "Lorem ipsum dolor sit amet, consectetuer adipiscing elit.", arList01);
 		haseMgmtDriver.addNewContract(aContract);
 
-		aContract = new Contract(LocalDate.of(2022, 2, 10),
+		nextContract = new Contract(LocalDate.of(2022, 2, 10),
 				new Address("Theodor-Storm-Straße", "23", "73529", "Berlin", "Deutschland"),
-				haseMgmtDriver.getAllCustomers().get(0), haseMgmtDriver.getAllEmployees().get(0), "Warung",
+				haseMgmtDriver.getAllCustomers().get(1), haseMgmtDriver.getAllEmployees().get(3), "Warung",
 				"fertiggestsellt", "Lorem ipsum dolor sit amet, consectetuer adipiscing elit.", arList02);
-		haseMgmtDriver.addNewContract(aContract);
+		haseMgmtDriver.addNewContract(nextContract);
 	}
 
 	public HaseGmbHManagement getHaseMgmtDriver() {

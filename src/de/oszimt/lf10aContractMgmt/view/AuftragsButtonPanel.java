@@ -14,10 +14,17 @@ public class AuftragsButtonPanel extends JPanel {
 
 	private JButton saveButton;
 	private JButton cancelButton;
+	private AuftragsdatenPanel auftragsdatenPanel;
 
 	public AuftragsButtonPanel() {
 
+		auftragsdatenPanel = new AuftragsdatenPanel();
+
 		saveButton = new JButton("Save");
+		saveButton.addActionListener(e -> {
+			auftragsdatenPanel.erstelleNeuenVertrag();
+			System.out.println(auftragsdatenPanel.erstelleNeuenVertrag().toString());
+		});
 		cancelButton = new JButton("Cancel");
 
 		setLayout(new FlowLayout(FlowLayout.LEFT, 100, 20));
