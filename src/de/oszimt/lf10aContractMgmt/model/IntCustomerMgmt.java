@@ -28,7 +28,7 @@ public interface IntCustomerMgmt {
 	 * @param aCustomer
 	 * @return true if it was successful, else false
 	 */
-	boolean updateCustomer(Customer aCustomer);
+	boolean updateCustomer(Customer aCustomer, Customer updateCustomer);
 	
 	/**
 	 * Removes an existing customer

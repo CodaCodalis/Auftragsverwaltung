@@ -103,10 +103,12 @@ public class HaseGmbHManagement implements IntContractMgmt, IntCustomerMgmt, Int
 	}
 
 	@Override
-	public boolean updateCustomer(Customer aCustomer) {
+	public boolean updateCustomer(Customer aCustomer, Customer updateCustomer) {
 		for (int i = 0; i < customerList.size(); i++)
 			if (customerList.get(i).equals(aCustomer)) {
-				customerList.set(i, aCustomer);
+				int customerID = aCustomer.getCustomerID();
+				updateCustomer.setCustomerID(customerID);
+				customerList.set(i, updateCustomer);
 				return true;
 			}
 		System.err.println("Error: the customer does not exist.");

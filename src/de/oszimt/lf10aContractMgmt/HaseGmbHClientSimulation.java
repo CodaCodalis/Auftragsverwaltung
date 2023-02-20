@@ -10,18 +10,18 @@ import de.oszimt.lf10aContractMgmt.model.Address;
 import de.oszimt.lf10aContractMgmt.model.Contract;
 import de.oszimt.lf10aContractMgmt.model.Customer;
 import de.oszimt.lf10aContractMgmt.model.Employee;
-import de.oszimt.lf10aContractMgmt.view.Auftragsview;
-import de.oszimt.lf10aContractMgmt.view.NeuerMitarbeiterFrame;
+import de.oszimt.lf10aContractMgmt.view.LoginView;
 
 public class HaseGmbHClientSimulation {
 
 	private HaseGmbHManagement haseMgmtDriver;
 
 	public static void main(String[] args) {
-		final NeuerMitarbeiterFrame neuerMitarbeiterFrame = new NeuerMitarbeiterFrame();
-		final Auftragsview auftragsview = new Auftragsview();
+		HaseGmbHClientSimulation clientSim = new HaseGmbHClientSimulation();
+		HaseGmbHManagement driver = clientSim.haseMgmtDriver;
+		final LoginView loginView = new LoginView(driver);
 
-		new HaseGmbHClientSimulation();
+
 	}
 
 	public HaseGmbHClientSimulation() {
