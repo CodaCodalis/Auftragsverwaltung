@@ -150,8 +150,7 @@ public class OverviewEmployee extends JFrame implements IntEmployeeMgmt {
 		newContractBtn.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				NewContract newContract = new NewContract(driver);
-				newContract.setVisible(true);
+				new Auftragsview(driver).setVisible(true);
 				dispose();
 			}
 
@@ -160,7 +159,7 @@ public class OverviewEmployee extends JFrame implements IntEmployeeMgmt {
 		overviewContractBtn.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				new Auftragsview(driver).setVisible(true);
+				new OverviewContract(driver).setVisible(true);
 				dispose();
 			}
 
