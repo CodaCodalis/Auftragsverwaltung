@@ -4,6 +4,8 @@ import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.ArrayList;
 
 import javax.swing.DefaultComboBoxModel;
@@ -17,6 +19,7 @@ import com.toedter.calendar.JDateChooser;
 
 import de.oszimt.lf10aContractMgmt.HaseGmbHClientSimulation;
 import de.oszimt.lf10aContractMgmt.impl.HaseGmbHManagement;
+import de.oszimt.lf10aContractMgmt.model.Address;
 import de.oszimt.lf10aContractMgmt.model.Contract;
 import de.oszimt.lf10aContractMgmt.model.Customer;
 import de.oszimt.lf10aContractMgmt.model.Employee;
@@ -34,7 +37,7 @@ public class AuftragsdatenPanel extends JPanel {
 	private JTextField auftragsnummerFeld;
 
 	private JLabel erstelldatumLabel;
-	private JTextField erstelldatumFeld;
+	private JDateChooser erstelldatumFeld;
 
 	private JLabel kundenLabel;
 	private JComboBox kundenComboBox;
@@ -89,43 +92,55 @@ public class AuftragsdatenPanel extends JPanel {
 		add(enddatumKalendar);
 
 		mitarbeiterComboBox.addActionListener(e -> {
+
 			if (userVertragsEingabenSindValide()) {
 
-				int indexOfMitarbeiterString = mitarbeiterComboBox.getSelectedItem().toString().indexOf(",");
-				String mitarbeiterName = mitarbeiterComboBox.getSelectedItem().toString().substring(0,
-						indexOfMitarbeiterString);
+				for (Contract vertrag : generateVertragsListe()) {
 
-				int indexOfKundenString = kundenComboBox.getSelectedItem().toString().indexOf(",");
-				String kundenName = kundenComboBox.getSelectedItem().toString().substring(0, indexOfKundenString);
+					int indexOfMitarbeiterString = mitarbeiterComboBox.getSelectedItem().toString().indexOf(",");
+					String mitarbeiterName = mitarbeiterComboBox.getSelectedItem().toString().substring(0,
+							indexOfMitarbeiterString);
 
-				if (mitarbeiterName.equals(generateVertragsListe().get(0).getProjectOwner().getLastname())
-						&& kundenName.equals(generateVertragsListe().get(0).getCustomer().getLastname())) {
-					vertragsartFeld.setText(generateVertragsart());
-					bearbeitungsstandFeld.setText(generateBearbeitungsstand());
-				} else {
-					vertragsartFeld.setText("");
-					bearbeitungsstandFeld.setText("");
+					int indexOfKundenString = kundenComboBox.getSelectedItem().toString().indexOf(",");
+					String kundenName = kundenComboBox.getSelectedItem().toString().substring(0, indexOfKundenString);
+
+					if (mitarbeiterName.equals(vertrag.getProjectOwner().getLastname())
+							&& kundenName.equals(vertrag.getCustomer().getLastname())) {
+						vertragsartFeld.setText(generateVertragsart());
+						bearbeitungsstandFeld.setText(generateBearbeitungsstand());
+						break;
+					} else {
+						vertragsartFeld.setText("");
+						bearbeitungsstandFeld.setText("");
+					}
+
 				}
 			}
+
 		});
 
 		kundenComboBox.addActionListener(e -> {
 			if (userVertragsEingabenSindValide()) {
 
-				int indexOfMitarbeiterString = mitarbeiterComboBox.getSelectedItem().toString().indexOf(",");
-				String mitarbeiterName = mitarbeiterComboBox.getSelectedItem().toString().substring(0,
-						indexOfMitarbeiterString);
+				for (Contract vertrag : generateVertragsListe()) {
 
-				int indexOfKundenString = kundenComboBox.getSelectedItem().toString().indexOf(",");
-				String kundenName = kundenComboBox.getSelectedItem().toString().substring(0, indexOfKundenString);
+					int indexOfMitarbeiterString = mitarbeiterComboBox.getSelectedItem().toString().indexOf(",");
+					String mitarbeiterName = mitarbeiterComboBox.getSelectedItem().toString().substring(0,
+							indexOfMitarbeiterString);
 
-				if (mitarbeiterName.equals(generateVertragsListe().get(0).getProjectOwner().getLastname())
-						&& kundenName.equals(generateVertragsListe().get(0).getCustomer().getLastname())) {
-					vertragsartFeld.setText(generateVertragsart());
-					bearbeitungsstandFeld.setText(generateBearbeitungsstand());
-				} else {
-					vertragsartFeld.setText("");
-					bearbeitungsstandFeld.setText("");
+					int indexOfKundenString = kundenComboBox.getSelectedItem().toString().indexOf(",");
+					String kundenName = kundenComboBox.getSelectedItem().toString().substring(0, indexOfKundenString);
+
+					if (mitarbeiterName.equals(vertrag.getProjectOwner().getLastname())
+							&& kundenName.equals(vertrag.getCustomer().getLastname())) {
+						vertragsartFeld.setText(generateVertragsart());
+						bearbeitungsstandFeld.setText(generateBearbeitungsstand());
+						break;
+					} else {
+						vertragsartFeld.setText("");
+						bearbeitungsstandFeld.setText("");
+					}
+
 				}
 			}
 		});
@@ -141,7 +156,8 @@ public class AuftragsdatenPanel extends JPanel {
 		auftragsnummerFeld = new JTextField(15);
 
 		erstelldatumLabel = new JLabel("Erstelldatum: ");
-		erstelldatumFeld = new JTextField(15);
+		erstelldatumFeld = new JDateChooser();
+		erstelldatumFeld.setPreferredSize(new Dimension(150, 25));
 
 		kundenLabel = new JLabel("Kunde: ");
 		kundenComboBox = fillCustomerBox();
@@ -372,6 +388,30 @@ public class AuftragsdatenPanel extends JPanel {
 			}
 		}
 		return false;
+	}
+
+	private void erstelleNeuenActivityRecord() {
+
+	}
+
+	public Contract erstelleNeuenVertrag() {
+
+		BeschreibungsPanel beschreibungsPanel = new BeschreibungsPanel();
+
+		LocalDate erstellDatum = erstelldatumFeld.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+		Address address = new Address("test", "test", "test", "test", "test");
+		Customer customer = (Customer) kundenComboBox.getSelectedItem();
+		Employee employee = (Employee) mitarbeiterComboBox.getSelectedItem();
+		String contractType = vertragsartFeld.getText();
+		String state = bearbeitungsstandFeld.getText();
+		String description = beschreibungsPanel.getBeschreibungsTextarea().getText();
+
+		Contract neuerVertrag = new Contract(erstellDatum, address, customer, employee, contractType, state,
+				description, new ArrayList<>());
+
+		haseGmbHManagement.addNewContract(neuerVertrag);
+		return neuerVertrag;
+
 	}
 
 }

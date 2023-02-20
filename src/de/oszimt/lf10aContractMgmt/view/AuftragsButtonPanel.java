@@ -14,8 +14,11 @@ public class AuftragsButtonPanel extends JPanel {
 
 	private JButton saveButton;
 	private JButton cancelButton;
+	private AuftragsdatenPanel auftragsdatenPanel;
 
 	public AuftragsButtonPanel() {
+
+		auftragsdatenPanel = new AuftragsdatenPanel();
 
 		saveButton = new JButton("Save");
 		cancelButton = new JButton("Cancel");

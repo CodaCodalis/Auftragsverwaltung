@@ -1,1 +1,11 @@
+<<<<<<< HEAD
 /de/
+=======
+.idea/
+*.iml
+target/
+src/out/*
+.settings/
+.classpath
+.project
+>>>>>>> branch 'master' of https://github.com/CodaCodalis/Auftragsverwaltung.git
