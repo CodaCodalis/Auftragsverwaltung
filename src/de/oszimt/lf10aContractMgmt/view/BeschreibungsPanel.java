@@ -73,4 +73,8 @@ public class BeschreibungsPanel extends JPanel {
 		return scrollPane;
 	}
 
+	public JTextArea getBeschreibungsTextarea() {
+		return beschreibungsTextarea;
+	}
+
 }

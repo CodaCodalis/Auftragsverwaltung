@@ -1,12 +1,12 @@
 package de.oszimt.lf10aContractMgmt.view;
 
-import de.oszimt.lf10aContractMgmt.impl.HaseGmbHManagement;
-
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
 
 import javax.swing.JFrame;
+
+import de.oszimt.lf10aContractMgmt.impl.HaseGmbHManagement;
 
 public class Auftragsview extends JFrame {
 
@@ -24,18 +24,16 @@ public class Auftragsview extends JFrame {
 	public Auftragsview(HaseGmbHManagement driver) {
 		super("Auftrag");
 		this.driver = driver;
-		setVisible(true);
-		// setPreferredSize(new Dimension(800, 500));
-		// setResizable(false);
-
 		setLayout(createBagLayout());
-//		setResizable(false);
+		setSize(800, 500);
+		setLocationRelativeTo(null);
+		setResizable(false);
+		setVisible(true);
 
 		add(auftragsdatenPanel);
 		add(auftragsButtonPanel);
 		add(beschreibungsPanel.getScrollPane());
 		add(beschreibungsPanel);
-		pack();
 
 	}
 
