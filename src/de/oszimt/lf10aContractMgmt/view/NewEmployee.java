@@ -110,7 +110,6 @@ public class NewEmployee extends JFrame {
 		gbc.gridx = 1;
 		gbc.gridy = 6;
 		geburtstagKalender = new JDateChooser();
-//		geburtstagKalender.setDateFormatString("yyyy-MM-dd");
 		geburtstagKalender.setDateFormatString("dd-MM-yyyy");
 		panel.add(geburtstagKalender, gbc);
 
@@ -170,7 +169,6 @@ public class NewEmployee extends JFrame {
 		});
 
 		add(panel);
-		// pack();
 		setVisible(true);
 	}
 
@@ -185,12 +183,6 @@ public class NewEmployee extends JFrame {
 	}
 
 	private boolean userEingabenSindValide() {
-
-		if (mitarbeiternummerTextField.getText().isBlank()) {
-			JOptionPane.showMessageDialog(null, "Mitarbeiternummer ist nicht angegeben");
-			return false;
-		}
-
 		if (vornameTextField.getText().isBlank()) {
 			JOptionPane.showMessageDialog(null, "Vorname ist nicht angegeben");
 			return false;
