@@ -3,12 +3,16 @@ package de.oszimt.lf10aContractMgmt.view;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
+import java.util.ArrayList;
 
 import javax.swing.JFrame;
 
 import de.oszimt.lf10aContractMgmt.impl.HaseGmbHManagement;
+import de.oszimt.lf10aContractMgmt.model.ActivityRecord;
+import de.oszimt.lf10aContractMgmt.model.Contract;
+import de.oszimt.lf10aContractMgmt.model.IntContractMgmt;
 
-public class Auftragsview extends JFrame {
+public class Auftragsview extends JFrame implements IntContractMgmt {
 
 	/**
 	 *
@@ -29,6 +33,12 @@ public class Auftragsview extends JFrame {
 		setLocationRelativeTo(null);
 		setResizable(false);
 		setVisible(true);
+
+		auftragsButtonPanel.getCancelButton().addActionListener(l -> {
+			OverviewEmployee overviewEmployee = new OverviewEmployee(driver);
+			overviewEmployee.setVisible(true);
+			dispose();
+		});
 
 		add(auftragsdatenPanel);
 		add(auftragsButtonPanel);
@@ -71,6 +81,42 @@ public class Auftragsview extends JFrame {
 		gbc.gridheight = height;
 		gbc.insets = new Insets(1, 1, 1, 1);
 		return gbc;
+	}
+
+	@Override
+	public boolean addNewContract(Contract newContract) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public Contract getContract(int contractID) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public ArrayList<Contract> getAllContracts() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public boolean updateCustomer(Contract aContract) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean addNewWorkingRecord(int contractID, ActivityRecord aRecord) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean deleteContract(int contractID) {
+		// TODO Auto-generated method stub
+		return false;
 	}
 
 }

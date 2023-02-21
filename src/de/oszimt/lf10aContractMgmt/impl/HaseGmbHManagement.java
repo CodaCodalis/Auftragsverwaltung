@@ -48,11 +48,14 @@ public class HaseGmbHManagement implements IntContractMgmt, IntCustomerMgmt, Int
 		return this.employeeList;
 	}
 
+
 	@Override
-	public boolean updateEmployee(Employee anEmployee) {
+	public boolean updateEmployee(Employee anEmployee, Employee employeeUpdate) {
 		for (int i = 0; i < employeeList.size(); i++)
 			if (employeeList.get(i).equals(anEmployee)) {
-				employeeList.set(i, anEmployee);
+				int employeeID = anEmployee.getEmployeeID();
+				employeeUpdate.setEmployeeID(employeeID);
+				employeeList.set(i, employeeUpdate);
 				return true;
 			}
 		System.err.println("Error: the employee does not exist.");
@@ -117,7 +120,7 @@ public class HaseGmbHManagement implements IntContractMgmt, IntCustomerMgmt, Int
 
 	@Override
 	public boolean deleteCustomer(int customerID) {
-		for (int i = 0; i < employeeList.size(); i++)
+		for (int i = 0; i < customerList.size(); i++)
 			if (customerList.get(i).getCustomerID() == customerID) {
 				customerList.remove(i);
 				return true;
