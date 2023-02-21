@@ -19,7 +19,6 @@ import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
 import de.oszimt.lf10aContractMgmt.impl.HaseGmbHManagement;
-import de.oszimt.lf10aContractMgmt.model.Customer;
 import de.oszimt.lf10aContractMgmt.model.Employee;
 import de.oszimt.lf10aContractMgmt.model.IntEmployeeMgmt;
 
@@ -140,7 +139,7 @@ public class OverviewEmployee extends JFrame implements IntEmployeeMgmt {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				String selectedEmployee = list.getSelectedValue();
-				int employeeID = Integer.parseInt(selectedEmployee.substring(0,5));
+				int employeeID = Integer.parseInt(selectedEmployee.substring(0, 5));
 				Employee employee = getEmployee(employeeID);
 				new UpdateEmployee(driver, employee).setVisible(true);
 				dispose();
@@ -190,18 +189,24 @@ public class OverviewEmployee extends JFrame implements IntEmployeeMgmt {
 			employeeList.addElement(employeeID + ": " + firstName + " " + lastName + " " + telephone + " " + email);
 		}
 
-//		final String[] columns = { "ID", "Vorname", "Nachname", "Telefonummer", "Email" };
-//		final List<String[]> employeeDataList = new ArrayList<>();
-//		for (final Employee e : getAllEmployees()) {
-//			final String[] employeeData = { e.getEmployeeID() + "", e.getFirstname(), e.getLastname(), e.getTelephone(),
+		// TODO
+//		final List<String> columnNames = Arrays.asList("ID", "Vorname", "Nachname", "Telefon", "Email");
+//		final List<String[]> employeeData = new ArrayList<>();
+//
+//		for (Employee e : getAllEmployees()) {
+//			final String[] employeeRow = { e.getEmployeeID() + "", e.getFirstname(), e.getLastname(), e.getTelephone(),
 //					e.getEmail() };
-//			employeeDataList.add(employeeData);
+//			employeeData.add(employeeRow);
 //		}
 //
+//		final TableModel tableModel = new DefaultTableModel(employeeData.toArray(new Object[][] {}),
+//				columnNames.toArray());
+//		final JTable table = new JTable(tableModel);
 //
-//		String[] array = new String[employeeDataList.size()];
 
 		JScrollPane scrollPane = new JScrollPane(list);
+		// JScrollPane scrollPane = new JScrollPane(table);
+
 		scrollPane.setBounds(604, 43, 170, 407);
 		getContentPane().add(scrollPane);
 		scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
