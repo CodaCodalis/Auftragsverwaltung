@@ -24,6 +24,7 @@ public class LoginView extends JFrame {
 	private String enteredName = "Test";
 
 	public LoginView(HaseGmbHManagement driver) {
+		
 		setResizable(false);
 		setTitle("Login");
 		setSize(800, 500);
@@ -111,5 +112,11 @@ public class LoginView extends JFrame {
 		}
 
 		return true;
+	}
+	
+	public void updatePassword(String newPassword) {
+	    enteredPw = newPassword;
+		passwordField.setText(enteredPw);
+	    
 	}
 }

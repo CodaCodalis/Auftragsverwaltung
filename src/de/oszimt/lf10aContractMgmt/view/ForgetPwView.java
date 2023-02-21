@@ -17,6 +17,7 @@ public class ForgetPwView extends JFrame {
 	private JTextField usernameField;
 	private JPasswordField passwordField;
 	private JButton saveBtn, cancelBtn;
+	String newPw;
 
 	// Hardcoded login data
 	private String enteredPw = "Test123";
@@ -87,9 +88,12 @@ public class ForgetPwView extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				if (checkPwResetInserts()) {
-					String newPw = String.valueOf(passwordField.getPassword());
-					new LoginView(driver).setVisible(true);
+					newPw = String.valueOf(passwordField.getPassword());
+					LoginView loginView = new LoginView(driver);
+					loginView.updatePassword(newPw);
+					loginView.setVisible(true);
 					dispose();
+					;
 				}
 			}
 		});
@@ -118,7 +122,8 @@ public class ForgetPwView extends JFrame {
 			JOptionPane.showMessageDialog(null, "Benutzername ist nicht korrekt!", "Fehler", JOptionPane.ERROR_MESSAGE);
 			return false;
 		}
-		JOptionPane.showMessageDialog(null, "Passwort wurde erfolgreich geändert. Sie werden nun zur Loginübersicht weitergeleitet!", "Erfolgreich",
+		JOptionPane.showMessageDialog(null,
+				"Passwort wurde erfolgreich geändert. Sie werden nun zur Loginübersicht weitergeleitet! Das Passwort wird automatisch aktualisiert!", "Erfolgreich",
 				JOptionPane.INFORMATION_MESSAGE);
 		return true;
 	}
