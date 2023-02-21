@@ -48,11 +48,14 @@ public class HaseGmbHManagement implements IntContractMgmt, IntCustomerMgmt, Int
 		return this.employeeList;
 	}
 
+
 	@Override
-	public boolean updateEmployee(Employee anEmployee) {
+	public boolean updateEmployee(Employee anEmployee, Employee employeeUpdate) {
 		for (int i = 0; i < employeeList.size(); i++)
 			if (employeeList.get(i).equals(anEmployee)) {
-				employeeList.set(i, anEmployee);
+				int employeeID = anEmployee.getEmployeeID();
+				employeeUpdate.setEmployeeID(employeeID);
+				employeeList.set(i, employeeUpdate);
 				return true;
 			}
 		System.err.println("Error: the employee does not exist.");
