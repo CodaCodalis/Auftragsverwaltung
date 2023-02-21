@@ -113,9 +113,14 @@ public class OverviewCustomerPanel extends JPanel implements IntCustomerMgmt {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				String selectedCustomer = list.getSelectedValue();
-				int customerID = Integer.parseInt(selectedCustomer.substring(0,7));
-				Customer customer = getCustomer(customerID);
-				new UpdateCustomer(driver, customer).setVisible(true);
+				if (selectedCustomer != null) {
+					int customerID = Integer.parseInt(selectedCustomer.substring(0, 7));
+					Customer customer = getCustomer(customerID);
+					new UpdateCustomer(driver, customer).setVisible(true);
+				} else {
+					JOptionPane.showMessageDialog(null, "Bitte wählen Sie einen Kunden aus, um Ihn zu löschen.",
+							"Fehler", JOptionPane.ERROR_MESSAGE);
+				}
 			}
 		});
 
@@ -123,13 +128,17 @@ public class OverviewCustomerPanel extends JPanel implements IntCustomerMgmt {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				String selectedCustomer = list.getSelectedValue();
-				int customerID = Integer.parseInt(selectedCustomer.substring(0,7));
-				int confirmDialogOnly = JOptionPane.showConfirmDialog(
-						null,
-						"Den Kunden " + selectedCustomer + " wirklich löschen?",
-						"Bestätigung", JOptionPane.YES_NO_OPTION);
-				if (confirmDialogOnly == JOptionPane.YES_OPTION) {
-					deleteCustomer(customerID);
+				if (selectedCustomer != null) {
+					int customerID = Integer.parseInt(selectedCustomer.substring(0, 7));
+					int confirmDialogOnly = JOptionPane.showConfirmDialog(null,
+							"Den Kunden " + selectedCustomer + " wirklich löschen?", "Bestätigung",
+							JOptionPane.YES_NO_OPTION);
+					if (confirmDialogOnly == JOptionPane.YES_OPTION) {
+						deleteCustomer(customerID);
+					}
+				} else {
+					JOptionPane.showMessageDialog(null, "Bitte wählen Sie einen Kunden aus, um Ihn zu löschen.",
+							"Fehler", JOptionPane.ERROR_MESSAGE);
 				}
 
 			}
