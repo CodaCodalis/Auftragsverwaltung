@@ -87,7 +87,7 @@ public class ForgetPwView extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				if (checkPwResetInserts()) {
-					newPw = String.valueOf(passwordField.getPassword());
+					String newPw = String.valueOf(passwordField.getPassword());
 					new LoginView(driver).setVisible(true);
 					dispose();
 				}
