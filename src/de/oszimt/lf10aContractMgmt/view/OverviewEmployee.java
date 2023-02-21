@@ -19,6 +19,7 @@ import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
 import de.oszimt.lf10aContractMgmt.impl.HaseGmbHManagement;
+import de.oszimt.lf10aContractMgmt.model.Customer;
 import de.oszimt.lf10aContractMgmt.model.Employee;
 import de.oszimt.lf10aContractMgmt.model.IntEmployeeMgmt;
 
@@ -138,6 +139,11 @@ public class OverviewEmployee extends JFrame implements IntEmployeeMgmt {
 		editEmployeeBtn.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				String selectedEmployee = list.getSelectedValue();
+				int employeeID = Integer.parseInt(selectedEmployee.substring(0,5));
+				Employee employee = getEmployee(employeeID);
+				new UpdateEmployee(driver, employee).setVisible(true);
+				dispose();
 			}
 		});
 
@@ -239,7 +245,7 @@ public class OverviewEmployee extends JFrame implements IntEmployeeMgmt {
 	}
 
 	@Override
-	public boolean updateEmployee(Employee anEmployee) {
+	public boolean updateEmployee(Employee anEmployee, Employee updateEmployee) {
 		return false;
 	}
 

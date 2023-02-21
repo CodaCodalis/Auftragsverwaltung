@@ -3,6 +3,7 @@ package de.oszimt.lf10aContractMgmt.view;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
+import java.util.ArrayList;
 
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
@@ -16,16 +17,22 @@ import javax.swing.JTextField;
 import com.toedter.calendar.JDateChooser;
 
 import de.oszimt.lf10aContractMgmt.impl.HaseGmbHManagement;
+import de.oszimt.lf10aContractMgmt.model.Address;
 import de.oszimt.lf10aContractMgmt.model.Employee;
+import de.oszimt.lf10aContractMgmt.model.IntEmployeeMgmt;
 
-public class NewEmployee extends JFrame {
+public class NewEmployee extends JFrame implements IntEmployeeMgmt {
 
 	private static final long serialVersionUID = 1L;
 
 	private JTextField mitarbeiternummerTextField;
 	private JTextField vornameTextField;
 	private JTextField nachnameTextField;
-	private JTextField adresseTextField;
+	private JTextField streetTextField;
+	private JTextField houseTextField;
+	private JTextField postalCodeTextField;
+	private JTextField cityTextField;
+	private JTextField countryTextField;
 	private JTextField telefonnummerTextField;
 	private JTextField emailTextField;
 	private JDateChooser geburtstagKalender;
@@ -35,7 +42,10 @@ public class NewEmployee extends JFrame {
 	private JButton saveBtn;
 	private JButton cancelBtn;
 
+	private HaseGmbHManagement driver;
+
 	public NewEmployee(HaseGmbHManagement driver) {
+		this.driver = driver;
 		setResizable(false);
 		setTitle("Neuer Mitarbeiter");
 		setSize(800, 500);
@@ -78,41 +88,66 @@ public class NewEmployee extends JFrame {
 
 		gbc.gridx = 0;
 		gbc.gridy = 3;
-		panel.add(new JLabel("Addresse:"), gbc);
+		panel.add(new JLabel("Straße:"), gbc);
 
 		gbc.gridx = 1;
 		gbc.gridy = 3;
-		adresseTextField = new JTextField(20);
-		panel.add(adresseTextField, gbc);
+		streetTextField = new JTextField(20);
+		panel.add(streetTextField, gbc);
 
 		gbc.gridx = 0;
 		gbc.gridy = 4;
-		panel.add(new JLabel("Telefonnummerr:"), gbc);
+		panel.add(new JLabel("Hausnummer:"), gbc);
 
 		gbc.gridx = 1;
 		gbc.gridy = 4;
+		houseTextField = new JTextField(20);
+		panel.add(houseTextField, gbc);
+
+		gbc.gridx = 0;
+		gbc.gridy = 5;
+		panel.add(new JLabel("PLZ:"), gbc);
+
+		gbc.gridx = 1;
+		gbc.gridy = 5;
+		postalCodeTextField = new JTextField(20);
+		panel.add(postalCodeTextField, gbc);
+
+		gbc.gridx = 0;
+		gbc.gridy = 6;
+		panel.add(new JLabel("Stadt:"), gbc);
+
+		gbc.gridx = 1;
+		gbc.gridy = 6;
+		cityTextField = new JTextField(20);
+		panel.add(cityTextField, gbc);
+
+		gbc.gridx = 0;
+		gbc.gridy = 7;
+		panel.add(new JLabel("Land:"), gbc);
+
+		gbc.gridx = 1;
+		gbc.gridy = 7;
+		countryTextField = new JTextField(20);
+		panel.add(countryTextField, gbc);
+
+		gbc.gridx = 0;
+		gbc.gridy = 8;
+		panel.add(new JLabel("Telefonnummer:"), gbc);
+
+		gbc.gridx = 1;
+		gbc.gridy = 8;
 		telefonnummerTextField = new JTextField(20);
 		panel.add(telefonnummerTextField, gbc);
 
 		gbc.gridx = 0;
-		gbc.gridy = 5;
+		gbc.gridy = 9;
 		panel.add(new JLabel("Email:"), gbc);
 
 		gbc.gridx = 1;
-		gbc.gridy = 5;
+		gbc.gridy = 9;
 		emailTextField = new JTextField(20);
 		panel.add(emailTextField, gbc);
-
-		gbc.gridx = 0;
-		gbc.gridy = 6;
-		panel.add(new JLabel("Geburtsdatum:"), gbc);
-
-		gbc.gridx = 1;
-		gbc.gridy = 6;
-		geburtstagKalender = new JDateChooser();
-//		geburtstagKalender.setDateFormatString("yyyy-MM-dd");
-		geburtstagKalender.setDateFormatString("dd-MM-yyyy");
-		panel.add(geburtstagKalender, gbc);
 
 		gbc.gridx = 2;
 		gbc.gridy = 0;
@@ -139,18 +174,26 @@ public class NewEmployee extends JFrame {
 		group.add(diverseBtn);
 
 		gbc.gridx = 0;
-		gbc.gridy = 7;
+		gbc.gridy = 10;
 		saveBtn = new JButton("Save");
 		panel.add(saveBtn, gbc);
 
 		saveBtn.addActionListener(whenSaveBtnClicked -> {
 			if (userEingabenSindValide()) {
-				final Employee newEmployee = new Employee(vornameTextField.getText(), nachnameTextField.getText(), null,
-						emailTextField.getText(), telefonnummerTextField.getText());
-
-				newEmployee.setEmployeeID(Integer.valueOf(mitarbeiternummerTextField.getText()));
-
-				driver.addNewEmployee(newEmployee);
+				Address address = new Address(
+						streetTextField.getText(),
+						houseTextField.getText(),
+						postalCodeTextField.getText(),
+						cityTextField.getText(),
+						countryTextField.getText());
+				Employee newEmployee = new Employee(
+						vornameTextField.getText(),
+						nachnameTextField.getText(),
+						address,
+						emailTextField.getText(),
+						telefonnummerTextField.getText());
+				//newEmployee.setEmployeeID(Integer.valueOf(mitarbeiternummerTextField.getText()));
+				addNewEmployee(newEmployee);
 				OverviewEmployee overviewEmployee = new OverviewEmployee(driver);
 				overviewEmployee.setVisible(true);
 				dispose();
@@ -159,7 +202,7 @@ public class NewEmployee extends JFrame {
 		});
 
 		gbc.gridx = 1;
-		gbc.gridy = 7;
+		gbc.gridy = 10;
 		cancelBtn = new JButton("Cancel");
 		panel.add(cancelBtn, gbc);
 
@@ -201,8 +244,28 @@ public class NewEmployee extends JFrame {
 			return false;
 		}
 
-		if (adresseTextField.getText().isBlank()) {
-			JOptionPane.showMessageDialog(null, "Adresse ist nicht angegeben");
+		if (streetTextField.getText().isBlank()) {
+			JOptionPane.showMessageDialog(null, "Straße ist nicht angegeben");
+			return false;
+		}
+
+		if (houseTextField.getText().isBlank()) {
+			JOptionPane.showMessageDialog(null, "Hausnummer ist nicht angegeben");
+			return false;
+		}
+
+		if (postalCodeTextField.getText().isBlank()) {
+			JOptionPane.showMessageDialog(null, "PLZ ist nicht angegeben");
+			return false;
+		}
+
+		if (cityTextField.getText().isBlank()) {
+			JOptionPane.showMessageDialog(null, "Stadt ist nicht angegeben");
+			return false;
+		}
+
+		if (countryTextField.getText().isBlank()) {
+			JOptionPane.showMessageDialog(null, "Land ist nicht angegeben");
 			return false;
 		}
 
@@ -230,4 +293,31 @@ public class NewEmployee extends JFrame {
 
 	}
 
+
+
+	@Override
+	public boolean addNewEmployee(Employee newEmployee) {
+		driver.addNewEmployee(newEmployee);
+		return true;
+	}
+
+	@Override
+	public Employee getEmployee(int employeeID) {
+		return null;
+	}
+
+	@Override
+	public ArrayList<Employee> getAllEmployees() {
+		return null;
+	}
+
+	@Override
+	public boolean updateEmployee(Employee anEmployee, Employee updateEmployee) {
+		return false;
+	}
+
+	@Override
+	public boolean deleteEmployee(int employeeID) {
+		return false;
+	}
 }
