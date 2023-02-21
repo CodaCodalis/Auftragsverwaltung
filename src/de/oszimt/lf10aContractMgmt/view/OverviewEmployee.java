@@ -183,10 +183,23 @@ public class OverviewEmployee extends JFrame implements IntEmployeeMgmt {
 		ArrayList<Employee> arrayList = getAllEmployees();
 		for (Employee e : arrayList) {
 			int employeeID = e.getEmployeeID();
-			String firstName = e.getFirstname();
-			String lastName = e.getLastname();
-			employeeList.addElement(employeeID + ": " + firstName + " " + lastName);
+			final String firstName = e.getFirstname();
+			final String lastName = e.getLastname();
+			final String telephone = e.getTelephone();
+			final String email = e.getEmail();
+			employeeList.addElement(employeeID + ": " + firstName + " " + lastName + " " + telephone + " " + email);
 		}
+
+//		final String[] columns = { "ID", "Vorname", "Nachname", "Telefonummer", "Email" };
+//		final List<String[]> employeeDataList = new ArrayList<>();
+//		for (final Employee e : getAllEmployees()) {
+//			final String[] employeeData = { e.getEmployeeID() + "", e.getFirstname(), e.getLastname(), e.getTelephone(),
+//					e.getEmail() };
+//			employeeDataList.add(employeeData);
+//		}
+//
+//
+//		String[] array = new String[employeeDataList.size()];
 
 		JScrollPane scrollPane = new JScrollPane(list);
 		scrollPane.setBounds(604, 43, 170, 407);
@@ -257,10 +270,10 @@ public class OverviewEmployee extends JFrame implements IntEmployeeMgmt {
 	/*
 	 * public static void main(String[] args) { SwingUtilities.invokeLater(new
 	 * Runnable() {
-	 * 
+	 *
 	 * @Override public void run() { new EmployeeOverview().setVisible(true); } });
 	 * }
-	 * 
+	 *
 	 */
 
 }

@@ -137,17 +137,27 @@ public class NewEmployee extends JFrame implements IntEmployeeMgmt {
 
 		gbc.gridx = 1;
 		gbc.gridy = 8;
-		telefonnummerTextField = new JTextField(20);
-		panel.add(telefonnummerTextField, gbc);
+		houseTextField = new JTextField(20);
+		panel.add(houseTextField, gbc);
 
 		gbc.gridx = 0;
 		gbc.gridy = 9;
-		panel.add(new JLabel("Email:"), gbc);
+		panel.add(new JLabel("PLZ:"), gbc);
 
 		gbc.gridx = 1;
 		gbc.gridy = 9;
-		emailTextField = new JTextField(20);
-		panel.add(emailTextField, gbc);
+		postalCodeTextField = new JTextField(20);
+		panel.add(postalCodeTextField, gbc);
+
+		gbc.gridx = 0;
+		gbc.gridy = 6;
+		panel.add(new JLabel("Stadt:"), gbc);
+
+		gbc.gridx = 1;
+		gbc.gridy = 6;
+		geburtstagKalender = new JDateChooser();
+		geburtstagKalender.setDateFormatString("dd-MM-yyyy");
+		panel.add(geburtstagKalender, gbc);
 
 		gbc.gridx = 2;
 		gbc.gridy = 0;
@@ -213,7 +223,6 @@ public class NewEmployee extends JFrame implements IntEmployeeMgmt {
 		});
 
 		add(panel);
-		// pack();
 		setVisible(true);
 	}
 
@@ -228,12 +237,6 @@ public class NewEmployee extends JFrame implements IntEmployeeMgmt {
 	}
 
 	private boolean userEingabenSindValide() {
-
-		if (mitarbeiternummerTextField.getText().isBlank()) {
-			JOptionPane.showMessageDialog(null, "Mitarbeiternummer ist nicht angegeben");
-			return false;
-		}
-
 		if (vornameTextField.getText().isBlank()) {
 			JOptionPane.showMessageDialog(null, "Vorname ist nicht angegeben");
 			return false;
