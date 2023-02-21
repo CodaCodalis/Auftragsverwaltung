@@ -17,14 +17,15 @@ public class LoginView extends JFrame {
 	private JTextField usernameField;
 	private JPasswordField passwordField;
 	private JButton loginButton, forgetPw;
-	private	SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
+	private SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
+	private Timer timer;
 
-	//Hardcoded login data
+	// Hardcoded login data
 	private String enteredPw = "Test123";
 	private String enteredName = "Test";
 
 	public LoginView(HaseGmbHManagement driver) {
-		
+
 		setResizable(false);
 		setTitle("Login");
 		setSize(800, 500);
@@ -38,47 +39,59 @@ public class LoginView extends JFrame {
 
 		usernameLabel = new JLabel("Username:");
 		constraints.gridx = 0;
-		constraints.gridy = 0;
+		constraints.gridy = 1;
 		panel.add(usernameLabel, constraints);
 
 		usernameField = new JTextField(10);
 		constraints.gridx = 1;
-		constraints.gridy = 0;
+		constraints.gridy = 1;
 		usernameField.setText("Test");
 		panel.add(usernameField, constraints);
 
 		passwordLabel = new JLabel("Password:");
 		constraints.gridx = 0;
-		constraints.gridy = 1;
+		constraints.gridy = 2;
 		panel.add(passwordLabel, constraints);
 
 		passwordField = new JPasswordField(10);
 		passwordField.setText("Test123");
 		constraints.gridx = 1;
-		constraints.gridy = 1;
+		constraints.gridy = 2;
 		panel.add(passwordField, constraints);
 
 		loginButton = new JButton("Login");
 		constraints.gridx = 0;
-		constraints.gridy = 2;
+		constraints.gridy = 3;
 		constraints.gridwidth = 2;
 		constraints.anchor = GridBagConstraints.CENTER;
 		panel.add(loginButton, constraints);
 
 		forgetPw = new JButton("Passwort vergessen");
 		constraints.gridx = 0;
-		constraints.gridy = 3;
+		constraints.gridy = 4;
 		constraints.gridwidth = 2;
 		constraints.anchor = GridBagConstraints.CENTER;
 		panel.add(forgetPw, constraints);
-		
+
+		time = new JLabel();
+		time.setHorizontalAlignment(SwingConstants.RIGHT);
+		constraints.gridx = 0;
+		constraints.gridy = 5;
+		panel.add(time, constraints);
+		timer = new Timer(1, new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				time.setText(sdf.format(new Date()));
+			}
+		});
+		timer.start();
 
 		loginButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				if (checkLoginInserts()) {
 					new Overview(driver).setVisible(true);
-					dispose(); 
+					dispose();
 				}
 			}
 		});
@@ -87,7 +100,7 @@ public class LoginView extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				new ForgetPwView(driver).setVisible(true);
-				dispose(); 
+				dispose();
 			}
 		});
 		add(panel);
@@ -113,10 +126,10 @@ public class LoginView extends JFrame {
 
 		return true;
 	}
-	
+
 	public void updatePassword(String newPassword) {
-	    enteredPw = newPassword;
+		enteredPw = newPassword;
 		passwordField.setText(enteredPw);
-	    
+
 	}
 }
