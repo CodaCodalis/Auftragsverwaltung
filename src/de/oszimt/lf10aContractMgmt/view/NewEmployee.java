@@ -35,7 +35,6 @@ public class NewEmployee extends JFrame implements IntEmployeeMgmt {
 	private JTextField countryTextField;
 	private JTextField telefonnummerTextField;
 	private JTextField emailTextField;
-	private JDateChooser geburtstagKalender;
 	private JRadioButton maennlichBtn;
 	private JRadioButton weiblichBtn;
 	private JRadioButton diverseBtn;
@@ -133,31 +132,21 @@ public class NewEmployee extends JFrame implements IntEmployeeMgmt {
 
 		gbc.gridx = 0;
 		gbc.gridy = 8;
-		panel.add(new JLabel("Telefonnummer:"), gbc);
+		panel.add(new JLabel("Email:"), gbc);
 
 		gbc.gridx = 1;
 		gbc.gridy = 8;
-		houseTextField = new JTextField(20);
-		panel.add(houseTextField, gbc);
+		emailTextField = new JTextField(20);
+		panel.add(emailTextField, gbc);
 
 		gbc.gridx = 0;
 		gbc.gridy = 9;
-		panel.add(new JLabel("PLZ:"), gbc);
+		panel.add(new JLabel("Telefonnummer:"), gbc);
 
 		gbc.gridx = 1;
 		gbc.gridy = 9;
-		postalCodeTextField = new JTextField(20);
-		panel.add(postalCodeTextField, gbc);
-
-		gbc.gridx = 0;
-		gbc.gridy = 6;
-		panel.add(new JLabel("Stadt:"), gbc);
-
-		gbc.gridx = 1;
-		gbc.gridy = 6;
-		geburtstagKalender = new JDateChooser();
-		geburtstagKalender.setDateFormatString("dd-MM-yyyy");
-		panel.add(geburtstagKalender, gbc);
+		telefonnummerTextField = new JTextField(20);
+		panel.add(telefonnummerTextField, gbc);
 
 		gbc.gridx = 2;
 		gbc.gridy = 0;
@@ -279,11 +268,6 @@ public class NewEmployee extends JFrame implements IntEmployeeMgmt {
 
 		if (emailTextField.getText().isBlank()) {
 			JOptionPane.showMessageDialog(null, "Email ist nicht angegeben");
-			return false;
-		}
-
-		if (!maennlichBtn.isSelected() && !weiblichBtn.isSelected()) {
-			JOptionPane.showMessageDialog(null, "Geschlecht  ist nicht angegeben");
 			return false;
 		}
 
