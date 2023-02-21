@@ -279,11 +279,6 @@ public class NewEmployee extends JFrame implements IntEmployeeMgmt {
 			return false;
 		}
 
-		if (geburtstagKalender.getDate() == null) {
-			JOptionPane.showMessageDialog(null, "Geburtsdatum  ist nicht angegeben");
-			return false;
-		}
-
 		if (!maennlichBtn.isSelected() && !weiblichBtn.isSelected()) {
 			JOptionPane.showMessageDialog(null, "Geschlecht  ist nicht angegeben");
 			return false;
