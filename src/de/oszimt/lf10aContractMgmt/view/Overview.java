@@ -1,5 +1,6 @@
 package de.oszimt.lf10aContractMgmt.view;
 import de.oszimt.lf10aContractMgmt.impl.HaseGmbHManagement;
+import de.oszimt.lf10aContractMgmt.model.Employee;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -14,9 +15,17 @@ public class Overview extends JFrame {
 	private JLabel welcomeLabel;
 	private JButton employeeBtn, customerBtn;
 
-	public Overview(HaseGmbHManagement driver) {
-		setLayout(new BorderLayout());
+	private HaseGmbHManagement driver;
 
+	public Overview(HaseGmbHManagement driver) {
+		this.driver = driver;
+		//setLayout(new BorderLayout());
+		JDialog dialog = new JDialog();
+		JPanel panelCustomer = new OverviewCustomerPanel(this.driver);
+		JPanel panelEmployee = new OverviewEmployeePanel(this.driver);
+		JPanel panelContract = new OverviewContractPanel(this.driver);
+
+		/*
 		JPanel northPanel = new JPanel();
 		welcomeLabel = new JLabel("Willkommen");
 		northPanel.add(welcomeLabel);
@@ -35,15 +44,25 @@ public class Overview extends JFrame {
 		customerBtn = new JButton("Kunde");
 		centerPanel.add(customerBtn, constraints);
 		add(centerPanel, BorderLayout.CENTER);
-		setLocationRelativeTo(null);
-		setResizable(false);
 
-		setTitle("Overview Auftragsverwaltung");
-		setSize(800, 500);
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setLocationRelativeTo(null);
-		
-		
+		*/
+
+		JTabbedPane tabpane = new JTabbedPane(JTabbedPane.TOP,JTabbedPane.SCROLL_TAB_LAYOUT );
+
+		tabpane.addTab("Kunden", panelCustomer);
+		tabpane.addTab("Mitarbeiter", panelEmployee);
+		tabpane.addTab("Aufträge", panelContract);
+
+		dialog.setTitle("Auftragsverwaltung");
+		dialog.add(tabpane);
+		dialog.setLocationRelativeTo(null);
+		dialog.setResizable(false);
+		dialog.setSize(800, 550);
+		//dialog.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		dialog.setLocationRelativeTo(null);
+		dialog.setVisible(true);
+
+		/*
 		employeeBtn.addActionListener(new ActionListener() {
 			
 			@Override
@@ -61,6 +80,8 @@ public class Overview extends JFrame {
 				dispose();
 			}
 		});
+
+		 */
 		
 	}
 /*

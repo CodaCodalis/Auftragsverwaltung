@@ -1,77 +1,61 @@
 package de.oszimt.lf10aContractMgmt.view;
 
+import de.oszimt.lf10aContractMgmt.impl.HaseGmbHManagement;
+import de.oszimt.lf10aContractMgmt.model.Employee;
+import de.oszimt.lf10aContractMgmt.model.IntEmployeeMgmt;
+
+import javax.swing.*;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.util.ArrayList;
 
-import javax.swing.DefaultListModel;
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JList;
-import javax.swing.JOptionPane;
-import javax.swing.JScrollPane;
-import javax.swing.JTextField;
-import javax.swing.ListModel;
-import javax.swing.ListSelectionModel;
-import javax.swing.event.DocumentEvent;
-import javax.swing.event.DocumentListener;
-
-import de.oszimt.lf10aContractMgmt.impl.HaseGmbHManagement;
-import de.oszimt.lf10aContractMgmt.model.Customer;
-import de.oszimt.lf10aContractMgmt.model.Employee;
-import de.oszimt.lf10aContractMgmt.model.IntEmployeeMgmt;
-
 // Zurzeit leider nur AbsoluteLayout, wird noch die Tage geändert!!!
 // funktional, aber nicht schön
 
 @SuppressWarnings("serial")
-public class OverviewEmployee extends JFrame implements IntEmployeeMgmt {
+public class OverviewEmployeePanel extends JPanel implements IntEmployeeMgmt {
 	private JTextField txtSearchField;
 	private JButton newEmployeeBtn, editEmployeeBtn, deleteEmployeeBtn, newContractBtn, overviewContractBtn,
-			overviewBtn;
+			overviewEmployeeOldBtn;
 	private DefaultListModel<String> employeeList;
 	private JList<String> list;
 	HaseGmbHManagement driver;
 
 	@SuppressWarnings("rawtypes")
-	public OverviewEmployee(HaseGmbHManagement driver) {
+	public OverviewEmployeePanel(HaseGmbHManagement driver) {
 		this.driver = driver;
-		setSize(800, 500);
+		setSize(800, 450);
+		/*
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setLocationRelativeTo(null);
 		setTitle("Mitarbeiterübersicht");
-		getContentPane().setLayout(null);
+		*/
+		setLayout(null);
 
 		newEmployeeBtn = new JButton("neuer Mitarbeiter");
 		newEmployeeBtn.setBounds(43, 43, 200, 23);
-		getContentPane().add(newEmployeeBtn);
+		add(newEmployeeBtn);
 
 		editEmployeeBtn = new JButton("Mitarbeiter bearbeiten");
 		editEmployeeBtn.setBounds(43, 80, 200, 23);
-		getContentPane().add(editEmployeeBtn);
+		add(editEmployeeBtn);
 
 		deleteEmployeeBtn = new JButton("Mitarbeiter löschen");
 		deleteEmployeeBtn.setBounds(43, 114, 200, 23);
-		getContentPane().add(deleteEmployeeBtn);
+		add(deleteEmployeeBtn);
 
-		newContractBtn = new JButton("neuer Auftrag");
-		newContractBtn.setBounds(43, 221, 200, 23);
-		getContentPane().add(newContractBtn);
-
-		overviewContractBtn = new JButton("Auftragsübersicht");
-		overviewContractBtn.setBounds(43, 245, 200, 23);
-		getContentPane().add(overviewContractBtn);
-
-		overviewBtn = new JButton("Hauptmenü");
-		overviewBtn.setBounds(10, 427, 128, 23);
-		getContentPane().add(overviewBtn);
+		overviewEmployeeOldBtn = new JButton("alte Ansicht");
+		overviewEmployeeOldBtn.setBounds(10, 427, 128, 23);
+		add(overviewEmployeeOldBtn);
 
 		txtSearchField = new JTextField();
 		txtSearchField.setText("Search");
 		txtSearchField.setBounds(543, 11, 231, 20);
-		getContentPane().add(txtSearchField);
+		add(txtSearchField);
 		txtSearchField.setColumns(10);
 
 		createScrollPane();
@@ -120,11 +104,10 @@ public class OverviewEmployee extends JFrame implements IntEmployeeMgmt {
 			}
 		});
 
-		overviewBtn.addActionListener(new ActionListener() {
+		overviewEmployeeOldBtn.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				new Overview(driver).setVisible(true);
-				dispose();
+				new OverviewEmployee(driver).setVisible(true);
 			}
 		});
 
@@ -132,7 +115,6 @@ public class OverviewEmployee extends JFrame implements IntEmployeeMgmt {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				new NewEmployee(driver).setVisible(true);
-				dispose();
 			}
 		});
 
@@ -143,7 +125,6 @@ public class OverviewEmployee extends JFrame implements IntEmployeeMgmt {
 				int employeeID = Integer.parseInt(selectedEmployee.substring(0,5));
 				Employee employee = getEmployee(employeeID);
 				new UpdateEmployee(driver, employee).setVisible(true);
-				dispose();
 			}
 		});
 
@@ -153,32 +134,13 @@ public class OverviewEmployee extends JFrame implements IntEmployeeMgmt {
 				deleteEmployee();
 			}
 		});
-
-		newContractBtn.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				new Auftragsview(driver).setVisible(true);
-				dispose();
-			}
-
-		});
-
-		overviewContractBtn.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				new OverviewContract(driver).setVisible(true);
-				dispose();
-			}
-
-		});
-
 	}
 
 	private void createScrollPane() {
 		employeeList = new DefaultListModel<>();
 		list = new JList<>(employeeList);
 		list.setBounds(604, 43, 170, 407);
-		getContentPane().add(list);
+		add(list);
 		list.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
 		ArrayList<Employee> arrayList = getAllEmployees();
 		for (Employee e : arrayList) {
@@ -203,7 +165,7 @@ public class OverviewEmployee extends JFrame implements IntEmployeeMgmt {
 
 		JScrollPane scrollPane = new JScrollPane(list);
 		scrollPane.setBounds(604, 43, 170, 407);
-		getContentPane().add(scrollPane);
+		add(scrollPane);
 		scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
 	}
 

@@ -28,7 +28,7 @@ public interface IntEmployeeMgmt {
 	 * @param anEmployee
 	 * @return true, if it was successful, false otherwise
 	 */
-	boolean updateEmployee(Employee anEmployee);
+	boolean updateEmployee(Employee anEmployee, Employee updateEmployee);
 	
 	/**
 	 * Removes an existing employee
