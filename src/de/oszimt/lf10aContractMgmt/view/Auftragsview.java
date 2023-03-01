@@ -6,6 +6,7 @@ import java.awt.Insets;
 import java.util.ArrayList;
 
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 
 import de.oszimt.lf10aContractMgmt.impl.HaseGmbHManagement;
 import de.oszimt.lf10aContractMgmt.model.ActivityRecord;
@@ -34,11 +35,43 @@ public class Auftragsview extends JFrame implements IntContractMgmt {
 		setResizable(false);
 		setVisible(true);
 
+		auftragsdatenPanel.getAuftragsnummerFeld().setText(getNextFreeContractID(driver) + "");
+		auftragsdatenPanel.getAuftragsnummerFeld().setEditable(false);
+
 		auftragsButtonPanel.getCancelButton().addActionListener(l -> {
 			OverviewEmployee overviewEmployee = new OverviewEmployee(driver);
 			overviewEmployee.setVisible(true);
 			dispose();
 		});
+
+//		auftragsButtonPanel.getSaveButton().addActionListener(s -> {
+//			LocalDate erstellDatum = auftragsdatenPanel.getErstelldatumFeld().getDate().toInstant()
+//					.atZone(ZoneId.systemDefault()).toLocalDate();
+//			Address address = new Address("test", "test", "test", "test", "test");
+//
+//			Employee employeeSelected = (Employee) auftragsdatenPanel.getMitarbeiterComboBox().getSelectedItem();
+//
+//			for (Employee employee : driver.getAllEmployees()) {
+//				if (employee.getLastname().equals(employeeSelected)) {
+//					employeeSelected = employee;
+//				}
+//			}
+//			Customer customer = (Customer) auftragsdatenPanel.getKundenComboBox().getSelectedItem();
+//			String contractType = auftragsdatenPanel.getVertragsartFeld().getText();
+//			String state = auftragsdatenPanel.getBearbeitungsstandFeld().getText();
+//			String description = beschreibungsPanel.getBeschreibungsTextarea().getText();
+//			if (userEingabenSindValide()) {
+//				Contract newContract = new Contract(erstellDatum, address, customer, employeeSelected, contractType,
+//						state, description, new ArrayList<>());
+//
+//				newContract.setContractID(Integer.valueOf(auftragsdatenPanel.getAuftragsnummerFeld().getText()));
+//				driver.addNewContract(newContract);
+//				Auftragsview auftragsview = new Auftragsview(driver);
+//				auftragsview.setVisible(true);
+//				dispose();
+//			}
+//
+//		});
 
 		add(auftragsdatenPanel);
 		add(auftragsButtonPanel);
@@ -83,9 +116,21 @@ public class Auftragsview extends JFrame implements IntContractMgmt {
 		return gbc;
 	}
 
+	private int getNextFreeContractID(HaseGmbHManagement driver) {
+		int nextFreeContractID = 0;
+		for (Contract contract : driver.getAllContracts()) {
+			if (contract.getContractID() > nextFreeContractID) {
+				nextFreeContractID = contract.getContractID();
+			}
+		}
+
+		return nextFreeContractID + 1;
+
+	}
+
 	@Override
 	public boolean addNewContract(Contract newContract) {
-		// TODO Auto-generated method stub
+		driver.addNewContract(newContract);
 		return false;
 	}
 
@@ -117,6 +162,47 @@ public class Auftragsview extends JFrame implements IntContractMgmt {
 	public boolean deleteContract(int contractID) {
 		// TODO Auto-generated method stub
 		return false;
+	}
+
+	private boolean userEingabenSindValide() {
+
+		if (auftragsdatenPanel.getVertragsartFeld().getText().isBlank()) {
+			JOptionPane.showMessageDialog(null, "Die Vertragsart ist nicht angegeben");
+			return false;
+		}
+
+		if (auftragsdatenPanel.getBearbeitungsstandFeld().getText().isBlank()) {
+			JOptionPane.showMessageDialog(null, "Der Bearbeitungsstand ist nicht angegeben");
+			return false;
+		}
+
+		if (auftragsdatenPanel.getErstelldatumFeld().getDate() == null) {
+			JOptionPane.showMessageDialog(null, "Das Erstelldatum ist nicht angegeben");
+			return false;
+		}
+
+		if (auftragsdatenPanel.getStartdatumKalendar().getDate() == null) {
+			JOptionPane.showMessageDialog(null, "Das Startdatum für den Vertrag ist nicht angegeben");
+			return false;
+		}
+
+		if (auftragsdatenPanel.getEnddatumKalendar().getDate() == null) {
+			JOptionPane.showMessageDialog(null, "Das Enddatum für den Vertrag ist nicht angegeben");
+			return false;
+		}
+
+		if (auftragsdatenPanel.getMitarbeiterComboBox().getSelectedItem() == null) {
+			JOptionPane.showMessageDialog(null, "Kein Mitarbeiter angegeben");
+			return false;
+		}
+
+		if (auftragsdatenPanel.getKundenComboBox().getSelectedItem() == null) {
+			JOptionPane.showMessageDialog(null, "Kein Kunde angegeben");
+			return false;
+		}
+
+		return true;
+
 	}
 
 }

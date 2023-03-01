@@ -4,14 +4,11 @@ import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
-import java.time.LocalDate;
-import java.time.ZoneId;
 import java.util.ArrayList;
 
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
@@ -19,7 +16,6 @@ import com.toedter.calendar.JDateChooser;
 
 import de.oszimt.lf10aContractMgmt.HaseGmbHClientSimulation;
 import de.oszimt.lf10aContractMgmt.impl.HaseGmbHManagement;
-import de.oszimt.lf10aContractMgmt.model.Address;
 import de.oszimt.lf10aContractMgmt.model.Contract;
 import de.oszimt.lf10aContractMgmt.model.Customer;
 import de.oszimt.lf10aContractMgmt.model.Employee;
@@ -90,62 +86,63 @@ public class AuftragsdatenPanel extends JPanel {
 
 		add(enddatumLabel);
 		add(enddatumKalendar);
-
-		mitarbeiterComboBox.addActionListener(e -> {
-
-			if (userVertragsEingabenSindValide()) {
-
-				for (Contract vertrag : generateVertragsListe()) {
-
-					int indexOfMitarbeiterString = mitarbeiterComboBox.getSelectedItem().toString().indexOf(",");
-					String mitarbeiterName = mitarbeiterComboBox.getSelectedItem().toString().substring(0,
-							indexOfMitarbeiterString);
-
-					int indexOfKundenString = kundenComboBox.getSelectedItem().toString().indexOf(",");
-					String kundenName = kundenComboBox.getSelectedItem().toString().substring(0, indexOfKundenString);
-
-					if (mitarbeiterName.equals(vertrag.getProjectOwner().getLastname())
-							&& kundenName.equals(vertrag.getCustomer().getLastname())) {
-						vertragsartFeld.setText(generateVertragsart());
-						bearbeitungsstandFeld.setText(generateBearbeitungsstand());
-						break;
-					} else {
-						vertragsartFeld.setText("");
-						bearbeitungsstandFeld.setText("");
-					}
-
-				}
-			}
-
-		});
-
-		kundenComboBox.addActionListener(e -> {
-			if (userVertragsEingabenSindValide()) {
-
-				for (Contract vertrag : generateVertragsListe()) {
-
-					int indexOfMitarbeiterString = mitarbeiterComboBox.getSelectedItem().toString().indexOf(",");
-					String mitarbeiterName = mitarbeiterComboBox.getSelectedItem().toString().substring(0,
-							indexOfMitarbeiterString);
-
-					int indexOfKundenString = kundenComboBox.getSelectedItem().toString().indexOf(",");
-					String kundenName = kundenComboBox.getSelectedItem().toString().substring(0, indexOfKundenString);
-
-					if (mitarbeiterName.equals(vertrag.getProjectOwner().getLastname())
-							&& kundenName.equals(vertrag.getCustomer().getLastname())) {
-						vertragsartFeld.setText(generateVertragsart());
-						bearbeitungsstandFeld.setText(generateBearbeitungsstand());
-						break;
-					} else {
-						vertragsartFeld.setText("");
-						bearbeitungsstandFeld.setText("");
-					}
-
-				}
-			}
-		});
-
 	}
+
+//		mitarbeiterComboBox.addActionListener(e -> {
+//
+//			if (userVertragsEingabenSindValide()) {
+//
+//				for (Contract vertrag : generateVertragsListe()) {
+//
+//					int indexOfMitarbeiterString = mitarbeiterComboBox.getSelectedItem().toString().indexOf(",");
+//					String mitarbeiterName = mitarbeiterComboBox.getSelectedItem().toString().substring(0,
+//							indexOfMitarbeiterString);
+//
+//					int indexOfKundenString = kundenComboBox.getSelectedItem().toString().indexOf(",");
+//					String kundenName = kundenComboBox.getSelectedItem().toString().substring(0, indexOfKundenString);
+//
+//					if (mitarbeiterName.equals(vertrag.getProjectOwner().getLastname())
+//							&& kundenName.equals(vertrag.getCustomer().getLastname())) {
+//						vertragsartFeld.setText(generateVertragsart());
+//						bearbeitungsstandFeld.setText(generateBearbeitungsstand());
+//						break;
+//					} else {
+//						vertragsartFeld.setText("");
+//						bearbeitungsstandFeld.setText("");
+//					}
+//
+//				}
+//			}
+//
+//		});
+
+//		kundenComboBox.addActionListener(e -> {
+//			if (userVertragsEingabenSindValide()) {
+//
+//				for (Contract vertrag : generateVertragsListe()) {
+//
+//					int indexOfMitarbeiterString = mitarbeiterComboBox.getSelectedItem().toString().indexOf(",");
+//					String mitarbeiterName = mitarbeiterComboBox.getSelectedItem().toString().substring(0,
+//							indexOfMitarbeiterString);
+//
+//					int indexOfKundenString = kundenComboBox.getSelectedItem().toString().indexOf(",");
+//					String kundenName = kundenComboBox.getSelectedItem().toString().substring(0, indexOfKundenString);
+//
+//					if (mitarbeiterName.equals(vertrag.getProjectOwner().getLastname())
+//							&& kundenName.equals(vertrag.getCustomer().getLastname())) {
+//						vertragsartFeld.setText(generateVertragsart());
+//						bearbeitungsstandFeld.setText(generateBearbeitungsstand());
+//						break;
+//					} else {
+//						vertragsartFeld.setText("");
+//						bearbeitungsstandFeld.setText("");
+//					}
+//
+//				}
+//			}
+//		});
+//
+//	}
 
 	private GridBagLayout createGridBagLayout() {
 
@@ -319,99 +316,139 @@ public class AuftragsdatenPanel extends JPanel {
 
 	}
 
-	private String generateVertragsart() {
-
-		for (Contract vertrag : generateVertragsListe()) {
-			for (Employee employee : generateEmployeesListe()) {
-				for (Customer customer : generateCustomerListe()) {
-
-					if (istMaUndKundeEinVertragZugewiesen(employee, customer, vertrag)) {
-						String vertragsart = vertrag.getContractType();
-						return vertragsart;
-					}
-				}
-			}
-		}
-
-		return null;
-
+	public JTextField getAuftragsnummerFeld() {
+		return auftragsnummerFeld;
 	}
 
-	private boolean istMaUndKundeEinVertragZugewiesen(Employee employee, Customer customer, Contract contract) {
-		if (contract.getProjectOwner().getLastname().equals(employee.getLastname())
-				&& contract.getCustomer().getLastname().equals(customer.getLastname())) {
-			return true;
-		}
-		return false;
+	public void setAuftragsnummerFeld(JTextField auftragsnummerFeld) {
+		this.auftragsnummerFeld = auftragsnummerFeld;
 	}
 
-	private String generateBearbeitungsstand() {
-
-		for (Contract vertrag : generateVertragsListe()) {
-			for (Employee employee : generateEmployeesListe()) {
-				for (Customer customer : generateCustomerListe()) {
-
-					if (istMaUndKundeEinVertragZugewiesen(employee, customer, vertrag)) {
-						String bearbeitungsstand = vertrag.getState();
-						return bearbeitungsstand;
-
-					}
-				}
-			}
-		}
-		return null;
-
+	public JDateChooser getErstelldatumFeld() {
+		return erstelldatumFeld;
 	}
 
-	private boolean userVertragsEingabenSindValide() {
-
-		if (mitarbeiterComboBox.getSelectedItem().equals(" ")) {
-			JOptionPane.showMessageDialog(null, "Mitarbeiter ist nicht angegeben");
-			return false;
-		}
-
-		if (kundenComboBox.getSelectedItem().equals(" ")) {
-			JOptionPane.showMessageDialog(null, "Kunde ist nicht angegeben");
-			return false;
-		}
-
-		for (Contract vertrag : generateVertragsListe()) {
-			for (Employee employee : generateEmployeesListe()) {
-				for (Customer customer : generateCustomerListe()) {
-
-					if (istMaUndKundeEinVertragZugewiesen(employee, customer, vertrag)) {
-						return true;
-
-					}
-
-				}
-			}
-		}
-		return false;
+	public JComboBox getKundenComboBox() {
+		return kundenComboBox;
 	}
 
-	private void erstelleNeuenActivityRecord() {
-
+	public ArrayList<String> getComboBoxKundenListe() {
+		return comboBoxKundenListe;
 	}
 
-	public Contract erstelleNeuenVertrag() {
-
-		BeschreibungsPanel beschreibungsPanel = new BeschreibungsPanel();
-
-		LocalDate erstellDatum = erstelldatumFeld.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-		Address address = new Address("test", "test", "test", "test", "test");
-		Customer customer = (Customer) kundenComboBox.getSelectedItem();
-		Employee employee = (Employee) mitarbeiterComboBox.getSelectedItem();
-		String contractType = vertragsartFeld.getText();
-		String state = bearbeitungsstandFeld.getText();
-		String description = beschreibungsPanel.getBeschreibungsTextarea().getText();
-
-		Contract neuerVertrag = new Contract(erstellDatum, address, customer, employee, contractType, state,
-				description, new ArrayList<>());
-
-		haseGmbHManagement.addNewContract(neuerVertrag);
-		return neuerVertrag;
-
+	public JComboBox getMitarbeiterComboBox() {
+		return mitarbeiterComboBox;
 	}
+
+	public JTextField getVertragsartFeld() {
+		return vertragsartFeld;
+	}
+
+	public JTextField getBearbeitungsstandFeld() {
+		return bearbeitungsstandFeld;
+	}
+
+	public JDateChooser getStartdatumKalendar() {
+		return startdatumKalendar;
+	}
+
+	public JDateChooser getEnddatumKalendar() {
+		return enddatumKalendar;
+	}
+
+//	private String generateVertragsart() {
+//
+//		for (Contract vertrag : generateVertragsListe()) {
+//			for (Employee employee : generateEmployeesListe()) {
+//				for (Customer customer : generateCustomerListe()) {
+//
+//					if (istMaUndKundeEinVertragZugewiesen(employee, customer, vertrag)) {
+//						String vertragsart = vertrag.getContractType();
+//						return vertragsart;
+//					}
+//				}
+//			}
+//		}
+//
+//		return null;
+//
+//	}
+//
+//	private boolean istMaUndKundeEinVertragZugewiesen(Employee employee, Customer customer, Contract contract) {
+//		if (contract.getProjectOwner().getLastname().equals(employee.getLastname())
+//				&& contract.getCustomer().getLastname().equals(customer.getLastname())) {
+//			return true;
+//		}
+//		return false;
+//	}
+//
+//	private String generateBearbeitungsstand() {
+//
+//		for (Contract vertrag : generateVertragsListe()) {
+//			for (Employee employee : generateEmployeesListe()) {
+//				for (Customer customer : generateCustomerListe()) {
+//
+//					if (istMaUndKundeEinVertragZugewiesen(employee, customer, vertrag)) {
+//						String bearbeitungsstand = vertrag.getState();
+//						return bearbeitungsstand;
+//
+//					}
+//				}
+//			}
+//		}
+//		return null;
+//
+//	}
+//
+//	private boolean userVertragsEingabenSindValide() {
+//
+//		if (mitarbeiterComboBox.getSelectedItem().equals(" ")) {
+//			JOptionPane.showMessageDialog(null, "Mitarbeiter ist nicht angegeben");
+//			return false;
+//		}
+//
+//		if (kundenComboBox.getSelectedItem().equals(" ")) {
+//			JOptionPane.showMessageDialog(null, "Kunde ist nicht angegeben");
+//			return false;
+//		}
+//
+//		for (Contract vertrag : generateVertragsListe()) {
+//			for (Employee employee : generateEmployeesListe()) {
+//				for (Customer customer : generateCustomerListe()) {
+//
+//					if (istMaUndKundeEinVertragZugewiesen(employee, customer, vertrag)) {
+//						return true;
+//
+//					}
+//
+//				}
+//			}
+//		}
+//		return false;
+//	}
+//
+//	private void erstelleNeuenActivityRecord() {
+//
+//	}
+//
+//	public Contract erstelleNeuenVertrag() {
+//
+//		BeschreibungsPanel beschreibungsPanel = new BeschreibungsPanel();
+//
+//		LocalDate erstellDatum = erstelldatumFeld.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+//		Address address = new Address("test", "test", "test", "test", "test");
+//		Customer customer = (Customer) kundenComboBox.getSelectedItem();
+//		Employee employee = (Employee) mitarbeiterComboBox.getSelectedItem();
+//		String contractType = vertragsartFeld.getText();
+//		String state = bearbeitungsstandFeld.getText();
+//		String description = beschreibungsPanel.getBeschreibungsTextarea().getText();
+//
+//		Contract neuerVertrag = new Contract(erstellDatum, address, customer, employee, contractType, state,
+//				description, new ArrayList<>());
+//
+//		haseGmbHManagement.addNewContract(neuerVertrag);
+//		return neuerVertrag;
+//
+//	}
 
 }
