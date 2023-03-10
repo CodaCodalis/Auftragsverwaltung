@@ -3,6 +3,8 @@ package de.oszimt.lf10aContractMgmt.view;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.ArrayList;
 
 import javax.swing.JFrame;
@@ -10,7 +12,10 @@ import javax.swing.JOptionPane;
 
 import de.oszimt.lf10aContractMgmt.impl.HaseGmbHManagement;
 import de.oszimt.lf10aContractMgmt.model.ActivityRecord;
+import de.oszimt.lf10aContractMgmt.model.Address;
 import de.oszimt.lf10aContractMgmt.model.Contract;
+import de.oszimt.lf10aContractMgmt.model.Customer;
+import de.oszimt.lf10aContractMgmt.model.Employee;
 import de.oszimt.lf10aContractMgmt.model.IntContractMgmt;
 
 public class Auftragsview extends JFrame implements IntContractMgmt {
@@ -44,34 +49,33 @@ public class Auftragsview extends JFrame implements IntContractMgmt {
 			dispose();
 		});
 
-//		auftragsButtonPanel.getSaveButton().addActionListener(s -> {
-//			LocalDate erstellDatum = auftragsdatenPanel.getErstelldatumFeld().getDate().toInstant()
-//					.atZone(ZoneId.systemDefault()).toLocalDate();
-//			Address address = new Address("test", "test", "test", "test", "test");
-//
-//			Employee employeeSelected = (Employee) auftragsdatenPanel.getMitarbeiterComboBox().getSelectedItem();
-//
-//			for (Employee employee : driver.getAllEmployees()) {
-//				if (employee.getLastname().equals(employeeSelected)) {
-//					employeeSelected = employee;
-//				}
-//			}
-//			Customer customer = (Customer) auftragsdatenPanel.getKundenComboBox().getSelectedItem();
-//			String contractType = auftragsdatenPanel.getVertragsartFeld().getText();
-//			String state = auftragsdatenPanel.getBearbeitungsstandFeld().getText();
-//			String description = beschreibungsPanel.getBeschreibungsTextarea().getText();
-//			if (userEingabenSindValide()) {
-//				Contract newContract = new Contract(erstellDatum, address, customer, employeeSelected, contractType,
-//						state, description, new ArrayList<>());
-//
-//				newContract.setContractID(Integer.valueOf(auftragsdatenPanel.getAuftragsnummerFeld().getText()));
-//				driver.addNewContract(newContract);
-//				Auftragsview auftragsview = new Auftragsview(driver);
-//				auftragsview.setVisible(true);
-//				dispose();
-//			}
-//
-//		});
+		auftragsButtonPanel.getSaveButton().addActionListener(s -> {
+			LocalDate erstellDatum = auftragsdatenPanel.getErstelldatumFeld().getDate().toInstant()
+					.atZone(ZoneId.systemDefault()).toLocalDate();
+			Address address = new Address("test", "test", "test", "test", "test");
+
+			Employee newEmployee = driver.getAllEmployees().get(0);
+			Customer newCustomer = driver.getAllCustomers().get(0);
+
+			String contractType = auftragsdatenPanel.getVertragsartFeld().getText();
+			String state = auftragsdatenPanel.getBearbeitungsstandFeld().getText();
+			String description = beschreibungsPanel.getBeschreibungsTextarea().getText();
+			if (userEingabenSindValide()) {
+				Contract newContract = new Contract(erstellDatum, address, newCustomer, newEmployee, contractType,
+						state, description, new ArrayList<>());
+
+				newContract.setContractID(Integer.valueOf(auftragsdatenPanel.getAuftragsnummerFeld().getText()));
+				driver.addNewContract(newContract);
+				Auftragsview auftragsview = new Auftragsview(driver);
+				auftragsview.setVisible(true);
+				dispose();
+			}
+
+			for (Contract contract : driver.getAllContracts()) {
+				System.out.println(contract.toString());
+			}
+
+		});
 
 		add(auftragsdatenPanel);
 		add(auftragsButtonPanel);

@@ -328,8 +328,16 @@ public class AuftragsdatenPanel extends JPanel {
 		return erstelldatumFeld;
 	}
 
+	public void setErstelldatumFeld(JDateChooser erstelldatumFeld) {
+		this.erstelldatumFeld = erstelldatumFeld;
+	}
+
 	public JComboBox getKundenComboBox() {
 		return kundenComboBox;
+	}
+
+	public void setKundenComboBox(JComboBox kundenComboBox) {
+		this.kundenComboBox = kundenComboBox;
 	}
 
 	public ArrayList<String> getComboBoxKundenListe() {
@@ -348,12 +356,28 @@ public class AuftragsdatenPanel extends JPanel {
 		return bearbeitungsstandFeld;
 	}
 
+	public void setBearbeitungsstandFeld(JTextField bearbeitungsstandFeld) {
+		this.bearbeitungsstandFeld = bearbeitungsstandFeld;
+	}
+
 	public JDateChooser getStartdatumKalendar() {
 		return startdatumKalendar;
 	}
 
+	public void setStartdatumKalendar(JDateChooser startdatumKalendar) {
+		this.startdatumKalendar = startdatumKalendar;
+	}
+
 	public JDateChooser getEnddatumKalendar() {
 		return enddatumKalendar;
+	}
+
+	public void setEnddatumKalendar(JDateChooser enddatumKalendar) {
+		this.enddatumKalendar = enddatumKalendar;
+	}
+
+	public ArrayList<String> getComboBoxMitarbeiterListe() {
+		return comboBoxMitarbeiterListe;
 	}
 
 //	private String generateVertragsart() {
