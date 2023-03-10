@@ -3,21 +3,16 @@ package de.oszimt.lf10aContractMgmt.view;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
-import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Date;
 
-import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
 import de.oszimt.lf10aContractMgmt.impl.HaseGmbHManagement;
 import de.oszimt.lf10aContractMgmt.model.ActivityRecord;
-import de.oszimt.lf10aContractMgmt.model.Address;
 import de.oszimt.lf10aContractMgmt.model.Contract;
-import de.oszimt.lf10aContractMgmt.model.Customer;
-import de.oszimt.lf10aContractMgmt.model.Employee;
 import de.oszimt.lf10aContractMgmt.model.IntContractMgmt;
 
 public class DeleteContract extends JFrame implements IntContractMgmt {
@@ -29,8 +24,6 @@ public class DeleteContract extends JFrame implements IntContractMgmt {
 	private AuftragsdatenPanel auftragsdatenPanel;
 	private AuftragsDeleteButtonPanel auftragsDeleteButtonPanel;
 	private BeschreibungsPanel beschreibungsPanel;
-
-	private JButton finalDeleteButton;
 
 	private HaseGmbHManagement driver;
 
@@ -55,6 +48,12 @@ public class DeleteContract extends JFrame implements IntContractMgmt {
 		auftragsdatenPanel.getVertragsartFeld().setText(aContract.getContractType());
 		auftragsdatenPanel.getBearbeitungsstandFeld().setText(aContract.getState());
 
+		parseDate = Date.from(aContract.getCreationDate().atStartOfDay(ZoneId.systemDefault()).toInstant());
+		auftragsdatenPanel.getStartdatumKalendar().setDate(parseDate);
+
+		parseDate = Date.from(aContract.getCreationDate().atStartOfDay(ZoneId.systemDefault()).toInstant());
+		auftragsdatenPanel.getEnddatumKalendar().setDate(parseDate);
+
 		auftragsDeleteButtonPanel.getCancelButton().addActionListener(l -> {
 			OverviewEmployee overviewEmployee = new OverviewEmployee(driver);
 			overviewEmployee.setVisible(true);
@@ -62,39 +61,39 @@ public class DeleteContract extends JFrame implements IntContractMgmt {
 		});
 
 		auftragsDeleteButtonPanel.getDeleteButton().addActionListener(s -> {
-			LocalDate erstellDatum = auftragsdatenPanel.getErstelldatumFeld().getDate().toInstant()
-					.atZone(ZoneId.systemDefault()).toLocalDate();
-			Address address = new Address("test", "test", "test", "test", "test");
-
-			int indexOfMitarbeiterString = auftragsdatenPanel.getMitarbeiterComboBox().getSelectedItem().toString()
-					.indexOf(",");
-			String mitarbeiterName = auftragsdatenPanel.getMitarbeiterComboBox().getSelectedItem().toString()
-					.substring(0, indexOfMitarbeiterString);
-
-			for (Employee employee : driver.getAllEmployees()) {
-				if (mitarbeiterName.equals(employee.getLastname())) {
-					aContract.setProjectOwner(employee);
-				}
-			}
-
-			int indexOfKundenString = auftragsdatenPanel.getKundenComboBox().getSelectedItem().toString().indexOf(",");
-			String kundenName = auftragsdatenPanel.getKundenComboBox().getSelectedItem().toString().substring(0,
-					indexOfKundenString);
-
-			for (Customer customer : driver.getAllCustomers()) {
-				if (kundenName.equals(customer.getLastname())) {
-					aContract.setCustomer(customer);
-				}
-			}
-
-			String contractType = auftragsdatenPanel.getVertragsartFeld().getText();
-			String state = auftragsdatenPanel.getBearbeitungsstandFeld().getText();
-			String description = beschreibungsPanel.getBeschreibungsTextarea().getText();
+//			LocalDate erstellDatum = auftragsdatenPanel.getErstelldatumFeld().getDate().toInstant()
+//					.atZone(ZoneId.systemDefault()).toLocalDate();
+//			Address address = new Address("test", "test", "test", "test", "test");
+//
+//			int indexOfMitarbeiterString = auftragsdatenPanel.getMitarbeiterComboBox().getSelectedItem().toString()
+//					.indexOf(",");
+//			String mitarbeiterName = auftragsdatenPanel.getMitarbeiterComboBox().getSelectedItem().toString()
+//					.substring(0, indexOfMitarbeiterString);
+//
+//			for (Employee employee : driver.getAllEmployees()) {
+//				if (mitarbeiterName.equals(employee.getLastname())) {
+//					aContract.setProjectOwner(employee);
+//				}
+//			}
+//
+//			int indexOfKundenString = auftragsdatenPanel.getKundenComboBox().getSelectedItem().toString().indexOf(",");
+//			String kundenName = auftragsdatenPanel.getKundenComboBox().getSelectedItem().toString().substring(0,
+//					indexOfKundenString);
+//
+//			for (Customer customer : driver.getAllCustomers()) {
+//				if (kundenName.equals(customer.getLastname())) {
+//					aContract.setCustomer(customer);
+//				}
+//			}
+//
+//			String contractType = auftragsdatenPanel.getVertragsartFeld().getText();
+//			String state = auftragsdatenPanel.getBearbeitungsstandFeld().getText();
+//			String description = beschreibungsPanel.getBeschreibungsTextarea().getText();
 			if (userEingabenSindValide()) {
-				Contract updateContract = new Contract(erstellDatum, address, aContract.getCustomer(),
-						aContract.getProjectOwner(), contractType, state, description, new ArrayList<>());
+//				Contract updateContract = new Contract(erstellDatum, address, aContract.getCustomer(),
+//						aContract.getProjectOwner(), contractType, state, description, new ArrayList<>());
 
-				deleteContract(updateContract.getContractID());
+				deleteContract(aContract.getContractID());
 				OverviewEmployee overviewEmployee = new OverviewEmployee(driver);
 				overviewEmployee.setVisible(true);
 				dispose();

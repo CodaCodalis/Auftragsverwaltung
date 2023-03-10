@@ -36,12 +36,12 @@ public class AuftragsdatenPanel extends JPanel {
 	private JDateChooser erstelldatumFeld;
 
 	private JLabel kundenLabel;
-	private JComboBox kundenComboBox;
+	private JComboBox<String> kundenComboBox;
 	private ArrayList<Customer> kundenListe;
 	private ArrayList<String> comboBoxKundenListe;
 
 	private JLabel mitarbeiterLabel;
-	private JComboBox mitarbeiterComboBox;
+	private JComboBox<String> mitarbeiterComboBox;
 	private ArrayList<Employee> mitarbeiterListe;
 	private ArrayList<String> comboBoxMitarbeiterListe;
 
@@ -237,7 +237,7 @@ public class AuftragsdatenPanel extends JPanel {
 
 	private JComboBox<String> fillCustomerBox() {
 
-		kundenComboBox = new JComboBox<Customer>();
+		kundenComboBox = new JComboBox<String>();
 		kundenComboBox.setPreferredSize(new Dimension(150, 25));
 
 		kundenListe = new ArrayList<>();
@@ -259,7 +259,7 @@ public class AuftragsdatenPanel extends JPanel {
 
 	private JComboBox<String> fillEmployeeBox() {
 
-		mitarbeiterComboBox = new JComboBox<Employee>();
+		mitarbeiterComboBox = new JComboBox<String>();
 		mitarbeiterComboBox.setPreferredSize(new Dimension(150, 25));
 
 		mitarbeiterListe = generateEmployeesListe();
@@ -344,7 +344,7 @@ public class AuftragsdatenPanel extends JPanel {
 		return comboBoxKundenListe;
 	}
 
-	public JComboBox getMitarbeiterComboBox() {
+	public JComboBox<String> getMitarbeiterComboBox() {
 		return mitarbeiterComboBox;
 	}
 

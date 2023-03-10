@@ -66,8 +66,8 @@ public class Auftragsview extends JFrame implements IntContractMgmt {
 
 				newContract.setContractID(Integer.valueOf(auftragsdatenPanel.getAuftragsnummerFeld().getText()));
 				driver.addNewContract(newContract);
-				Auftragsview auftragsview = new Auftragsview(driver);
-				auftragsview.setVisible(true);
+				OverviewEmployee overviewEmployee = new OverviewEmployee(driver);
+				overviewEmployee.setVisible(true);
 				dispose();
 			}
 
