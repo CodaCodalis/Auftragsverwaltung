@@ -78,30 +78,19 @@ public class LoginView extends JFrame {
 		constraints.gridx = 0;
 		constraints.gridy = 5;
 		panel.add(time, constraints);
-		timer = new Timer(1, new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				time.setText(sdf.format(new Date()));
-			}
-		});
+		timer = new Timer(1, e -> time.setText(sdf.format(new Date())));
 		timer.start();
 
-		loginButton.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				if (checkLoginInserts()) {
-					new Overview(driver).setVisible(true);
-					dispose();
-				}
+		loginButton.addActionListener(e -> {
+			if (checkLoginInserts()) {
+				new Overview(driver).setVisible(true);
+				dispose();
 			}
 		});
 
-		forgetPw.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				new ForgetPwView(driver).setVisible(true);
-				dispose();
-			}
+		forgetPw.addActionListener(e -> {
+			new ForgetPwView(driver).setVisible(true);
+			dispose();
 		});
 		add(panel);
 		setVisible(true);

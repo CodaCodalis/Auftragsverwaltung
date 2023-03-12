@@ -84,27 +84,21 @@ public class ForgetPwView extends JFrame {
 		panel.add(pwInfos, constraints);
 
 		//go back to login overview
-		cancelBtn.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				new LoginView(driver).setVisible(true);
-				dispose();
-			}
+		cancelBtn.addActionListener(e -> {
+			new LoginView(driver).setVisible(true);
+			dispose();
 		});
 
-		saveBtn.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				if (checkPwResetInserts() && checkPasswordSecurity(passwordValue)) {
-					JOptionPane.showMessageDialog(null,
-							"Passwort wurde erfolgreich geändert. Sie werden nun zur Loginübersicht weitergeleitet! Das Passwort wird automatisch aktualisiert!",
-							"Erfolgreich", JOptionPane.INFORMATION_MESSAGE);
-					newPw = String.valueOf(passwordField.getPassword());
-					LoginView loginView = new LoginView(driver);
-					loginView.updatePassword(newPw);
-					loginView.setVisible(true);
-					dispose();
-				}
+		saveBtn.addActionListener(e -> {
+			if (checkPwResetInserts() && checkPasswordSecurity(passwordValue)) {
+				JOptionPane.showMessageDialog(null,
+						"Passwort wurde erfolgreich geändert. Sie werden nun zur Loginübersicht weitergeleitet! Das Passwort wird automatisch aktualisiert!",
+						"Erfolgreich", JOptionPane.INFORMATION_MESSAGE);
+				newPw = String.valueOf(passwordField.getPassword());
+				LoginView loginView = new LoginView(driver);
+				loginView.updatePassword(newPw);
+				loginView.setVisible(true);
+				dispose();
 			}
 		});
 

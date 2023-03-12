@@ -19,8 +19,7 @@ public class OverviewEmployeePanel extends JPanel implements IntEmployeeMgmt {
     HaseGmbHManagement driver;
     JComboBox<String> searchBox;
     private JTextField txtSearchField;
-    private JButton newEmployeeBtn, editEmployeeBtn, deleteEmployeeBtn, newContractBtn, overviewContractBtn,
-            overviewEmployeeOldBtn;
+    private JButton newEmployeeBtn, editEmployeeBtn, deleteEmployeeBtn, overviewEmployeeOldBtn, logoutButton;
     private DefaultListModel<String> employeeList;
     private JList<String> list;
 
@@ -51,6 +50,10 @@ public class OverviewEmployeePanel extends JPanel implements IntEmployeeMgmt {
         overviewEmployeeOldBtn.setBounds(10, 427, 128, 23);
         add(overviewEmployeeOldBtn);
 
+        logoutButton = new JButton("Abmelden");
+        logoutButton.setBounds(150, 427, 128, 23);
+        add(logoutButton);
+
         searchBox = new JComboBox<>(new String[]{"ID", "Name", "Handynummer", "E-Mail"});
         searchBox.setBounds(440, 11, 100, 20);
         add(searchBox);
@@ -61,9 +64,14 @@ public class OverviewEmployeePanel extends JPanel implements IntEmployeeMgmt {
         add(txtSearchField);
         txtSearchField.setColumns(10);
 
+
         createScrollPane();
 
         searchBox.addActionListener(e -> filterList());
+
+        logoutButton.addActionListener(e -> {
+            new LoginView(driver).setVisible(true);
+        });
 
         txtSearchField.addFocusListener(new FocusListener() {
             @Override
@@ -127,7 +135,8 @@ public class OverviewEmployeePanel extends JPanel implements IntEmployeeMgmt {
 
     private void filterList() {
         String filter = txtSearchField.getText().toLowerCase();
-        String selectedFilter = searchBox.getSelectedItem().toString();
+        Object selectedItem = searchBox.getSelectedItem();
+        String selectedFilter = selectedItem != null ? selectedItem.toString() : "";
         ListModel<String> model = list.getModel();
         for (int i = 0; i < model.getSize(); i++) {
             String element = model.getElementAt(i);
