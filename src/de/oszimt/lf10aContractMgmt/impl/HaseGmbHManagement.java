@@ -129,6 +129,12 @@ public class HaseGmbHManagement implements IntContractMgmt, IntCustomerMgmt, Int
 		return false;
 	}
 
+   //  added only for this projéct ....
+	@Override
+	public Customer getLastCustomer(){
+		return customerList.get(customerList.size()-1);
+	}
+
 	//
 	//  implementation of interface IntContractMgmt
 	//
@@ -192,5 +198,8 @@ public class HaseGmbHManagement implements IntContractMgmt, IntCustomerMgmt, Int
 		System.err.println("Error: the contract does not exist.");
 		return false;
 	}
+
+
+
 
 }

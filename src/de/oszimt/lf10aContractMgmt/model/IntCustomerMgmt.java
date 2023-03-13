@@ -37,4 +37,6 @@ public interface IntCustomerMgmt {
 	 */
 	boolean deleteCustomer(int customerID);
 
+	Customer getLastCustomer();
+
 }

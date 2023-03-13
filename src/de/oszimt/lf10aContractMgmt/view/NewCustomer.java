@@ -28,12 +28,15 @@ import de.oszimt.lf10aContractMgmt.model.Address;
 import de.oszimt.lf10aContractMgmt.model.Customer;
 import de.oszimt.lf10aContractMgmt.model.IntCustomerMgmt;
 
-public class NewCustomer extends JFrame implements IntCustomerMgmt {
+//public class NewCustomer extends JFrame implements IntCustomerMgmt {
+public class NewCustomer extends JFrame {
 
 	private HaseGmbHManagement driver;
+	private OverviewCustomerPanel customerPanel;
 
-	public NewCustomer(HaseGmbHManagement driver) {
+	public NewCustomer(OverviewCustomerPanel customerPanel, HaseGmbHManagement driver) {
 		this.driver = driver;
+		this.customerPanel = customerPanel;
 		setTitle("Neuer Kunde");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setSize(800, 500);
@@ -248,8 +251,10 @@ public class NewCustomer extends JFrame implements IntCustomerMgmt {
 						"Den Kunden " + addCustomer + " wirklich hinzufügen?", "Bestätigung",
 						JOptionPane.YES_NO_OPTION);
 				if (confirmDialogOnly == JOptionPane.YES_OPTION) {
-					addNewCustomer(customer);
-					new OverviewCustomer(driver).setVisible(true);
+					//addNewCustomer(customer);
+					driver.addNewCustomer(customer);
+					//new OverviewCustomer(driver).setVisible(true);
+					customerPanel.updateCustomerList();
 					dispose();
 				}
 
@@ -276,6 +281,7 @@ public class NewCustomer extends JFrame implements IntCustomerMgmt {
 		return nextFreeId + 1;
 	}
 
+	/*
 	@Override
 	public boolean addNewCustomer(Customer newCustomer) {
 		driver.addNewCustomer(newCustomer);
@@ -301,5 +307,7 @@ public class NewCustomer extends JFrame implements IntCustomerMgmt {
 	public boolean deleteCustomer(int customerID) {
 		return false;
 	}
+
+	 */
 
 }

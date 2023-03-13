@@ -105,7 +105,8 @@ public class OverviewCustomerPanel extends JPanel implements IntCustomerMgmt {
 		newCustomerBtn.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				new NewCustomer(driver).setVisible(true);
+				new NewCustomer(getRef(), driver).setVisible(true);
+
 			}
 		});
 
@@ -146,7 +147,7 @@ public class OverviewCustomerPanel extends JPanel implements IntCustomerMgmt {
 
 	}
 
-	private void updateCustomerList() {
+	public void updateCustomerList() {
 		customerList.removeAllElements();
 		ArrayList<Customer> customers = getAllCustomers();
 		for (Customer c : customers) {
@@ -188,5 +189,14 @@ public class OverviewCustomerPanel extends JPanel implements IntCustomerMgmt {
 		driver.deleteCustomer(customerID);
 		updateCustomerList();
 		return true;
+	}
+
+	@Override
+	public Customer getLastCustomer() {
+		return null;
+	}
+
+	public OverviewCustomerPanel getRef(){
+		return this;
 	}
 }

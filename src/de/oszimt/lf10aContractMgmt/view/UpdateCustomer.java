@@ -17,7 +17,7 @@ import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Date;
 
-public class UpdateCustomer extends JFrame implements IntCustomerMgmt {
+public class UpdateCustomer extends JFrame {
 
 	Customer customer;
 	Customer customerUpdate;
@@ -253,7 +253,8 @@ public class UpdateCustomer extends JFrame implements IntCustomerMgmt {
 						"Den Kunden " + updatedCustomer + " wirklich aktualisieren?",
 						"Bestätigung", JOptionPane.YES_NO_OPTION);
 				if (confirmDialogOnly == JOptionPane.YES_OPTION) {
-					updateCustomer(customer, customerUpdate);
+					//updateCustomer(customer, customerUpdate);
+					driver.updateCustomer(customer, customerUpdate);
 				}
 			}
 		});
@@ -268,6 +269,7 @@ public class UpdateCustomer extends JFrame implements IntCustomerMgmt {
 		});
 	}
 
+	/*
 	@Override
 	public boolean addNewCustomer(Customer newCustomer) {
 		return false;
@@ -303,5 +305,7 @@ public class UpdateCustomer extends JFrame implements IntCustomerMgmt {
 	public boolean deleteCustomer(int customerID) {
 		return false;
 	}
+
+	 */
 
 }
