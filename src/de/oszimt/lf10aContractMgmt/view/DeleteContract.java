@@ -3,36 +3,33 @@ package de.oszimt.lf10aContractMgmt.view;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
-import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.ArrayList;
+import java.util.Date;
 
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
 import de.oszimt.lf10aContractMgmt.impl.HaseGmbHManagement;
 import de.oszimt.lf10aContractMgmt.model.ActivityRecord;
-import de.oszimt.lf10aContractMgmt.model.Address;
 import de.oszimt.lf10aContractMgmt.model.Contract;
-import de.oszimt.lf10aContractMgmt.model.Customer;
-import de.oszimt.lf10aContractMgmt.model.Employee;
 import de.oszimt.lf10aContractMgmt.model.IntContractMgmt;
 
-public class Auftragsview extends JFrame implements IntContractMgmt {
+public class DeleteContract extends JFrame implements IntContractMgmt {
 
 	/**
 	 *
 	 */
 	private static final long serialVersionUID = 1L;
-
 	private AuftragsdatenPanel auftragsdatenPanel;
-	private AuftragsButtonPanel auftragsButtonPanel;
+	private AuftragsDeleteButtonPanel auftragsDeleteButtonPanel;
 	private BeschreibungsPanel beschreibungsPanel;
 
 	private HaseGmbHManagement driver;
 
-	public Auftragsview(HaseGmbHManagement driver) {
-		super("Auftrag");
+	public DeleteContract(HaseGmbHManagement driver, Contract aContract) {
+
+		super("Auftrag löschen");
 		this.driver = driver;
 		setLayout(createBagLayout());
 		setSize(800, 500);
@@ -40,32 +37,63 @@ public class Auftragsview extends JFrame implements IntContractMgmt {
 		setResizable(false);
 		setVisible(true);
 
-		auftragsdatenPanel.getAuftragsnummerFeld().setText(getNextFreeContractID(driver) + "");
+		auftragsdatenPanel.getAuftragsnummerFeld().setText(String.valueOf(aContract.getContractID()));
 		auftragsdatenPanel.getAuftragsnummerFeld().setEditable(false);
 
-		auftragsButtonPanel.getCancelButton().addActionListener(l -> {
+		Date parseDate = Date.from(aContract.getCreationDate().atStartOfDay(ZoneId.systemDefault()).toInstant());
+		auftragsdatenPanel.getErstelldatumFeld().setDate(parseDate);
+
+		auftragsdatenPanel.getKundenComboBox().setSelectedItem(aContract.getCustomer().getLastname());
+		auftragsdatenPanel.getMitarbeiterComboBox().setSelectedItem(aContract.getProjectOwner().getLastname());
+		auftragsdatenPanel.getVertragsartFeld().setText(aContract.getContractType());
+		auftragsdatenPanel.getBearbeitungsstandFeld().setText(aContract.getState());
+
+		parseDate = Date.from(aContract.getCreationDate().atStartOfDay(ZoneId.systemDefault()).toInstant());
+		auftragsdatenPanel.getStartdatumKalendar().setDate(parseDate);
+
+		parseDate = Date.from(aContract.getCreationDate().atStartOfDay(ZoneId.systemDefault()).toInstant());
+		auftragsdatenPanel.getEnddatumKalendar().setDate(parseDate);
+
+		auftragsDeleteButtonPanel.getCancelButton().addActionListener(l -> {
 			OverviewEmployee overviewEmployee = new OverviewEmployee(driver);
 			overviewEmployee.setVisible(true);
 			dispose();
 		});
 
-		auftragsButtonPanel.getSaveButton().addActionListener(s -> {
-			LocalDate erstellDatum = auftragsdatenPanel.getErstelldatumFeld().getDate().toInstant()
-					.atZone(ZoneId.systemDefault()).toLocalDate();
-			Address address = new Address("test", "test", "test", "test", "test");
-
-			Employee newEmployee = driver.getAllEmployees().get(0);
-			Customer newCustomer = driver.getAllCustomers().get(0);
-
-			String contractType = auftragsdatenPanel.getVertragsartFeld().getText();
-			String state = auftragsdatenPanel.getBearbeitungsstandFeld().getText();
-			String description = beschreibungsPanel.getBeschreibungsTextarea().getText();
+		auftragsDeleteButtonPanel.getDeleteButton().addActionListener(s -> {
+//			LocalDate erstellDatum = auftragsdatenPanel.getErstelldatumFeld().getDate().toInstant()
+//					.atZone(ZoneId.systemDefault()).toLocalDate();
+//			Address address = new Address("test", "test", "test", "test", "test");
+//
+//			int indexOfMitarbeiterString = auftragsdatenPanel.getMitarbeiterComboBox().getSelectedItem().toString()
+//					.indexOf(",");
+//			String mitarbeiterName = auftragsdatenPanel.getMitarbeiterComboBox().getSelectedItem().toString()
+//					.substring(0, indexOfMitarbeiterString);
+//
+//			for (Employee employee : driver.getAllEmployees()) {
+//				if (mitarbeiterName.equals(employee.getLastname())) {
+//					aContract.setProjectOwner(employee);
+//				}
+//			}
+//
+//			int indexOfKundenString = auftragsdatenPanel.getKundenComboBox().getSelectedItem().toString().indexOf(",");
+//			String kundenName = auftragsdatenPanel.getKundenComboBox().getSelectedItem().toString().substring(0,
+//					indexOfKundenString);
+//
+//			for (Customer customer : driver.getAllCustomers()) {
+//				if (kundenName.equals(customer.getLastname())) {
+//					aContract.setCustomer(customer);
+//				}
+//			}
+//
+//			String contractType = auftragsdatenPanel.getVertragsartFeld().getText();
+//			String state = auftragsdatenPanel.getBearbeitungsstandFeld().getText();
+//			String description = beschreibungsPanel.getBeschreibungsTextarea().getText();
 			if (userEingabenSindValide()) {
-				Contract newContract = new Contract(erstellDatum, address, newCustomer, newEmployee, contractType,
-						state, description, new ArrayList<>());
+//				Contract updateContract = new Contract(erstellDatum, address, aContract.getCustomer(),
+//						aContract.getProjectOwner(), contractType, state, description, new ArrayList<>());
 
-				newContract.setContractID(Integer.valueOf(auftragsdatenPanel.getAuftragsnummerFeld().getText()));
-				driver.addNewContract(newContract);
+				deleteContract(aContract.getContractID());
 				OverviewEmployee overviewEmployee = new OverviewEmployee(driver);
 				overviewEmployee.setVisible(true);
 				dispose();
@@ -78,7 +106,7 @@ public class Auftragsview extends JFrame implements IntContractMgmt {
 		});
 
 		add(auftragsdatenPanel);
-		add(auftragsButtonPanel);
+		add(auftragsDeleteButtonPanel);
 		add(beschreibungsPanel.getScrollPane());
 		add(beschreibungsPanel);
 
@@ -90,7 +118,7 @@ public class Auftragsview extends JFrame implements IntContractMgmt {
 		GridBagConstraints gbc = new GridBagConstraints();
 
 		auftragsdatenPanel = new AuftragsdatenPanel();
-		auftragsButtonPanel = new AuftragsButtonPanel();
+		auftragsDeleteButtonPanel = new AuftragsDeleteButtonPanel();
 		beschreibungsPanel = new BeschreibungsPanel();
 
 		gbc = makegbc(0, 0, 0, 1);
@@ -132,42 +160,6 @@ public class Auftragsview extends JFrame implements IntContractMgmt {
 
 	}
 
-	@Override
-	public boolean addNewContract(Contract newContract) {
-		driver.addNewContract(newContract);
-		return false;
-	}
-
-	@Override
-	public Contract getContract(int contractID) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public ArrayList<Contract> getAllContracts() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public boolean updateCustomer(Contract aContract) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public boolean addNewWorkingRecord(int contractID, ActivityRecord aRecord) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public boolean deleteContract(int contractID) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
 	private boolean userEingabenSindValide() {
 
 		if (auftragsdatenPanel.getVertragsartFeld().getText().isBlank()) {
@@ -207,6 +199,42 @@ public class Auftragsview extends JFrame implements IntContractMgmt {
 
 		return true;
 
+	}
+
+	@Override
+	public boolean addNewContract(Contract newContract) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public Contract getContract(int contractID) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public ArrayList<Contract> getAllContracts() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public boolean updateCustomer(Contract aContract) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean addNewWorkingRecord(int contractID, ActivityRecord aRecord) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean deleteContract(int contractID) {
+		driver.deleteContract(contractID);
+		return true;
 	}
 
 }
