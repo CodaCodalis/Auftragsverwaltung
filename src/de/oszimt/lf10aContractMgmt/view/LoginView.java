@@ -27,7 +27,7 @@ public class LoginView extends JFrame {
 	public LoginView(HaseGmbHManagement driver) {
 
 		setResizable(false);
-		setTitle("Login");
+		setTitle("Login Auftragsverwaltung");
 		setSize(800, 500);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setLocationRelativeTo(null);
@@ -59,7 +59,7 @@ public class LoginView extends JFrame {
 		constraints.gridy = 2;
 		panel.add(passwordField, constraints);
 
-		loginButton = new JButton("Login");
+		loginButton = new JButton("Login ");
 		constraints.gridx = 0;
 		constraints.gridy = 3;
 		constraints.gridwidth = 2;
@@ -119,6 +119,5 @@ public class LoginView extends JFrame {
 	public void updatePassword(String newPassword) {
 		enteredPw = newPassword;
 		passwordField.setText(enteredPw);
-
 	}
 }

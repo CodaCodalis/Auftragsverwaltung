@@ -19,7 +19,7 @@ public class OverviewEmployeePanel extends JPanel implements IntEmployeeMgmt {
     HaseGmbHManagement driver;
     JComboBox<String> searchBox;
     private JTextField txtSearchField;
-    private JButton newEmployeeBtn, editEmployeeBtn, deleteEmployeeBtn, overviewEmployeeOldBtn, logoutButton;
+    private JButton newEmployeeBtn, editEmployeeBtn, deleteEmployeeBtn, logoutButton;
     private DefaultListModel<String> employeeList;
     private JList<String> list;
 
@@ -46,12 +46,8 @@ public class OverviewEmployeePanel extends JPanel implements IntEmployeeMgmt {
         deleteEmployeeBtn.setBounds(43, 114, 200, 23);
         add(deleteEmployeeBtn);
 
-        overviewEmployeeOldBtn = new JButton("alte Ansicht");
-        overviewEmployeeOldBtn.setBounds(10, 427, 128, 23);
-        add(overviewEmployeeOldBtn);
-
         logoutButton = new JButton("Abmelden");
-        logoutButton.setBounds(150, 427, 128, 23);
+        logoutButton.setBounds(10, 427, 128, 23);
         add(logoutButton);
 
         searchBox = new JComboBox<>(new String[]{"ID", "Name", "Handynummer", "E-Mail"});
@@ -64,7 +60,6 @@ public class OverviewEmployeePanel extends JPanel implements IntEmployeeMgmt {
         add(txtSearchField);
         txtSearchField.setColumns(10);
 
-
         createScrollPane();
 
         searchBox.addActionListener(e -> filterList());
@@ -72,6 +67,7 @@ public class OverviewEmployeePanel extends JPanel implements IntEmployeeMgmt {
         logoutButton.addActionListener(e -> {
             new LoginView(driver).setVisible(true);
         });
+
 
         txtSearchField.addFocusListener(new FocusListener() {
             @Override
@@ -105,13 +101,16 @@ public class OverviewEmployeePanel extends JPanel implements IntEmployeeMgmt {
 
         });
 
-
-        overviewEmployeeOldBtn.addActionListener(e -> new OverviewEmployee(driver).setVisible(true));
-
-        newEmployeeBtn.addActionListener(e -> new NewEmployee(driver).setVisible(true));
+        newEmployeeBtn.addActionListener(e -> {
+            new NewEmployee(driver).setVisible(true);
+        });
 
         editEmployeeBtn.addActionListener(e -> {
             String selectedEmployee = list.getSelectedValue();
+            if(selectedEmployee == null) {
+                JOptionPane.showMessageDialog(null, "Bitte wählen Sie einen Mitarbeiter aus!");
+                return;
+            }
             int employeeID = Integer.parseInt(selectedEmployee.substring(0, 5));
             Employee employee = getEmployee(employeeID);
             new UpdateEmployee(driver, employee).setVisible(true);
@@ -119,19 +118,6 @@ public class OverviewEmployeePanel extends JPanel implements IntEmployeeMgmt {
 
         deleteEmployeeBtn.addActionListener(e -> deleteEmployee());
     }
-
-   /* private void oldfilterList() {
-        String filter = txtSearchField.getText();
-        ListModel<String> model = list.getModel();
-        for (int i = 0; i < model.getSize(); i++) {
-            String element = model.getElementAt(i);
-            if (element.contains(filter)) {
-                list.setSelectedIndex(i);
-                list.scrollRectToVisible(list.getCellBounds(i, i));
-                break;
-            }
-        }
-    }*/
 
     private void filterList() {
         String filter = txtSearchField.getText().toLowerCase();
@@ -170,7 +156,6 @@ public class OverviewEmployeePanel extends JPanel implements IntEmployeeMgmt {
             }
         }
     }
-
 
     private void createScrollPane() {
         employeeList = new DefaultListModel<>();

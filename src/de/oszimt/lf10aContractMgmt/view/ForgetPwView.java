@@ -15,7 +15,8 @@ public class ForgetPwView extends JFrame {
 	private JTextField usernameField;
 	private JPasswordField passwordField;
 	private JButton saveBtn, cancelBtn;
-	String newPw = "<html><div style='text-align: center;'>Das Passwort muss folgende Kriterien erfüllen: <br> - mindestens 8 Zeichen <br> - mindestens 1 Zahl <br> - mindestens 1 Großbuchstabe <br> - mindestens 1 Sonderzeichen</div></html>\"";
+	String newPw = "<html><div style='text-align: center;'>Das Passwort muss folgende Kriterien erfüllen: <br> - mindestens " +
+			"8 Zeichen <br> - mindestens 1 Zahl <br> - mindestens 1 Großbuchstabe <br> - mindestens 1 Sonderzeichen</div></html>\"";
 	String passwordValue, usernameValue;
 
 	// Hardcoded login data
@@ -24,7 +25,7 @@ public class ForgetPwView extends JFrame {
 
 	public ForgetPwView(HaseGmbHManagement driver) {
 		setResizable(false);
-		setTitle("Login");
+		setTitle("Passwort vergessen - Auftragsverwaltung");
 		setSize(800, 500);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setLocationRelativeTo(null);

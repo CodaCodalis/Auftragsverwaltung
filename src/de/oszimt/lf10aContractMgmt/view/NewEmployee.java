@@ -206,8 +206,6 @@ public class NewEmployee extends JFrame implements IntEmployeeMgmt {
 		panel.add(cancelBtn, gbc);
 
 		cancelBtn.addActionListener(whenCancelBtnClicked -> {
-			OverviewEmployee overviewEmployee = new OverviewEmployee(driver);
-			overviewEmployee.setVisible(true);
 			dispose();
 		});
 
