@@ -119,7 +119,7 @@ public class OverviewCustomer extends JFrame implements IntCustomerMgmt {
 		newCustomerBtn.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				new NewCustomer(driver).setVisible(true);
+				new NewCustomer(null, driver).setVisible(true);
 				dispose();
 			}
 		});
@@ -195,5 +195,10 @@ public class OverviewCustomer extends JFrame implements IntCustomerMgmt {
 		driver.deleteCustomer(customerID);
 		updateCustomerList();
 		return true;
+	}
+
+	@Override
+	public Customer getLastCustomer() {
+		return null;
 	}
 }
